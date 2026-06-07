@@ -1,0 +1,248 @@
+package monitoring_apps;
+
+public class ProjectFormFrame extends javax.swing.JFrame {
+
+    public ProjectFormFrame() {
+        initComponents();
+        setLocationRelativeTo(null);
+        Navigation.bind(sidebarMenu1, this);
+    }
+
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        userProfileCard1 = new components.UserProfileCard();
+        sidebarMenu1 = new components.SidebarMenu();
+        pageTitle1 = new components.PageTitle();
+        lblJenisPekerjaan = new javax.swing.JLabel();
+        cmbJenisPekerjaan = new components.RoundedComboBox();
+        lblTahunAnggaran = new javax.swing.JLabel();
+        cmbTahunAnggaran = new components.RoundedComboBox();
+        lblNamaPekerjaan = new javax.swing.JLabel();
+        txtNamaPekerjaan = new components.RoundedTextArea();
+        lblPerusahaanInfo = new javax.swing.JLabel();
+        txtPerusahaanInfo = new components.RoundedTextArea();
+        lblPerusahaan = new javax.swing.JLabel();
+        txtPerusahaan = new components.RoundedTextField();
+        lblStatus = new javax.swing.JLabel();
+        cmbStatus = new components.RoundedComboBox();
+        lblTglMulai = new javax.swing.JLabel();
+        txtTglMulai = new components.RoundedTextField();
+        lblTglSelesai = new javax.swing.JLabel();
+        txtTglSelesai = new components.RoundedTextField();
+        lblNilaiPekerjaan = new javax.swing.JLabel();
+        txtNilaiPekerjaan = new components.RoundedTextField();
+        btnSave = new components.RoundedButton();
+        btnUpdate = new components.RoundedButton();
+        btnClear = new components.RoundedButton();
+        btnDelete = new components.RoundedButton();
+        btnBack = new components.RoundedButton();
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("FORMULIR PROJECT");
+        setMinimumSize(new java.awt.Dimension(1200, 800));
+        getContentPane().setBackground(components.RoundedColors.BACKGROUND);
+
+        pageTitle1.setText("FORMULIR PROJECT");
+        lblJenisPekerjaan.setText("Jenis Pekerjaan");
+        lblJenisPekerjaan.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
+        lblJenisPekerjaan.setForeground(components.RoundedColors.TEXT_DARK);
+        lblTahunAnggaran.setText("Tahun Anggaran");
+        lblTahunAnggaran.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
+        lblTahunAnggaran.setForeground(components.RoundedColors.TEXT_DARK);
+        lblNamaPekerjaan.setText("Nama Pekerjaan");
+        lblNamaPekerjaan.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
+        lblNamaPekerjaan.setForeground(components.RoundedColors.TEXT_DARK);
+        txtNamaPekerjaan.setLineWrap(true);
+        txtNamaPekerjaan.setWrapStyleWord(true);
+        lblPerusahaanInfo.setText("Perusahaan");
+        lblPerusahaanInfo.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
+        lblPerusahaanInfo.setForeground(components.RoundedColors.TEXT_DARK);
+        txtPerusahaanInfo.setLineWrap(true);
+        txtPerusahaanInfo.setWrapStyleWord(true);
+        lblPerusahaan.setText("Perusahaan");
+        lblPerusahaan.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
+        lblPerusahaan.setForeground(components.RoundedColors.TEXT_DARK);
+        lblStatus.setText("Status");
+        lblStatus.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
+        lblStatus.setForeground(components.RoundedColors.TEXT_DARK);
+        lblTglMulai.setText("Tgl Mulai");
+        lblTglMulai.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
+        lblTglMulai.setForeground(components.RoundedColors.TEXT_DARK);
+        lblTglSelesai.setText("Tgl Selesai");
+        lblTglSelesai.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
+        lblTglSelesai.setForeground(components.RoundedColors.TEXT_DARK);
+        lblNilaiPekerjaan.setText("Nilai Pekerjaan");
+        lblNilaiPekerjaan.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
+        lblNilaiPekerjaan.setForeground(components.RoundedColors.TEXT_DARK);
+        btnSave.setText("Save");
+        btnUpdate.setText("Update");
+        btnClear.setText("Clear");
+        btnDelete.setText("Delete");
+        btnDelete.setButtonColor(components.RoundedColors.DELETE);
+        btnBack.setText("Back");
+        btnBack.setButtonColor(components.RoundedColors.SOFT_GRAY);
+        btnBack.setForeground(java.awt.Color.BLACK);
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Navigation.go(ProjectFormFrame.this, new ProjectAdministrationListFrame());
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(userProfileCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(70, 70, 70)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblJenisPekerjaan)
+                            .addComponent(cmbJenisPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(60, 60, 60)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblTahunAnggaran)
+                            .addComponent(cmbTahunAnggaran, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)) )
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNamaPekerjaan)
+                            .addComponent(txtNamaPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(60, 60, 60)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblPerusahaanInfo)
+                            .addComponent(txtPerusahaanInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)) )
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblPerusahaan)
+                            .addComponent(txtPerusahaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(60, 60, 60)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblStatus)
+                            .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)) )
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblTglMulai)
+                            .addComponent(txtTglMulai, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(60, 60, 60)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblTglSelesai)
+                            .addComponent(txtTglSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)) )
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lblNilaiPekerjaan)
+                        .addComponent(txtNilaiPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(40, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(userProfileCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblJenisPekerjaan)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbJenisPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblTahunAnggaran)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbTahunAnggaran, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblNamaPekerjaan)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtNamaPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblPerusahaanInfo)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtPerusahaanInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblPerusahaan)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtPerusahaan, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblStatus)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblTglMulai)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtTglMulai, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblTglSelesai)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtTglSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblNilaiPekerjaan)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtNilaiPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(35, 35, 35)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private components.UserProfileCard userProfileCard1;
+    private components.SidebarMenu sidebarMenu1;
+    private components.PageTitle pageTitle1;
+    private javax.swing.JLabel lblJenisPekerjaan;
+    private components.RoundedComboBox cmbJenisPekerjaan;
+    private javax.swing.JLabel lblTahunAnggaran;
+    private components.RoundedComboBox cmbTahunAnggaran;
+    private javax.swing.JLabel lblNamaPekerjaan;
+    private components.RoundedTextArea txtNamaPekerjaan;
+    private javax.swing.JLabel lblPerusahaanInfo;
+    private components.RoundedTextArea txtPerusahaanInfo;
+    private javax.swing.JLabel lblPerusahaan;
+    private components.RoundedTextField txtPerusahaan;
+    private javax.swing.JLabel lblStatus;
+    private components.RoundedComboBox cmbStatus;
+    private javax.swing.JLabel lblTglMulai;
+    private components.RoundedTextField txtTglMulai;
+    private javax.swing.JLabel lblTglSelesai;
+    private components.RoundedTextField txtTglSelesai;
+    private javax.swing.JLabel lblNilaiPekerjaan;
+    private components.RoundedTextField txtNilaiPekerjaan;
+    private components.RoundedButton btnSave;
+    private components.RoundedButton btnUpdate;
+    private components.RoundedButton btnClear;
+    private components.RoundedButton btnDelete;
+    private components.RoundedButton btnBack;
+    // End of variables declaration//GEN-END:variables
+}

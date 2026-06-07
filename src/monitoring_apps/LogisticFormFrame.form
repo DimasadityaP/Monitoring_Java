@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="title" type="java.lang.String" value="FORMULIR LOGISTIK"/>
+    <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor"><Dimension value="[1200, 800]"/></Property>
+  </Properties>
+  <SyntheticProperties><SyntheticProperty name="formSizePolicy" type="int" value="1"/><SyntheticProperty name="generateCenter" type="boolean" value="false"/></SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+  <Layout>
+    <DimensionLayout dim="0"><Group type="103" groupAlignment="0" attributes="0"><Group type="102" alignment="0" attributes="0"><EmptySpace min="-2" pref="30" max="-2" attributes="0"/><Group type="103" groupAlignment="0" attributes="0"><Component id="userProfileCard1" min="-2" pref="360" max="-2" attributes="0"/><Component id="sidebarMenu1" min="-2" pref="300" max="-2" attributes="0"/></Group><EmptySpace min="-2" pref="70" max="-2" attributes="0"/><Group type="103" groupAlignment="1" attributes="0"><Component id="pageTitle1" min="-2" pref="900" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0"><Group type="103" groupAlignment="0" attributes="0"><Component id="lblKode" min="-2" max="-2" attributes="0"/><Component id="txtKode" min="-2" pref="420" max="-2" attributes="0"/></Group><EmptySpace min="-2" pref="60" max="-2" attributes="0"/><Group type="103" groupAlignment="0" attributes="0"><Component id="lblJenis" min="-2" max="-2" attributes="0"/><Component id="cmbJenis" min="-2" pref="420" max="-2" attributes="0"/></Group></Group>
+                  <Group type="102" alignment="0" attributes="0"><Group type="103" groupAlignment="0" attributes="0"><Component id="lblNamaBarang" min="-2" max="-2" attributes="0"/><Component id="txtNamaBarang" min="-2" pref="420" max="-2" attributes="0"/></Group><EmptySpace min="-2" pref="60" max="-2" attributes="0"/><Group type="103" groupAlignment="0" attributes="0"><Component id="lblJenisSub" min="-2" max="-2" attributes="0"/><Component id="txtJenisSub" min="-2" pref="420" max="-2" attributes="0"/></Group></Group>
+                  <Group type="103" alignment="0" groupAlignment="0" attributes="0"><Component id="lblSpesifikasi" min="-2" max="-2" attributes="0"/><Component id="txtSpesifikasi" min="-2" pref="420" max="-2" attributes="0"/></Group>
+                  <Group type="103" alignment="0" groupAlignment="0" attributes="0"><Component id="lblKondisi" min="-2" max="-2" attributes="0"/><Component id="txtKondisi" min="-2" pref="420" max="-2" attributes="0"/></Group>
+                  <Group type="102" alignment="0" attributes="0"><Group type="103" groupAlignment="0" attributes="0"><Component id="lblKuantitas" min="-2" max="-2" attributes="0"/><Component id="txtKuantitas" min="-2" pref="420" max="-2" attributes="0"/></Group><EmptySpace min="-2" pref="60" max="-2" attributes="0"/><Group type="103" groupAlignment="0" attributes="0"><Component id="lblSatuan" min="-2" max="-2" attributes="0"/><Component id="txtSatuan" min="-2" pref="420" max="-2" attributes="0"/></Group></Group>
+                  <Group type="102" alignment="1" attributes="0"><Component id="btnSave" min="-2" pref="150" max="-2" attributes="0"/><EmptySpace min="-2" pref="20" max="-2" attributes="0"/><Component id="btnUpdate" min="-2" pref="150" max="-2" attributes="0"/><EmptySpace min="-2" pref="20" max="-2" attributes="0"/><Component id="btnClear" min="-2" pref="150" max="-2" attributes="0"/><EmptySpace min="-2" pref="20" max="-2" attributes="0"/><Component id="btnDelete" min="-2" pref="150" max="-2" attributes="0"/><EmptySpace min="-2" pref="20" max="-2" attributes="0"/><Component id="btnBack" min="-2" pref="110" max="-2" attributes="0"/></Group>
+</Group><EmptySpace pref="40" max="32767" attributes="0"/></Group></Group></DimensionLayout>
+    <DimensionLayout dim="1"><Group type="103" groupAlignment="0" attributes="0"><Group type="102" alignment="0" attributes="0"><EmptySpace min="-2" pref="24" max="-2" attributes="0"/><Group type="103" groupAlignment="0" attributes="0"><Component id="userProfileCard1" min="-2" pref="96" max="-2" attributes="0"/><Component id="pageTitle1" min="-2" pref="64" max="-2" attributes="0"/></Group><EmptySpace min="-2" pref="38" max="-2" attributes="0"/><Group type="103" groupAlignment="0" attributes="0"><Component id="sidebarMenu1" min="-2" pref="620" max="-2" attributes="0"/><Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0"><Group type="102" alignment="0" attributes="0"><Component id="lblKode" min="-2" max="-2" attributes="0"/><EmptySpace max="-2" attributes="0"/><Component id="txtKode" min="-2" pref="42" max="-2" attributes="0"/></Group><Group type="102" alignment="0" attributes="0"><Component id="lblJenis" min="-2" max="-2" attributes="0"/><EmptySpace max="-2" attributes="0"/><Component id="cmbJenis" min="-2" pref="42" max="-2" attributes="0"/></Group></Group><EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0"><Group type="102" alignment="0" attributes="0"><Component id="lblNamaBarang" min="-2" max="-2" attributes="0"/><EmptySpace max="-2" attributes="0"/><Component id="txtNamaBarang" min="-2" pref="42" max="-2" attributes="0"/></Group><Group type="102" alignment="0" attributes="0"><Component id="lblJenisSub" min="-2" max="-2" attributes="0"/><EmptySpace max="-2" attributes="0"/><Component id="txtJenisSub" min="-2" pref="42" max="-2" attributes="0"/></Group></Group><EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0"><Group type="102" alignment="0" attributes="0"><Component id="lblSpesifikasi" min="-2" max="-2" attributes="0"/><EmptySpace max="-2" attributes="0"/><Component id="txtSpesifikasi" min="-2" pref="80" max="-2" attributes="0"/></Group></Group><EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0"><Group type="102" alignment="0" attributes="0"><Component id="lblKondisi" min="-2" max="-2" attributes="0"/><EmptySpace max="-2" attributes="0"/><Component id="txtKondisi" min="-2" pref="42" max="-2" attributes="0"/></Group></Group><EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0"><Group type="102" alignment="0" attributes="0"><Component id="lblKuantitas" min="-2" max="-2" attributes="0"/><EmptySpace max="-2" attributes="0"/><Component id="txtKuantitas" min="-2" pref="42" max="-2" attributes="0"/></Group><Group type="102" alignment="0" attributes="0"><Component id="lblSatuan" min="-2" max="-2" attributes="0"/><EmptySpace max="-2" attributes="0"/><Component id="txtSatuan" min="-2" pref="42" max="-2" attributes="0"/></Group></Group><EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0"><Component id="btnSave" alignment="3" min="-2" pref="48" max="-2" attributes="0"/><Component id="btnUpdate" alignment="3" min="-2" pref="48" max="-2" attributes="0"/><Component id="btnClear" alignment="3" min="-2" pref="48" max="-2" attributes="0"/><Component id="btnDelete" alignment="3" min="-2" pref="48" max="-2" attributes="0"/><Component id="btnBack" alignment="3" min="-2" pref="48" max="-2" attributes="0"/></Group>
+</Group></Group><EmptySpace pref="42" max="32767" attributes="0"/></Group></Group></DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="components.UserProfileCard" name="userProfileCard1">
+    </Component>
+    <Component class="components.SidebarMenu" name="sidebarMenu1">
+    </Component>
+    <Component class="components.PageTitle" name="pageTitle1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="FORMULIR LOGISTIK"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblKode">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Kode"/>
+      </Properties>
+    </Component>
+    <Component class="components.RoundedTextField" name="txtKode">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblJenis">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Jenis"/>
+      </Properties>
+    </Component>
+    <Component class="components.RoundedComboBox" name="cmbJenis">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblNamaBarang">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nama Barang"/>
+      </Properties>
+    </Component>
+    <Component class="components.RoundedTextField" name="txtNamaBarang">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblJenisSub">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Jenis Sub"/>
+      </Properties>
+    </Component>
+    <Component class="components.RoundedTextField" name="txtJenisSub">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblSpesifikasi">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Spesifikasi"/>
+      </Properties>
+    </Component>
+    <Component class="components.RoundedTextArea" name="txtSpesifikasi">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblKondisi">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Kondisi"/>
+      </Properties>
+    </Component>
+    <Component class="components.RoundedTextField" name="txtKondisi">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblKuantitas">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Kuantitas"/>
+      </Properties>
+    </Component>
+    <Component class="components.RoundedTextField" name="txtKuantitas">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblSatuan">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Satuan"/>
+      </Properties>
+    </Component>
+    <Component class="components.RoundedTextField" name="txtSatuan">
+    </Component>
+    <Component class="components.RoundedButton" name="btnSave">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Save"/>
+      </Properties>
+    </Component>
+    <Component class="components.RoundedButton" name="btnUpdate">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Update"/>
+      </Properties>
+    </Component>
+    <Component class="components.RoundedButton" name="btnClear">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Clear"/>
+      </Properties>
+    </Component>
+    <Component class="components.RoundedButton" name="btnDelete">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Delete"/>
+        <Property name="buttonColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor"><Color blue="78" green="3d" red="9a" type="rgb"/></Property>
+      </Properties>
+    </Component>
+    <Component class="components.RoundedButton" name="btnBack">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Back"/>
+        <Property name="buttonColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor"><Color blue="d9" green="d9" red="d9" type="rgb"/></Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor"><Color blue="0" green="0" red="0" type="rgb"/></Property>
+      </Properties>
+    </Component>
+  </SubComponents>
+</Form>
