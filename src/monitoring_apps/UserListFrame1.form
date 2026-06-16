@@ -33,17 +33,24 @@
                   <Component id="userProfileCard1" min="-2" pref="360" max="-2" attributes="0"/>
                   <Component id="sidebarMenu1" min="-2" pref="300" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="pageTitle1" min="-2" pref="850" max="-2" attributes="0"/>
-                  <Component id="searchBox1" min="-2" pref="360" max="-2" attributes="0"/>
-                  <Component id="appTablePanel1" min="-2" pref="850" max="-2" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="btnViewReport" min="-2" pref="170" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                      <Component id="btnNew" min="-2" pref="230" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                      <Component id="btnBack" min="-2" pref="120" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="pageTitle1" min="-2" pref="850" max="-2" attributes="0"/>
+                          <Component id="searchBox1" min="-2" pref="360" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="btnViewReport" min="-2" pref="170" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="btnNew" min="-2" pref="230" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="btnBack" min="-2" pref="120" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                      <Component id="appTablePanel2" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="52" max="32767" attributes="0"/>
@@ -63,9 +70,9 @@
                   <Component id="sidebarMenu1" min="-2" pref="620" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="searchBox1" min="-2" pref="42" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                      <Component id="appTablePanel1" min="-2" pref="360" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                      <Component id="appTablePanel2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="129" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnViewReport" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                           <Component id="btnNew" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
@@ -90,8 +97,6 @@
         <Property name="text" type="java.lang.String" value="Cari..."/>
       </Properties>
     </Component>
-    <Component class="components.RoundedTablePanel" name="appTablePanel1">
-    </Component>
     <Component class="components.RoundedButton" name="btnViewReport">
       <Properties>
         <Property name="text" type="java.lang.String" value="View Report"/>
@@ -112,6 +117,8 @@
           <Color blue="d9" green="d9" red="d9" type="rgb"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="components.AppTablePanel" name="appTablePanel2">
     </Component>
   </SubComponents>
 </Form>

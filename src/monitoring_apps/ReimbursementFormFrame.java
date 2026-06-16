@@ -1,15 +1,64 @@
 package monitoring_apps;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import koneksi.KoneksiDb;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class ReimbursementFormFrame extends javax.swing.JFrame {
+
+    private static final String DB_HOST = "localhost";
+    private static final String DB_PORT = "3306";
+    private static final String DB_NAME = "monitoring_dev";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "";
+    private Connection conn= new KoneksiDb().connect();
+
+    private Integer selectedReimbursementId = null;
+    private JTable tblItems;
+private JScrollPane scrollItems;
+private components.RoundedButton btnTambahItem;
+private components.RoundedButton btnHapusItem;
+private DefaultTableModel itemTableModel;
+private String selectedReimbursementNo = null;
 
     public ReimbursementFormFrame() {
         initComponents();
         setLocationRelativeTo(null);
         Navigation.bind(sidebarMenu1, this);
+        setupReimbursementForm();
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         userProfileCard1 = new components.UserProfileCard();
@@ -91,6 +140,9 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                    
+                    
+                    
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(userProfileCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -215,40 +267,661 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void cmbHariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbHariActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbHariActionPerformed
+   
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private components.RoundedButton btnBack;
-    private components.RoundedButton btnClear;
-    private components.RoundedButton btnDelete;
+   private void setupReimbursementForm() {
+    txtTotal1.setEditable(false);
+    txtTotalAkhir.setEditable(false);
+
+   setupHariCombo();
+   setupTanggalPicker();
+
+    btnSave.addActionListener(e -> saveReimbursement());
+    btnUpdate.addActionListener(e -> updateReimbursement());
+    btnDelete.addActionListener(e -> deleteReimbursement());
+    btnClear.addActionListener(e -> clearReimbursementForm());
+
+    DocumentListener totalListener = new DocumentListener() {
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            calculateTotal();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            calculateTotal();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            calculateTotal();
+        }
+    };
+
+    txtKuantitas1.getDocument().addDocumentListener(totalListener);
+    txtNominal1.getDocument().addDocumentListener(totalListener);
+
+    txtProyekTujuan.addActionListener(e -> loadLatestByProjectId(false));
+    txtProyekTujuan.addFocusListener(new FocusAdapter() {
+        @Override
+        public void focusLost(FocusEvent e) {
+            loadLatestByProjectId(false);
+        }
+    });
+}
+
+   private void saveReimbursement() {
+    if (!validateReimbursementForm()) {
+        return;
+    }
+
+    String sql = "INSERT INTO reimbursement "
+            + "(project_id, hari, tanggal, hal, uraian, qty, satuan, harga_satuan, jumlah, pj) "
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    try (
+         PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+        int projectId = parseInteger(txtProyekTujuan.getText());
+        String hari = getSelectedHari();
+        String tanggal = normalizeTanggalForDb(txtTanggal.getText().trim());
+        String hal = txtPerihal.getText().trim();
+
+        String uraian = txtUraian1.getText().trim();
+        int qty = parseInteger(txtKuantitas1.getText());
+        String satuan = txtSatuan1.getText().trim();
+        BigDecimal hargaSatuan = parseDecimal(txtNominal1.getText());
+        BigDecimal jumlah = new BigDecimal(qty).multiply(hargaSatuan);
+
+        String pj = getCurrentAdminAccount();
+
+        ps.setInt(1, projectId);
+        ps.setString(2, hari);
+        ps.setString(3, tanggal);
+        ps.setString(4, hal);
+        ps.setString(5, uraian);
+        ps.setInt(6, qty);
+        ps.setString(7, satuan);
+        ps.setBigDecimal(8, hargaSatuan);
+        ps.setBigDecimal(9, jumlah);
+        ps.setString(10, pj);
+
+        ps.executeUpdate();
+
+        try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                selectedReimbursementId = generatedKeys.getInt(1);
+            }
+        }
+
+        JOptionPane.showMessageDialog(this, "Data reimbursement berhasil disimpan.");
+        clearReimbursementForm();
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Gagal menyimpan data: " + e.getMessage());
+    } catch (Exception e) {
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(this, "Input tidak valid: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+}
+    
+}
+ 
+   private void setupTanggalPicker() {
+    txtTanggal.setEditable(false);
+    txtTanggal.setToolTipText("Klik untuk pilih tanggal");
+
+    txtTanggal.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent e) {
+            openTanggalPicker();
+        }
+    });
+}
+
+private void openTanggalPicker() {
+    Date initialDate = new Date();
+
+    try {
+        String currentText = txtTanggal.getText().trim();
+        if (!currentText.isEmpty()) {
+            initialDate = parseTanggalInput(currentText);
+        }
+    } catch (Exception ignored) {
+        initialDate = new Date();
+    }
+
+    SpinnerDateModel model = new SpinnerDateModel(
+            initialDate,
+            null,
+            null,
+            Calendar.DAY_OF_MONTH
+    );
+
+    JSpinner spinner = new JSpinner(model);
+    spinner.setEditor(new JSpinner.DateEditor(spinner, "dd/MM/yyyy"));
+
+    int option = JOptionPane.showConfirmDialog(
+            this,
+            spinner,
+            "Pilih Tanggal",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.PLAIN_MESSAGE
+    );
+
+    if (option == JOptionPane.OK_OPTION) {
+        Date selectedDate = (Date) spinner.getValue();
+        txtTanggal.setText(new SimpleDateFormat("yyyy-MM-dd").format(selectedDate));
+    }
+}
+
+private Date parseTanggalInput(String value) throws ParseException {
+    String clean = value.trim();
+
+    SimpleDateFormat[] formats = new SimpleDateFormat[]{
+        new SimpleDateFormat("yyyy-MM-dd"),
+        new SimpleDateFormat("dd/MM/yyyy"),
+        new SimpleDateFormat("dd-MM-yyyy"),
+        new SimpleDateFormat("ddMMyyyy")
+    };
+
+    for (SimpleDateFormat format : formats) {
+        format.setLenient(false);
+        try {
+            return format.parse(clean);
+        } catch (ParseException ignored) {
+        }
+    }
+
+    throw new ParseException("Format tanggal tidak valid", 0);
+}
+
+private String normalizeTanggalForDb(String value) throws ParseException {
+    Date date = parseTanggalInput(value);
+    return new SimpleDateFormat("yyyy-MM-dd").format(date);
+}
+
+ private void updateReimbursement() {
+    if (!validateReimbursementForm()) {
+        return;
+    }
+
+    if (selectedReimbursementId == null) {
+        boolean found = loadLatestByProjectId(true);
+        if (!found || selectedReimbursementId == null) {
+            JOptionPane.showMessageDialog(this, "Data belum ditemukan. Isi ID Proyek/Tujuan yang sudah tersimpan, lalu tekan Enter atau klik keluar field.");
+            return;
+        }
+    }
+
+    String sql = "UPDATE reimbursement SET "
+            + "project_id = ?, "
+            + "hari = ?, "
+            + "tanggal = ?, "
+            + "hal = ?, "
+            + "uraian = ?, "
+            + "qty = ?, "
+            + "satuan = ?, "
+            + "harga_satuan = ?, "
+            + "jumlah = ?, "
+            + "pj = ? "
+            + "WHERE id = ?";
+
+    try (
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        int projectId = parseInteger(txtProyekTujuan.getText());
+        String hari = getSelectedHari();
+    String tanggal = normalizeTanggalForDb(txtTanggal.getText().trim());
+        String hal = txtPerihal.getText().trim();
+
+        String uraian = txtUraian1.getText().trim();
+        int qty = parseInteger(txtKuantitas1.getText());
+        String satuan = txtSatuan1.getText().trim();
+        BigDecimal hargaSatuan = parseDecimal(txtNominal1.getText());
+        BigDecimal jumlah = new BigDecimal(qty).multiply(hargaSatuan);
+
+        String pj = getCurrentAdminAccount();
+
+        ps.setInt(1, projectId);
+        ps.setString(2, hari);
+        ps.setString(3, tanggal);
+        ps.setString(4, hal);
+        ps.setString(5, uraian);
+        ps.setInt(6, qty);
+        ps.setString(7, satuan);
+        ps.setBigDecimal(8, hargaSatuan);
+        ps.setBigDecimal(9, jumlah);
+        ps.setString(10, pj);
+        ps.setInt(11, selectedReimbursementId);
+
+        int affectedRows = ps.executeUpdate();
+
+        if (affectedRows > 0) {
+            JOptionPane.showMessageDialog(this, "Data reimbursement berhasil diupdate.");
+            clearReimbursementForm();
+        } else {
+            JOptionPane.showMessageDialog(this, "Data reimbursement tidak ditemukan.");
+        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Gagal update data: " + e.getMessage());
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Input tidak valid: " + e.getMessage());
+    }
+}
+
+    private void deleteReimbursement() {
+        if (selectedReimbursementId == null) {
+            boolean found = loadLatestByProjectId(true);
+            if (!found || selectedReimbursementId == null) {
+                JOptionPane.showMessageDialog(this, "Data belum ditemukan. Isi ID Proyek/Tujuan yang sudah tersimpan, lalu tekan Enter atau klik keluar field.");
+                return;
+            }
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Yakin ingin menghapus data reimbursement ini?",
+                "Konfirmasi Hapus",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        String sql = "DELETE FROM reimbursement WHERE id = ?";
+
+        try (
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, selectedReimbursementId);
+
+            int affectedRows = ps.executeUpdate();
+
+            if (affectedRows > 0) {
+                JOptionPane.showMessageDialog(this, "Data reimbursement berhasil dihapus.");
+                clearReimbursementForm();
+            } else {
+                JOptionPane.showMessageDialog(this, "Data reimbursement tidak ditemukan.");
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Gagal hapus data: " + e.getMessage());
+        }
+    }
+
+    private boolean loadLatestByProjectId(boolean showMessageIfNotFound) {
+    String projectText = txtProyekTujuan.getText().trim();
+
+    if (projectText.isEmpty()) {
+        selectedReimbursementId = null;
+        return false;
+    }
+
+    int projectId;
+    try {
+        projectId = parseInteger(projectText);
+    } catch (Exception e) {
+        selectedReimbursementId = null;
+        return false;
+    }
+
+    String sql = "SELECT id, project_id, hari, tanggal, hal, uraian, qty, satuan, harga_satuan, jumlah, pj "
+            + "FROM reimbursement "
+            + "WHERE project_id = ? "
+            + "ORDER BY id DESC "
+            + "LIMIT 1";
+
+    try (
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setInt(1, projectId);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                selectedReimbursementId = rs.getInt("id");
+
+                txtProyekTujuan.setText(String.valueOf(rs.getInt("project_id")));
+                setSelectedHari(nullToEmpty(rs.getString("hari")));
+                txtTanggal.setText(nullToEmpty(rs.getString("tanggal")));
+                txtPerihal.setText(nullToEmpty(rs.getString("hal")));
+
+                txtUraian1.setText(nullToEmpty(rs.getString("uraian")));
+                txtKuantitas1.setText(String.valueOf(rs.getInt("qty")));
+                txtSatuan1.setText(nullToEmpty(rs.getString("satuan")));
+                txtNominal1.setText(bigDecimalToString(rs.getBigDecimal("harga_satuan")));
+                txtTotal1.setText(bigDecimalToString(rs.getBigDecimal("jumlah")));
+                txtTotalAkhir.setText(bigDecimalToString(rs.getBigDecimal("jumlah")));
+
+                return true;
+            }
+        }
+
+        selectedReimbursementId = null;
+
+        if (showMessageIfNotFound) {
+            JOptionPane.showMessageDialog(this, "Data reimbursement dengan ID Proyek/Tujuan tersebut tidak ditemukan.");
+        }
+
+        return false;
+
+    } catch (SQLException e) {
+        selectedReimbursementId = null;
+        JOptionPane.showMessageDialog(this, "Gagal mengambil data: " + e.getMessage());
+        return false;
+    }
+}
+
+private void setupHariCombo() {
+    cmbHari.removeAllItems();
+
+    cmbHari.addItem("Pilih Hari");
+    cmbHari.addItem("Senin");
+    cmbHari.addItem("Selasa");
+    cmbHari.addItem("Rabu");
+    cmbHari.addItem("Kamis");
+    cmbHari.addItem("Jumat");
+    cmbHari.addItem("Sabtu");
+    cmbHari.addItem("Minggu");
+
+    cmbHari.setSelectedIndex(0);
+}
+
+private String getSelectedHari() {
+    Object item = cmbHari.getSelectedItem();
+
+    if (item == null) {
+        return "";
+    }
+
+    String hari = item.toString().trim();
+
+    if (hari.equalsIgnoreCase("Pilih") || hari.equalsIgnoreCase("Pilih Hari")) {
+        return "";
+    }
+
+    return hari;
+}
+
+private void setSelectedHari(String hari) {
+    if (hari == null || hari.trim().isEmpty()) {
+        cmbHari.setSelectedIndex(0);
+        return;
+    }
+
+    String value = hari.trim();
+
+    for (int i = 0; i < cmbHari.getItemCount(); i++) {
+        Object item = cmbHari.getItemAt(i);
+
+        if (item != null && item.toString().equalsIgnoreCase(value)) {
+            cmbHari.setSelectedIndex(i);
+            return;
+        }
+    }
+
+    // Kalau data lama isinya Pengadaan/Konstruksi/Administrasi,
+    // jangan dimasukkan lagi ke combo Hari.
+    cmbHari.setSelectedIndex(0);
+}
+
+
+
+private String getCurrentAdminAccount() {
+    String userFromCard = findUserTextFromContainer(userProfileCard1);
+
+    if (!userFromCard.isEmpty()) {
+        return userFromCard;
+    }
+
+    String osUser = System.getProperty("user.name");
+    if (osUser != null && !osUser.trim().isEmpty()) {
+        return osUser.trim();
+    }
+
+    return "ADMIN";
+}
+
+private String findUserTextFromContainer(java.awt.Container container) {
+    if (container == null) {
+        return "";
+    }
+
+    java.awt.Component[] components = container.getComponents();
+
+    for (java.awt.Component component : components) {
+        if (component instanceof javax.swing.JLabel) {
+            String text = ((javax.swing.JLabel) component).getText();
+
+            if (text != null && text.trim().toLowerCase().startsWith("user")) {
+                return text.trim();
+            }
+        }
+
+        if (component instanceof java.awt.Container) {
+            String result = findUserTextFromContainer((java.awt.Container) component);
+
+            if (!result.isEmpty()) {
+                return result;
+            }
+        }
+    }
+
+    return "";
+}
+
+    private void clearReimbursementForm() {
+        selectedReimbursementId = null;
+
+        txtProyekTujuan.setText("");
+        txtTanggal.setText("");
+        txtPerihal.setText("");
+        txtUraian1.setText("");
+        txtKuantitas1.setText("");
+        txtSatuan1.setText("");
+        txtNominal1.setText("");
+        txtTotal1.setText("");
+        txtTotalAkhir.setText("");
+
+        if (cmbHari.getItemCount() > 0) {
+            cmbHari.setSelectedIndex(0);
+        }
+
+        txtProyekTujuan.requestFocus();
+    }
+
+    private void calculateTotal() {
+        try {
+            String qtyText = txtKuantitas1.getText().trim();
+            String nominalText = txtNominal1.getText().trim();
+
+            if (qtyText.isEmpty() || nominalText.isEmpty()) {
+                txtTotal1.setText("");
+                txtTotalAkhir.setText("");
+                return;
+            }
+
+            int qty = parseInteger(qtyText);
+            BigDecimal hargaSatuan = parseDecimal(nominalText);
+            BigDecimal total = new BigDecimal(qty).multiply(hargaSatuan);
+
+            txtTotal1.setText(total.toPlainString());
+            txtTotalAkhir.setText(total.toPlainString());
+
+        } catch (Exception e) {
+            txtTotal1.setText("");
+            txtTotalAkhir.setText("");
+        }
+    }
+
+    private boolean validateReimbursementForm() {
+    if (txtProyekTujuan.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Proyek / Tujuan wajib diisi dengan ID Project.");
+        txtProyekTujuan.requestFocus();
+        return false;
+    }
+
+    try {
+        parseInteger(txtProyekTujuan.getText());
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Proyek / Tujuan harus berupa angka ID Project.");
+        txtProyekTujuan.requestFocus();
+        return false;
+    }
+
+ if (getSelectedHari().isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Hari wajib dipilih.");
+    cmbHari.requestFocus();
+    return false;
+}
+
+if (txtTanggal.getText().trim().isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Tanggal wajib diisi.");
+    txtTanggal.requestFocus();
+    return false;
+}
+
+try {
+    normalizeTanggalForDb(txtTanggal.getText().trim());
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Format tanggal tidak valid. Klik field tanggal lalu pilih tanggal.");
+    txtTanggal.requestFocus();
+    return false;
+}
+
+    if (txtPerihal.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Perihal wajib diisi.");
+        txtPerihal.requestFocus();
+        return false;
+    }
+
+    if (txtUraian1.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Uraian wajib diisi.");
+        txtUraian1.requestFocus();
+        return false;
+    }
+
+    if (txtKuantitas1.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Kuantitas wajib diisi.");
+        txtKuantitas1.requestFocus();
+        return false;
+    }
+
+    try {
+        parseInteger(txtKuantitas1.getText());
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Kuantitas harus angka.");
+        txtKuantitas1.requestFocus();
+        return false;
+    }
+
+    if (txtSatuan1.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Satuan wajib diisi.");
+        txtSatuan1.requestFocus();
+        return false;
+    }
+
+    if (txtNominal1.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Nominal wajib diisi.");
+        txtNominal1.requestFocus();
+        return false;
+    }
+
+    try {
+        parseDecimal(txtNominal1.getText());
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Nominal harus angka.");
+        txtNominal1.requestFocus();
+        return false;
+    }
+
+    calculateTotal();
+
+    if (txtTotal1.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Total gagal dihitung. Periksa kuantitas dan nominal.");
+        return false;
+    }
+
+    return true;
+}
+
+    private int parseInteger(String value) {
+        String cleanValue = value.trim().replaceAll("[^0-9]", "");
+
+        if (cleanValue.isEmpty()) {
+            throw new NumberFormatException("Angka kosong.");
+        }
+
+        return Integer.parseInt(cleanValue);
+    }
+
+    private BigDecimal parseDecimal(String value) {
+        String cleanValue = value.trim()
+                .replace("Rp", "")
+                .replace("rp", "")
+                .replace(" ", "");
+
+        if (cleanValue.contains(",") && cleanValue.matches(".*,[0-9]{1,2}$")) {
+            cleanValue = cleanValue.replace(".", "");
+            cleanValue = cleanValue.replace(",", ".");
+        } else {
+            cleanValue = cleanValue.replace(".", "");
+            cleanValue = cleanValue.replace(",", "");
+        }
+
+        if (cleanValue.isEmpty()) {
+            throw new NumberFormatException("Angka kosong.");
+        }
+
+        return new BigDecimal(cleanValue);
+    }
+
+    private String nullToEmpty(String value) {
+        return value == null ? "" : value;
+    }
+
+    private String bigDecimalToString(BigDecimal value) {
+        return value == null ? "" : value.toPlainString();
+    }
+
+   public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new ReimbursementFormFrame().setVisible(true);
+            }
+        });
+    }
+    // Variables declaration - do not modify                     
+    private components.UserProfileCard userProfileCard1;
+    private components.SidebarMenu sidebarMenu1;
+    private components.PageTitle pageTitle1;
+    private javax.swing.JLabel lblProyekTujuan;
+    private components.RoundedTextField txtProyekTujuan;
+    private javax.swing.JLabel lblHari;
+    private components.RoundedComboBox cmbHari;
+    private javax.swing.JLabel lblTanggal;
+    private components.RoundedTextField txtTanggal;
+    private javax.swing.JLabel lblPerihal;
+    private components.RoundedTextArea txtPerihal;
+    private javax.swing.JLabel lblUraian;
+    private components.RoundedTextField txtUraian1;
+    private javax.swing.JLabel lblKuantitas;
+    private components.RoundedTextField txtKuantitas1;
+    private javax.swing.JLabel lblSatuan;
+    private components.RoundedTextField txtSatuan1;
+    private javax.swing.JLabel lblNominal;
+    private components.RoundedTextField txtNominal1;
+    private javax.swing.JLabel lblTotal;
+    private components.RoundedTextField txtTotal1;
+    private javax.swing.JLabel lblTotalAkhir;
+    private components.RoundedTextField txtTotalAkhir;
     private components.RoundedButton btnSave;
     private components.RoundedButton btnUpdate;
-    private components.RoundedComboBox cmbHari;
-    private javax.swing.JLabel lblHari;
-    private javax.swing.JLabel lblKuantitas;
-    private javax.swing.JLabel lblNominal;
-    private javax.swing.JLabel lblPerihal;
-    private javax.swing.JLabel lblProyekTujuan;
-    private javax.swing.JLabel lblSatuan;
-    private javax.swing.JLabel lblTanggal;
-    private javax.swing.JLabel lblTotal;
-    private javax.swing.JLabel lblTotalAkhir;
-    private javax.swing.JLabel lblUraian;
-    private components.PageTitle pageTitle1;
-    private components.SidebarMenu sidebarMenu1;
-    private components.RoundedTextField txtKuantitas1;
-    private components.RoundedTextField txtNominal1;
-    private components.RoundedTextArea txtPerihal;
-    private components.RoundedTextField txtProyekTujuan;
-    private components.RoundedTextField txtSatuan1;
-    private components.RoundedTextField txtTanggal;
-    private components.RoundedTextField txtTotal1;
-    private components.RoundedTextField txtTotalAkhir;
-    private components.RoundedTextField txtUraian1;
-    private components.UserProfileCard userProfileCard1;
-    // End of variables declaration//GEN-END:variables
+    private components.RoundedButton btnClear;
+    private components.RoundedButton btnDelete;
+    private components.RoundedButton btnBack;
+    // End of variables declaration                   
 }
