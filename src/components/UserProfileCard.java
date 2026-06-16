@@ -8,12 +8,16 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Window;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 public class UserProfileCard extends RoundedPanel {
@@ -137,6 +141,25 @@ public class UserProfileCard extends RoundedPanel {
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 if (listener != null) {
                     listener.onLogoutClick();
+                } else {
+                    int response = JOptionPane.showConfirmDialog(
+                        null,
+                        "Apakah Anda yakin ingin logout?",
+                        "Konfirmasi Logout",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE
+                    );
+
+                    if (response == JOptionPane.YES_OPTION) {
+                        Window ancestor = SwingUtilities.getWindowAncestor(UserProfileCard.this);
+                        if (ancestor instanceof JFrame) {
+                            monitoring_apps.Navigation.go((JFrame) ancestor, new monitoring_apps.LoginFrame());
+                        } else if (ancestor != null) {
+                            monitoring_apps.LoginFrame loginFrame = new monitoring_apps.LoginFrame();
+                            loginFrame.setVisible(true);
+                            ancestor.dispose();
+                        }
+                    }
                 }
             }
         });
