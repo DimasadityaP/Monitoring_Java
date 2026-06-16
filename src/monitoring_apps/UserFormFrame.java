@@ -67,6 +67,7 @@ public class UserFormFrame extends javax.swing.JFrame {
 
         txtNama.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Navigation.go(UserFormFrame.this, new Dashboard());
                 txtNamaActionPerformed(evt);
             }
         });
