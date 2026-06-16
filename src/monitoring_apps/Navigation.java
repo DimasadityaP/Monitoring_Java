@@ -29,6 +29,9 @@ public final class Navigation {
 
                 else if ("master.reimbursement".equals(menu)) {
                     next = new ReimbursementFormFrame();
+                } 
+                else if ("Mutasi Barang".equals(menu)) {
+                    next = new MutasiBarangListFrame();
                 }
 
                 else if ("transaksi.project".equals(menu)) {
@@ -36,7 +39,7 @@ public final class Navigation {
                 }
 
                 else if ("transaksi.mutasi_barang".equals(menu)) {
-//                    next = new ();
+                    next = new MutasiBarangListFrame();
                 }
 
                 else if ("report.project".equals(menu)) {
