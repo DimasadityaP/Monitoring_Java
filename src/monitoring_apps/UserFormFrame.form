@@ -45,7 +45,7 @@
                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                       <Component id="btnBack" min="-2" pref="110" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lblJabatan" min="-2" max="-2" attributes="0"/>
                           <Component id="txtJabatan" min="-2" pref="420" max="-2" attributes="0"/>
@@ -56,12 +56,8 @@
                           <Component id="lblNamaPengguna" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="txtNama" alignment="0" min="-2" pref="420" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="60" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="lblPassword1" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtId" alignment="0" min="-2" pref="420" max="-2" attributes="0"/>
-                          </Group>
                           <Component id="lblDivisi" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="cmbDivisi" alignment="0" min="-2" pref="420" max="-2" attributes="0"/>
                           <Component id="lblPassword" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -69,6 +65,7 @@
                           <Component id="lblEmail" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="txtEmail" alignment="0" min="-2" pref="420" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="40" max="32767" attributes="0"/>
@@ -92,16 +89,7 @@
                               <Component id="lblNamaPengguna" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="txtNama" min="-2" pref="42" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="lblPassword1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txtId" min="-2" pref="42" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                               <Component id="lblJabatan" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="txtJabatan" min="-2" pref="42" max="-2" attributes="0"/>
@@ -109,10 +97,6 @@
                               <Component id="lblNomorTelepon" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="txtTelepon" min="-2" pref="42" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                              <Component id="lblAlamat" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txtAlamat" min="-2" pref="42" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Component id="lblDivisi" min="-2" max="-2" attributes="0"/>
@@ -128,6 +112,10 @@
                               <Component id="txtEmail" min="-2" pref="42" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <Component id="lblAlamat" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="txtAlamat" min="-2" pref="42" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnSave" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
@@ -241,13 +229,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBackActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="components.RoundedTextField" name="txtId">
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblPassword1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Id Pengguna"/>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>
