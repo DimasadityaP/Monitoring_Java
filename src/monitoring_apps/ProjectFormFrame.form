@@ -33,68 +33,77 @@
                   <Component id="userProfileCard1" min="-2" pref="360" max="-2" attributes="0"/>
                   <Component id="sidebarMenu1" min="-2" pref="300" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="pageTitle1" min="-2" pref="900" max="-2" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblJenisPekerjaan" min="-2" max="-2" attributes="0"/>
-                          <Component id="cmbJenisPekerjaan" min="-2" pref="420" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblTahunAnggaran" min="-2" max="-2" attributes="0"/>
-                          <Component id="cmbTahunAnggaran" min="-2" pref="420" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblNamaPekerjaan" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtNamaPekerjaan" min="-2" pref="420" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblPerusahaanInfo" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtInstansi" min="-2" pref="420" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="396" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="pageTitle1" min="-2" pref="900" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="btnSave" min="-2" pref="150" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="btnUpdate" min="-2" pref="150" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="btnClear" min="-2" pref="150" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="btnDelete" min="-2" pref="150" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="btnBack" min="-2" pref="110" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblPerusahaan" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtPerusahaan" min="-2" pref="420" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblJenisPekerjaan" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cmbJenisPekerjaan" min="-2" pref="420" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblTahunAnggaran" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtTahunAnggaran" min="-2" pref="420" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblNamaPekerjaan" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtNamaPekerjaan" min="-2" pref="420" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblPerusahaanInfo" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtInstansi" min="-2" pref="420" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblPerusahaan" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtPerusahaan" min="-2" pref="420" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblStatus" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtStatus" min="-2" pref="420" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblTglMulai" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtTglMulai" min="-2" pref="420" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblTglSelesai" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtTglSelesai" min="-2" pref="420" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Component id="lblNilaiPekerjaan" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtNilaiPekerjaan" alignment="0" min="-2" pref="420" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblStatus" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtStatus" min="-2" pref="420" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblTglMulai" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtTglMulai" min="-2" pref="420" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblTglSelesai" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtTglSelesai" min="-2" pref="420" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Component id="lblNilaiPekerjaan" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtNilaiPekerjaan" alignment="0" min="-2" pref="420" max="-2" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="btnSave" min="-2" pref="150" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                      <Component id="btnUpdate" min="-2" pref="150" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                      <Component id="btnClear" min="-2" pref="150" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                      <Component id="btnDelete" min="-2" pref="150" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                      <Component id="btnBack" min="-2" pref="110" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="40" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -119,7 +128,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="lblTahunAnggaran" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="cmbTahunAnggaran" min="-2" pref="42" max="-2" attributes="0"/>
+                              <Component id="txtTahunAnggaran" min="-2" pref="42" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
@@ -192,7 +201,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblJenisPekerjaan">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Jenis Pekerjaan"/>
+        <Property name="text" type="java.lang.String" value="Jenis Project"/>
       </Properties>
     </Component>
     <Component class="components.RoundedComboBox" name="cmbJenisPekerjaan">
@@ -202,11 +211,9 @@
         <Property name="text" type="java.lang.String" value="Tahun Anggaran"/>
       </Properties>
     </Component>
-    <Component class="components.RoundedComboBox" name="cmbTahunAnggaran">
-    </Component>
     <Component class="javax.swing.JLabel" name="lblNamaPekerjaan">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Nama Pekerjaan"/>
+        <Property name="text" type="java.lang.String" value="Nama Project"/>
       </Properties>
     </Component>
     <Component class="components.RoundedTextArea" name="txtNamaPekerjaan">
@@ -286,6 +293,8 @@
       </Properties>
     </Component>
     <Component class="components.RoundedTextField" name="txtStatus">
+    </Component>
+    <Component class="components.RoundedTextField" name="txtTahunAnggaran">
     </Component>
   </SubComponents>
 </Form>
