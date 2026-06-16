@@ -1,8 +1,8 @@
 package monitoring_apps;
 
-public class LogisticFormFrame extends javax.swing.JFrame {
+public class BarangFormFrame extends javax.swing.JFrame {
 
-    public LogisticFormFrame() {
+    public BarangFormFrame() {
         initComponents();
         setLocationRelativeTo(null);
         Navigation.bind(sidebarMenu1, this);
@@ -36,51 +36,41 @@ public class LogisticFormFrame extends javax.swing.JFrame {
         btnClear = new components.RoundedButton();
         btnDelete = new components.RoundedButton();
         btnBack = new components.RoundedButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FORMULIR LOGISTIK");
         setMinimumSize(new java.awt.Dimension(1200, 800));
-        getContentPane().setBackground(components.RoundedColors.BACKGROUND);
 
         pageTitle1.setText("FORMULIR LOGISTIK");
+
         lblKode.setText("Kode");
-        lblKode.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblKode.setForeground(components.RoundedColors.TEXT_DARK);
+
         lblJenis.setText("Jenis");
-        lblJenis.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblJenis.setForeground(components.RoundedColors.TEXT_DARK);
+
         lblNamaBarang.setText("Nama Barang");
-        lblNamaBarang.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblNamaBarang.setForeground(components.RoundedColors.TEXT_DARK);
+
         lblJenisSub.setText("Jenis Sub");
-        lblJenisSub.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblJenisSub.setForeground(components.RoundedColors.TEXT_DARK);
+
         lblSpesifikasi.setText("Spesifikasi");
-        lblSpesifikasi.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblSpesifikasi.setForeground(components.RoundedColors.TEXT_DARK);
-        txtSpesifikasi.setLineWrap(true);
-        txtSpesifikasi.setWrapStyleWord(true);
+
         lblKondisi.setText("Kondisi");
-        lblKondisi.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblKondisi.setForeground(components.RoundedColors.TEXT_DARK);
+
         lblKuantitas.setText("Kuantitas");
-        lblKuantitas.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblKuantitas.setForeground(components.RoundedColors.TEXT_DARK);
+
         lblSatuan.setText("Satuan");
-        lblSatuan.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblSatuan.setForeground(components.RoundedColors.TEXT_DARK);
+
         btnSave.setText("Save");
+
         btnUpdate.setText("Update");
+
         btnClear.setText("Clear");
+
         btnDelete.setText("Delete");
-        btnDelete.setButtonColor(components.RoundedColors.DELETE);
+        btnDelete.setButtonColor(new java.awt.Color(154, 61, 120));
+
+        btnBack.setForeground(new java.awt.Color(0, 0, 0));
         btnBack.setText("Back");
-        btnBack.setButtonColor(components.RoundedColors.SOFT_GRAY);
-        btnBack.setForeground(java.awt.Color.BLACK);
-        btnBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Navigation.go(LogisticFormFrame.this, new ProjectAdministrationListFrame());
-            }
-        });
+        btnBack.setButtonColor(new java.awt.Color(217, 217, 217));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -94,36 +84,34 @@ public class LogisticFormFrame extends javax.swing.JFrame {
                 .addGap(70, 70, 70)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblKode)
                             .addComponent(txtKode, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblJenis)
-                            .addComponent(cmbJenis, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)) )
-                    .addGroup(layout.createSequentialGroup()
+                            .addComponent(cmbJenis, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblNamaBarang)
                             .addComponent(txtNamaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblJenisSub)
-                            .addComponent(txtJenisSub, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)) )
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lblSpesifikasi)
-                        .addComponent(txtSpesifikasi, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lblKondisi)
-                        .addComponent(txtKondisi, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
+                            .addComponent(txtJenisSub, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(lblSpesifikasi, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtSpesifikasi, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblKondisi, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtKondisi, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblKuantitas)
                             .addComponent(txtKuantitas, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblSatuan)
-                            .addComponent(txtSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)) )
+                            .addComponent(txtSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
@@ -167,17 +155,13 @@ public class LogisticFormFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtJenisSub, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblSpesifikasi)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtSpesifikasi, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblSpesifikasi)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtSpesifikasi, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblKondisi)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtKondisi, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblKondisi)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtKondisi, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -188,7 +172,7 @@ public class LogisticFormFrame extends javax.swing.JFrame {
                                 .addComponent(lblSatuan)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(35, 35, 35)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -202,29 +186,29 @@ public class LogisticFormFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private components.UserProfileCard userProfileCard1;
-    private components.SidebarMenu sidebarMenu1;
-    private components.PageTitle pageTitle1;
-    private javax.swing.JLabel lblKode;
-    private components.RoundedTextField txtKode;
-    private javax.swing.JLabel lblJenis;
-    private components.RoundedComboBox cmbJenis;
-    private javax.swing.JLabel lblNamaBarang;
-    private components.RoundedTextField txtNamaBarang;
-    private javax.swing.JLabel lblJenisSub;
-    private components.RoundedTextField txtJenisSub;
-    private javax.swing.JLabel lblSpesifikasi;
-    private components.RoundedTextArea txtSpesifikasi;
-    private javax.swing.JLabel lblKondisi;
-    private components.RoundedTextField txtKondisi;
-    private javax.swing.JLabel lblKuantitas;
-    private components.RoundedTextField txtKuantitas;
-    private javax.swing.JLabel lblSatuan;
-    private components.RoundedTextField txtSatuan;
-    private components.RoundedButton btnSave;
-    private components.RoundedButton btnUpdate;
+    private components.RoundedButton btnBack;
     private components.RoundedButton btnClear;
     private components.RoundedButton btnDelete;
-    private components.RoundedButton btnBack;
+    private components.RoundedButton btnSave;
+    private components.RoundedButton btnUpdate;
+    private components.RoundedComboBox cmbJenis;
+    private javax.swing.JLabel lblJenis;
+    private javax.swing.JLabel lblJenisSub;
+    private javax.swing.JLabel lblKode;
+    private javax.swing.JLabel lblKondisi;
+    private javax.swing.JLabel lblKuantitas;
+    private javax.swing.JLabel lblNamaBarang;
+    private javax.swing.JLabel lblSatuan;
+    private javax.swing.JLabel lblSpesifikasi;
+    private components.PageTitle pageTitle1;
+    private components.SidebarMenu sidebarMenu1;
+    private components.RoundedTextField txtJenisSub;
+    private components.RoundedTextField txtKode;
+    private components.RoundedTextField txtKondisi;
+    private components.RoundedTextField txtKuantitas;
+    private components.RoundedTextField txtNamaBarang;
+    private components.RoundedTextField txtSatuan;
+    private components.RoundedTextArea txtSpesifikasi;
+    private components.UserProfileCard userProfileCard1;
     // End of variables declaration//GEN-END:variables
 }
