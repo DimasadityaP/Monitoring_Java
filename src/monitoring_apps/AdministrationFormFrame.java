@@ -32,43 +32,37 @@ public class AdministrationFormFrame extends javax.swing.JFrame {
         btnClear = new components.RoundedButton();
         btnDelete = new components.RoundedButton();
         btnBack = new components.RoundedButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FORMULIR ADMINISTRASI");
         setMinimumSize(new java.awt.Dimension(1200, 800));
-        getContentPane().setBackground(components.RoundedColors.BACKGROUND);
 
         pageTitle1.setText("FORMULIR ADMINISTRASI");
+
         lblTipeSurat.setText("Tipe Surat");
-        lblTipeSurat.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblTipeSurat.setForeground(components.RoundedColors.TEXT_DARK);
+
         lblNamaSurat.setText("Nama Surat");
-        lblNamaSurat.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblNamaSurat.setForeground(components.RoundedColors.TEXT_DARK);
+
         lblNomorSurat.setText("Nomor Surat");
-        lblNomorSurat.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblNomorSurat.setForeground(components.RoundedColors.TEXT_DARK);
+
         lblDari.setText("Dari");
-        lblDari.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblDari.setForeground(components.RoundedColors.TEXT_DARK);
+
         lblKepada.setText("Kepada");
-        lblKepada.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblKepada.setForeground(components.RoundedColors.TEXT_DARK);
+
         lblTanggalSurat.setText("Tanggal Surat");
-        lblTanggalSurat.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblTanggalSurat.setForeground(components.RoundedColors.TEXT_DARK);
+
         btnSave.setText("Save");
+
         btnUpdate.setText("Update");
+
         btnClear.setText("Clear");
+
         btnDelete.setText("Delete");
-        btnDelete.setButtonColor(components.RoundedColors.DELETE);
+        btnDelete.setButtonColor(new java.awt.Color(154, 61, 120));
+
+        btnBack.setForeground(new java.awt.Color(0, 0, 0));
         btnBack.setText("Back");
-        btnBack.setButtonColor(components.RoundedColors.SOFT_GRAY);
-        btnBack.setForeground(java.awt.Color.BLACK);
-        btnBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Navigation.go(AdministrationFormFrame.this, new ProjectAdministrationListFrame());
-            }
-        });
+        btnBack.setButtonColor(new java.awt.Color(217, 217, 217));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -82,28 +76,26 @@ public class AdministrationFormFrame extends javax.swing.JFrame {
                 .addGap(70, 70, 70)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblTipeSurat)
                             .addComponent(cmbTipeSurat, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblNamaSurat)
-                            .addComponent(txtNamaSurat, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)) )
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lblNomorSurat)
-                        .addComponent(txtNomorSurat, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
+                            .addComponent(txtNamaSurat, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(lblNomorSurat, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNomorSurat, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblDari)
                             .addComponent(txtDari, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblKepada)
-                            .addComponent(txtKepada, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)) )
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lblTanggalSurat)
-                        .addComponent(txtTanggalSurat, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtKepada, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(lblTanggalSurat, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtTanggalSurat, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
@@ -137,11 +129,9 @@ public class AdministrationFormFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtNamaSurat, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblNomorSurat)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtNomorSurat, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblNomorSurat)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNomorSurat, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -153,12 +143,10 @@ public class AdministrationFormFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtKepada, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblTanggalSurat)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTanggalSurat, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(35, 35, 35)
+                        .addComponent(lblTanggalSurat)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtTanggalSurat, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -172,25 +160,25 @@ public class AdministrationFormFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private components.UserProfileCard userProfileCard1;
-    private components.SidebarMenu sidebarMenu1;
-    private components.PageTitle pageTitle1;
-    private javax.swing.JLabel lblTipeSurat;
-    private components.RoundedComboBox cmbTipeSurat;
-    private javax.swing.JLabel lblNamaSurat;
-    private components.RoundedTextField txtNamaSurat;
-    private javax.swing.JLabel lblNomorSurat;
-    private components.RoundedTextField txtNomorSurat;
-    private javax.swing.JLabel lblDari;
-    private components.RoundedTextField txtDari;
-    private javax.swing.JLabel lblKepada;
-    private components.RoundedTextField txtKepada;
-    private javax.swing.JLabel lblTanggalSurat;
-    private components.RoundedTextField txtTanggalSurat;
-    private components.RoundedButton btnSave;
-    private components.RoundedButton btnUpdate;
+    private components.RoundedButton btnBack;
     private components.RoundedButton btnClear;
     private components.RoundedButton btnDelete;
-    private components.RoundedButton btnBack;
+    private components.RoundedButton btnSave;
+    private components.RoundedButton btnUpdate;
+    private components.RoundedComboBox cmbTipeSurat;
+    private javax.swing.JLabel lblDari;
+    private javax.swing.JLabel lblKepada;
+    private javax.swing.JLabel lblNamaSurat;
+    private javax.swing.JLabel lblNomorSurat;
+    private javax.swing.JLabel lblTanggalSurat;
+    private javax.swing.JLabel lblTipeSurat;
+    private components.PageTitle pageTitle1;
+    private components.SidebarMenu sidebarMenu1;
+    private components.RoundedTextField txtDari;
+    private components.RoundedTextField txtKepada;
+    private components.RoundedTextField txtNamaSurat;
+    private components.RoundedTextField txtNomorSurat;
+    private components.RoundedTextField txtTanggalSurat;
+    private components.UserProfileCard userProfileCard1;
     // End of variables declaration//GEN-END:variables
 }

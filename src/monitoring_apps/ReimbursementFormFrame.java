@@ -40,57 +40,51 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         btnClear = new components.RoundedButton();
         btnDelete = new components.RoundedButton();
         btnBack = new components.RoundedButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FORMULIR REIMBURSEMEN");
         setMinimumSize(new java.awt.Dimension(1200, 800));
-        getContentPane().setBackground(components.RoundedColors.BACKGROUND);
 
         pageTitle1.setText("FORMULIR REIMBURSEMEN");
+
         lblProyekTujuan.setText("Proyek / Tujuan");
-        lblProyekTujuan.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblProyekTujuan.setForeground(components.RoundedColors.TEXT_DARK);
+
         lblHari.setText("Hari");
-        lblHari.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblHari.setForeground(components.RoundedColors.TEXT_DARK);
-        lblTanggal.setText("Tanggal");
-        lblTanggal.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblTanggal.setForeground(components.RoundedColors.TEXT_DARK);
-        lblPerihal.setText("Perihal");
-        lblPerihal.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblPerihal.setForeground(components.RoundedColors.TEXT_DARK);
-        txtPerihal.setLineWrap(true);
-        txtPerihal.setWrapStyleWord(true);
-        lblUraian.setText("Masukan Uraian");
-        lblUraian.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblUraian.setForeground(components.RoundedColors.TEXT_DARK);
-        lblKuantitas.setText("Kuantitas");
-        lblKuantitas.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblKuantitas.setForeground(components.RoundedColors.TEXT_DARK);
-        lblSatuan.setText("Satuan");
-        lblSatuan.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblSatuan.setForeground(components.RoundedColors.TEXT_DARK);
-        lblNominal.setText("Nominal");
-        lblNominal.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblNominal.setForeground(components.RoundedColors.TEXT_DARK);
-        lblTotal.setText("Total");
-        lblTotal.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblTotal.setForeground(components.RoundedColors.TEXT_DARK);
-        lblTotalAkhir.setText("Total Akhir");
-        lblTotalAkhir.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblTotalAkhir.setForeground(components.RoundedColors.TEXT_DARK);
-        btnSave.setText("Save");
-        btnUpdate.setText("Update");
-        btnClear.setText("Clear");
-        btnDelete.setText("Delete");
-        btnDelete.setButtonColor(components.RoundedColors.DELETE);
-        btnBack.setText("Back");
-        btnBack.setButtonColor(components.RoundedColors.SOFT_GRAY);
-        btnBack.setForeground(java.awt.Color.BLACK);
-        btnBack.addActionListener(new java.awt.event.ActionListener() {
+
+        cmbHari.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Navigation.go(ReimbursementFormFrame.this, new ProjectAdministrationListFrame());
+                cmbHariActionPerformed(evt);
             }
         });
+
+        lblTanggal.setText("Tanggal");
+
+        lblPerihal.setText("Perihal");
+
+        lblUraian.setText("Masukan Uraian");
+
+        lblKuantitas.setText("Kuantitas");
+
+        lblSatuan.setText("Satuan");
+
+        lblNominal.setText("Nominal");
+
+        lblTotal.setText("Total");
+
+        lblTotalAkhir.setText("Total Akhir");
+
+        btnSave.setText("Save");
+
+        btnUpdate.setText("Update");
+
+        btnClear.setText("Clear");
+
+        btnDelete.setText("Delete");
+        btnDelete.setButtonColor(new java.awt.Color(154, 61, 120));
+
+        btnBack.setForeground(new java.awt.Color(0, 0, 0));
+        btnBack.setText("Back");
+        btnBack.setButtonColor(new java.awt.Color(217, 217, 217));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,44 +98,42 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
                 .addGap(70, 70, 70)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblProyekTujuan)
                             .addComponent(txtProyekTujuan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblHari)
-                            .addComponent(cmbHari, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)) )
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lblTanggal)
-                        .addComponent(txtTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lblPerihal)
-                        .addComponent(txtPerihal, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
+                            .addComponent(cmbHari, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(lblTanggal, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtTanggal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPerihal, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtPerihal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblUraian)
                             .addComponent(txtUraian1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblKuantitas)
-                            .addComponent(txtKuantitas1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)) )
-                    .addGroup(layout.createSequentialGroup()
+                            .addComponent(txtKuantitas1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblSatuan)
                             .addComponent(txtSatuan1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblNominal)
-                            .addComponent(txtNominal1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)) )
-                    .addGroup(layout.createSequentialGroup()
+                            .addComponent(txtNominal1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblTotal)
                             .addComponent(txtTotal1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblTotalAkhir)
-                            .addComponent(txtTotalAkhir, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)) )
+                            .addComponent(txtTotalAkhir, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
@@ -175,17 +167,13 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cmbHari, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblTanggal)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblTanggal)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblPerihal)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtPerihal, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblPerihal)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtPerihal, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -216,7 +204,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
                                 .addComponent(lblTotalAkhir)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtTotalAkhir, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(35, 35, 35)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -229,34 +217,38 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cmbHariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbHariActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbHariActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private components.UserProfileCard userProfileCard1;
-    private components.SidebarMenu sidebarMenu1;
-    private components.PageTitle pageTitle1;
-    private javax.swing.JLabel lblProyekTujuan;
-    private components.RoundedTextField txtProyekTujuan;
-    private javax.swing.JLabel lblHari;
-    private components.RoundedComboBox cmbHari;
-    private javax.swing.JLabel lblTanggal;
-    private components.RoundedTextField txtTanggal;
-    private javax.swing.JLabel lblPerihal;
-    private components.RoundedTextArea txtPerihal;
-    private javax.swing.JLabel lblUraian;
-    private components.RoundedTextField txtUraian1;
-    private javax.swing.JLabel lblKuantitas;
-    private components.RoundedTextField txtKuantitas1;
-    private javax.swing.JLabel lblSatuan;
-    private components.RoundedTextField txtSatuan1;
-    private javax.swing.JLabel lblNominal;
-    private components.RoundedTextField txtNominal1;
-    private javax.swing.JLabel lblTotal;
-    private components.RoundedTextField txtTotal1;
-    private javax.swing.JLabel lblTotalAkhir;
-    private components.RoundedTextField txtTotalAkhir;
-    private components.RoundedButton btnSave;
-    private components.RoundedButton btnUpdate;
+    private components.RoundedButton btnBack;
     private components.RoundedButton btnClear;
     private components.RoundedButton btnDelete;
-    private components.RoundedButton btnBack;
+    private components.RoundedButton btnSave;
+    private components.RoundedButton btnUpdate;
+    private components.RoundedComboBox cmbHari;
+    private javax.swing.JLabel lblHari;
+    private javax.swing.JLabel lblKuantitas;
+    private javax.swing.JLabel lblNominal;
+    private javax.swing.JLabel lblPerihal;
+    private javax.swing.JLabel lblProyekTujuan;
+    private javax.swing.JLabel lblSatuan;
+    private javax.swing.JLabel lblTanggal;
+    private javax.swing.JLabel lblTotal;
+    private javax.swing.JLabel lblTotalAkhir;
+    private javax.swing.JLabel lblUraian;
+    private components.PageTitle pageTitle1;
+    private components.SidebarMenu sidebarMenu1;
+    private components.RoundedTextField txtKuantitas1;
+    private components.RoundedTextField txtNominal1;
+    private components.RoundedTextArea txtPerihal;
+    private components.RoundedTextField txtProyekTujuan;
+    private components.RoundedTextField txtSatuan1;
+    private components.RoundedTextField txtTanggal;
+    private components.RoundedTextField txtTotal1;
+    private components.RoundedTextField txtTotalAkhir;
+    private components.RoundedTextField txtUraian1;
+    private components.UserProfileCard userProfileCard1;
     // End of variables declaration//GEN-END:variables
 }

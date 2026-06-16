@@ -68,7 +68,7 @@ public class UserFormFrame extends javax.swing.JFrame {
         btnBack.setForeground(java.awt.Color.BLACK);
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Navigation.go(UserFormFrame.this, new DashboardAdministrationFrame());
+                Navigation.go(UserFormFrame.this, new Dashboard());
             }
         });
 

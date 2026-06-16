@@ -22,11 +22,10 @@ public class ProjectFormFrame extends javax.swing.JFrame {
         lblNamaPekerjaan = new javax.swing.JLabel();
         txtNamaPekerjaan = new components.RoundedTextArea();
         lblPerusahaanInfo = new javax.swing.JLabel();
-        txtPerusahaanInfo = new components.RoundedTextArea();
+        txtInstansi = new components.RoundedTextArea();
         lblPerusahaan = new javax.swing.JLabel();
         txtPerusahaan = new components.RoundedTextField();
         lblStatus = new javax.swing.JLabel();
-        cmbStatus = new components.RoundedComboBox();
         lblTglMulai = new javax.swing.JLabel();
         txtTglMulai = new components.RoundedTextField();
         lblTglSelesai = new javax.swing.JLabel();
@@ -38,56 +37,44 @@ public class ProjectFormFrame extends javax.swing.JFrame {
         btnClear = new components.RoundedButton();
         btnDelete = new components.RoundedButton();
         btnBack = new components.RoundedButton();
+        txtStatus = new components.RoundedTextField();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FORMULIR PROJECT");
         setMinimumSize(new java.awt.Dimension(1200, 800));
-        getContentPane().setBackground(components.RoundedColors.BACKGROUND);
 
         pageTitle1.setText("FORMULIR PROJECT");
+
         lblJenisPekerjaan.setText("Jenis Pekerjaan");
-        lblJenisPekerjaan.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblJenisPekerjaan.setForeground(components.RoundedColors.TEXT_DARK);
+
         lblTahunAnggaran.setText("Tahun Anggaran");
-        lblTahunAnggaran.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblTahunAnggaran.setForeground(components.RoundedColors.TEXT_DARK);
+
         lblNamaPekerjaan.setText("Nama Pekerjaan");
-        lblNamaPekerjaan.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblNamaPekerjaan.setForeground(components.RoundedColors.TEXT_DARK);
-        txtNamaPekerjaan.setLineWrap(true);
-        txtNamaPekerjaan.setWrapStyleWord(true);
-        lblPerusahaanInfo.setText("Perusahaan");
-        lblPerusahaanInfo.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblPerusahaanInfo.setForeground(components.RoundedColors.TEXT_DARK);
-        txtPerusahaanInfo.setLineWrap(true);
-        txtPerusahaanInfo.setWrapStyleWord(true);
+
+        lblPerusahaanInfo.setText("Instansi");
+
         lblPerusahaan.setText("Perusahaan");
-        lblPerusahaan.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblPerusahaan.setForeground(components.RoundedColors.TEXT_DARK);
+
         lblStatus.setText("Status");
-        lblStatus.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblStatus.setForeground(components.RoundedColors.TEXT_DARK);
+
         lblTglMulai.setText("Tgl Mulai");
-        lblTglMulai.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblTglMulai.setForeground(components.RoundedColors.TEXT_DARK);
+
         lblTglSelesai.setText("Tgl Selesai");
-        lblTglSelesai.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblTglSelesai.setForeground(components.RoundedColors.TEXT_DARK);
+
         lblNilaiPekerjaan.setText("Nilai Pekerjaan");
-        lblNilaiPekerjaan.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
-        lblNilaiPekerjaan.setForeground(components.RoundedColors.TEXT_DARK);
+
         btnSave.setText("Save");
+
         btnUpdate.setText("Update");
+
         btnClear.setText("Clear");
+
         btnDelete.setText("Delete");
-        btnDelete.setButtonColor(components.RoundedColors.DELETE);
+        btnDelete.setButtonColor(new java.awt.Color(154, 61, 120));
+
+        btnBack.setForeground(new java.awt.Color(0, 0, 0));
         btnBack.setText("Back");
-        btnBack.setButtonColor(components.RoundedColors.SOFT_GRAY);
-        btnBack.setForeground(java.awt.Color.BLACK);
-        btnBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Navigation.go(ProjectFormFrame.this, new ProjectAdministrationListFrame());
-            }
-        });
+        btnBack.setButtonColor(new java.awt.Color(217, 217, 217));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,41 +88,40 @@ public class ProjectFormFrame extends javax.swing.JFrame {
                 .addGap(70, 70, 70)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblJenisPekerjaan)
                             .addComponent(cmbJenisPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblTahunAnggaran)
-                            .addComponent(cmbTahunAnggaran, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)) )
-                    .addGroup(layout.createSequentialGroup()
+                            .addComponent(cmbTahunAnggaran, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblNamaPekerjaan)
                             .addComponent(txtNamaPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblPerusahaanInfo)
-                            .addComponent(txtPerusahaanInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)) )
-                    .addGroup(layout.createSequentialGroup()
+                            .addComponent(txtInstansi, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblPerusahaan)
                             .addComponent(txtPerusahaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblStatus)
-                            .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)) )
-                    .addGroup(layout.createSequentialGroup()
+                            .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblTglMulai)
                             .addComponent(txtTglMulai, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblTglSelesai)
-                            .addComponent(txtTglSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)) )
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lblNilaiPekerjaan)
-                        .addComponent(txtNilaiPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtTglSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(lblNilaiPekerjaan, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNilaiPekerjaan, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
@@ -177,7 +163,7 @@ public class ProjectFormFrame extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblPerusahaanInfo)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtPerusahaanInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtInstansi, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -187,7 +173,7 @@ public class ProjectFormFrame extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblStatus)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -199,12 +185,10 @@ public class ProjectFormFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtTglSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblNilaiPekerjaan)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtNilaiPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(35, 35, 35)
+                        .addComponent(lblNilaiPekerjaan)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNilaiPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -218,31 +202,31 @@ public class ProjectFormFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private components.UserProfileCard userProfileCard1;
-    private components.SidebarMenu sidebarMenu1;
-    private components.PageTitle pageTitle1;
-    private javax.swing.JLabel lblJenisPekerjaan;
-    private components.RoundedComboBox cmbJenisPekerjaan;
-    private javax.swing.JLabel lblTahunAnggaran;
-    private components.RoundedComboBox cmbTahunAnggaran;
-    private javax.swing.JLabel lblNamaPekerjaan;
-    private components.RoundedTextArea txtNamaPekerjaan;
-    private javax.swing.JLabel lblPerusahaanInfo;
-    private components.RoundedTextArea txtPerusahaanInfo;
-    private javax.swing.JLabel lblPerusahaan;
-    private components.RoundedTextField txtPerusahaan;
-    private javax.swing.JLabel lblStatus;
-    private components.RoundedComboBox cmbStatus;
-    private javax.swing.JLabel lblTglMulai;
-    private components.RoundedTextField txtTglMulai;
-    private javax.swing.JLabel lblTglSelesai;
-    private components.RoundedTextField txtTglSelesai;
-    private javax.swing.JLabel lblNilaiPekerjaan;
-    private components.RoundedTextField txtNilaiPekerjaan;
-    private components.RoundedButton btnSave;
-    private components.RoundedButton btnUpdate;
+    private components.RoundedButton btnBack;
     private components.RoundedButton btnClear;
     private components.RoundedButton btnDelete;
-    private components.RoundedButton btnBack;
+    private components.RoundedButton btnSave;
+    private components.RoundedButton btnUpdate;
+    private components.RoundedComboBox cmbJenisPekerjaan;
+    private components.RoundedComboBox cmbTahunAnggaran;
+    private javax.swing.JLabel lblJenisPekerjaan;
+    private javax.swing.JLabel lblNamaPekerjaan;
+    private javax.swing.JLabel lblNilaiPekerjaan;
+    private javax.swing.JLabel lblPerusahaan;
+    private javax.swing.JLabel lblPerusahaanInfo;
+    private javax.swing.JLabel lblStatus;
+    private javax.swing.JLabel lblTahunAnggaran;
+    private javax.swing.JLabel lblTglMulai;
+    private javax.swing.JLabel lblTglSelesai;
+    private components.PageTitle pageTitle1;
+    private components.SidebarMenu sidebarMenu1;
+    private components.RoundedTextArea txtInstansi;
+    private components.RoundedTextArea txtNamaPekerjaan;
+    private components.RoundedTextField txtNilaiPekerjaan;
+    private components.RoundedTextField txtPerusahaan;
+    private components.RoundedTextField txtStatus;
+    private components.RoundedTextField txtTglMulai;
+    private components.RoundedTextField txtTglSelesai;
+    private components.UserProfileCard userProfileCard1;
     // End of variables declaration//GEN-END:variables
 }

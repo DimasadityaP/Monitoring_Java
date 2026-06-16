@@ -20,13 +20,7 @@ public class RoundedTablePanel extends RoundedPanel {
         setBackground(Color.WHITE);
         setPreferredSize(new Dimension(780, 300));
 
-        model = new DefaultTableModel(
-                new Object[][] {
-                    {"01/SPH/MKI/2026", "Kementerian Dalam Negeri", "11/4/26", "keluar", "Edit"},
-                    {"019.21/pl.dkn./26", "BPMSP", "13/4/26", "masuk", "Edit"},
-                    {"09/ADM/MKI/2026", "Kementerian PUPR", "05/4/26", "keluar", "Edit"}
-                },
-                new Object[] {"No. Surat", "Instansi", "Tanggal", "Tipe", "Aksi"}) {
+        model = new DefaultTableModel() {
             public boolean isCellEditable(int row, int column) {
                 return column == 4;
             }

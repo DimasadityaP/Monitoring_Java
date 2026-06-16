@@ -42,7 +42,7 @@ public class ProjectAdministrationListFrame extends javax.swing.JFrame {
         });
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Navigation.go(ProjectAdministrationListFrame.this, new DashboardAdministrationFrame());
+                Navigation.go(ProjectAdministrationListFrame.this, new Dashboard());
             }
         });
 
