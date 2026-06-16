@@ -23,13 +23,13 @@ public class Dashboard extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Monitoring Apps");
         setMinimumSize(new java.awt.Dimension(1200, 800));
-        getContentPane().setBackground(new java.awt.Color(248, 249, 253));
 
-        pageTitle1.setText("PROJECT ADMINISTRATION");
         searchBox1.setText("Cari...");
 
         btnViewReport.setText("View Report");
+
         btnNewAdministration.setText("+ New Administration");
+
         btnBack.setText("Back");
         btnBack.setButtonColor(new java.awt.Color(217, 217, 217));
         btnBack.setForeground(new java.awt.Color(0, 0, 0));
