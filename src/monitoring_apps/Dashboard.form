@@ -81,12 +81,9 @@
     <Component class="components.SidebarMenu" name="sidebarMenu1">
     </Component>
     <Component class="components.PageTitle" name="pageTitle1">
-<<<<<<< HEAD
-=======
       <Properties>
         <Property name="text" type="java.lang.String" value="DASHBOARD"/>
       </Properties>
->>>>>>> 81a9aec574ae2dd762908b233968201d38dfa951
     </Component>
     <Container class="components.RoundedPanel" name="heroPanel">
       <Properties>

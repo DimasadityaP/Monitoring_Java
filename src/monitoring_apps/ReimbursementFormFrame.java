@@ -269,7 +269,6 @@ private String selectedReimbursementNo = null;
         pack();
     }// </editor-fold>                        
 
-<<<<<<< HEAD
    
 
    private void setupReimbursementForm() {
@@ -925,40 +924,4 @@ try {
     private components.RoundedButton btnDelete;
     private components.RoundedButton btnBack;
     // End of variables declaration                   
-=======
-    private void cmbHariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbHariActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbHariActionPerformed
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private components.RoundedButton btnBack;
-    private components.RoundedButton btnClear;
-    private components.RoundedButton btnDelete;
-    private components.RoundedButton btnSave;
-    private components.RoundedButton btnUpdate;
-    private components.RoundedComboBox cmbHari;
-    private javax.swing.JLabel lblHari;
-    private javax.swing.JLabel lblKuantitas;
-    private javax.swing.JLabel lblNominal;
-    private javax.swing.JLabel lblPerihal;
-    private javax.swing.JLabel lblProyekTujuan;
-    private javax.swing.JLabel lblSatuan;
-    private javax.swing.JLabel lblTanggal;
-    private javax.swing.JLabel lblTotal;
-    private javax.swing.JLabel lblTotalAkhir;
-    private javax.swing.JLabel lblUraian;
-    private components.PageTitle pageTitle1;
-    private components.SidebarMenu sidebarMenu1;
-    private components.RoundedTextField txtKuantitas1;
-    private components.RoundedTextField txtNominal1;
-    private components.RoundedTextArea txtPerihal;
-    private components.RoundedTextField txtProyekTujuan;
-    private components.RoundedTextField txtSatuan1;
-    private components.RoundedTextField txtTanggal;
-    private components.RoundedTextField txtTotal1;
-    private components.RoundedTextField txtTotalAkhir;
-    private components.RoundedTextField txtUraian1;
-    private components.UserProfileCard userProfileCard1;
-    // End of variables declaration//GEN-END:variables
->>>>>>> 81a9aec574ae2dd762908b233968201d38dfa951
 }

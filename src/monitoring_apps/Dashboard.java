@@ -26,17 +26,6 @@ public class Dashboard extends javax.swing.JFrame {
         setTitle("DASHBOARD ADMINISTRATION");
         setMinimumSize(new java.awt.Dimension(1200, 800));
 
-<<<<<<< HEAD
-        searchBox1.setText("Cari...");
-
-        btnViewReport.setText("View Report");
-
-        btnNewAdministration.setText("+ New Administration");
-
-        btnBack.setText("Back");
-        btnBack.setButtonColor(new java.awt.Color(217, 217, 217));
-        btnBack.setForeground(new java.awt.Color(0, 0, 0));
-=======
         pageTitle1.setText("DASHBOARD");
 
         heroPanel.setBackground(new java.awt.Color(65, 71, 150));
@@ -83,7 +72,6 @@ public class Dashboard extends javax.swing.JFrame {
         });
 
         btnNonProjectAdmin.setText("Non Project Administration");
->>>>>>> 81a9aec574ae2dd762908b233968201d38dfa951
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
