@@ -15,7 +15,7 @@ public class LoginFrame extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
 
         String email = txtUsername.getText().trim();
-        String password = txtPassword.getText().trim();
+        String password = new String(txtPassword.getPassword()).trim();
 
         if (email.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(
@@ -86,7 +86,8 @@ public class LoginFrame extends javax.swing.JFrame {
         lblUsername = new javax.swing.JLabel();
         txtUsername = new components.RoundedTextField();
         lblPassword = new javax.swing.JLabel();
-        txtPassword = new components.RoundedTextField();
+        txtPassword = new components.RoundedPasswordField();
+        chkShowPassword = new javax.swing.JCheckBox();
         btnLogin = new components.RoundedButton();
         btnUserBaru = new components.RoundedButton();
 
@@ -119,6 +120,17 @@ public class LoginFrame extends javax.swing.JFrame {
         lblPassword.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
         lblPassword.setForeground(components.RoundedColors.TEXT_DARK);
         lblPassword.setText("Password");
+        
+        chkShowPassword.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        chkShowPassword.setForeground(components.RoundedColors.TEXT_DARK);
+        chkShowPassword.setText("Tampilkan Password");
+        chkShowPassword.setOpaque(false);
+        chkShowPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkShowPasswordActionPerformed(evt);
+            }
+        });
+
         btnLogin.setText("Login");
         btnUserBaru.setText("User Baru");
         btnUserBaru.setButtonColor(components.RoundedColors.SOFT_GRAY);
@@ -168,6 +180,7 @@ public class LoginFrame extends javax.swing.JFrame {
                     .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblPassword)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chkShowPassword)
                     .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUserBaru, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(58, Short.MAX_VALUE))
@@ -189,7 +202,9 @@ public class LoginFrame extends javax.swing.JFrame {
                         .addComponent(lblPassword)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(58, 58, 58)
+                        .addGap(10, 10, 10)
+                        .addComponent(chkShowPassword)
+                        .addGap(28, 28, 28)
                         .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(24, 24, 24)
                         .addComponent(btnUserBaru, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -220,6 +235,14 @@ public class LoginFrame extends javax.swing.JFrame {
     //     // TODO add your handling code here:
     //     txtUsername.setText("Test");
     // }//GEN-LAST:event_btnLoginActionPerformed
+    private void chkShowPasswordActionPerformed(java.awt.event.ActionEvent evt) {
+        if (chkShowPassword.isSelected()) {
+            txtPassword.setEchoChar((char) 0);
+        } else {
+            txtPassword.setEchoChar('•');
+        }
+    }
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -237,7 +260,8 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblUsername;
     private components.RoundedTextField txtUsername;
     private javax.swing.JLabel lblPassword;
-    private components.RoundedTextField txtPassword;
+    private components.RoundedPasswordField txtPassword;
+    private javax.swing.JCheckBox chkShowPassword;
     private components.RoundedButton btnLogin;
     private components.RoundedButton btnUserBaru;
     // End of variables declaration//GEN-END:variables

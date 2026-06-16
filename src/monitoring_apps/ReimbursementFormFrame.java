@@ -887,6 +887,10 @@ try {
         return value == null ? "" : value.toPlainString();
     }
 
+    private void cmbHariActionPerformed(java.awt.event.ActionEvent evt) {
+        // No action needed
+    }
+
    public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
