@@ -209,6 +209,9 @@
       </Properties>
     </Component>
     <Component class="components.RoundedComboBox" name="cmbHari">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbHariActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblTanggal">
       <Properties>
@@ -291,13 +294,19 @@
     </Component>
     <Component class="components.RoundedButton" name="btnBack">
       <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="0" red="0" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Back"/>
         <Property name="buttonColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="d9" green="d9" red="d9" type="rgb"/>
         </Property>
+<<<<<<< HEAD
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="0" red="0" type="rgb"/>
         </Property>
+=======
+>>>>>>> 81a9aec574ae2dd762908b233968201d38dfa951
       </Properties>
     </Component>
   </SubComponents>

@@ -1,22 +1,34 @@
 package components;
 
-import java.awt.*;
-import java.util.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
 public class SidebarMenu extends RoundedPanel {
 
     public interface MenuListener {
-        void onClick(String menu);
+        void onClick(String menuKey);
     }
 
     private MenuListener listener;
-    private final Map<JLabel, java.util.List<JLabel>> menuMap = new HashMap<JLabel, java.util.List<JLabel>>();
-    private JLabel activeMenu;
+    private JLabel activeMenu = null;
+
+    private final Color GOLD = new Color(212, 175, 55);
+    private final Color WHITE = Color.WHITE;
+
+    private Map<JLabel, java.util.List<JLabel>> menuMap = new HashMap<JLabel, java.util.List<JLabel>>();
 
     public SidebarMenu() {
-        super(70);
+        super(40);
         init();
     }
 
@@ -26,127 +38,226 @@ public class SidebarMenu extends RoundedPanel {
 
     private void init() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBackground(RoundedColors.PRIMARY);
-        setPreferredSize(new Dimension(300, 720));
-        setMinimumSize(new Dimension(260, 500));
-        setBorder(new EmptyBorder(95, 28, 20, 28));
+        setBackground(new Color(65, 71, 150));
+        setPreferredSize(new Dimension(260, 700));
+        setBorder(new EmptyBorder(25, 15, 25, 15));
 
-        JLabel dashboard = createMainMenu("Dashboard", "");
+        JLabel dashboard = createMainMenu(
+                "dashboard",
+                "Dashboard",
+                "/image/icons/dashboard_white.png",
+                "/image/icons/dashboard_gold.png"
+        );
         add(dashboard);
 
-        JLabel masterdata = createMainMenu("Master Data", "▾");
+        add(Box.createVerticalStrut(8));
+
+        JLabel masterdata = createMainMenu(
+                "masterdata",
+                "Master Data",
+                "/image/icons/folder_white.png",
+                "/image/icons/folder_gold.png"
+        );
         add(masterdata);
 
         java.util.List<JLabel> masterSub = new ArrayList<JLabel>();
-        masterSub.add(createSubMenu("Barang"));
-        masterSub.add(createSubMenu("Administrasi"));
-        masterSub.add(createSubMenu("User"));
-        masterSub.add(createSubMenu("Reimbursement"));
+        masterSub.add(createSubMenu("master.barang", "Barang"));
+        masterSub.add(createSubMenu("master.administrasi", "Administrasi"));
+        masterSub.add(createSubMenu("master.user", "User"));
+        masterSub.add(createSubMenu("master.reimbursement", "Reimbursement"));
+
         addSubMenus(masterSub);
         menuMap.put(masterdata, masterSub);
+        setArrow(masterdata, false);
 
-        JLabel transaksi = createMainMenu("Transaksi", "▾");
+        add(Box.createVerticalStrut(8));
+
+        JLabel transaksi = createMainMenu(
+                "transaksi",
+                "Transaksi",
+                "/image/icons/transaction_white.png",
+                "/image/icons/transaction_gold.png"
+        );
         add(transaksi);
 
         java.util.List<JLabel> transaksiSub = new ArrayList<JLabel>();
-        transaksiSub.add(createSubMenu("Project"));
-        transaksiSub.add(createSubMenu("Mutasi Barang"));
+        transaksiSub.add(createSubMenu("transaksi.project", "Project"));
+        transaksiSub.add(createSubMenu("transaksi.mutasi_barang", "Mutasi Barang"));
+
         addSubMenus(transaksiSub);
         menuMap.put(transaksi, transaksiSub);
+        setArrow(transaksi, false);
 
-        add(Box.createVerticalStrut(15));
+        add(Box.createVerticalStrut(8));
 
-        JLabel report = createMainMenu("Report", "▾");
+        JLabel report = createMainMenu(
+                "report",
+                "Report",
+                "/image/icons/report_white.png",
+                "/image/icons/report_gold.png"
+        );
         add(report);
 
         java.util.List<JLabel> reportSubs = new ArrayList<JLabel>();
-        reportSubs.add(createSubMenu("Project"));
-        reportSubs.add(createSubMenu("Logistic"));
-        reportSubs.add(createSubMenu("Administration"));
-        reportSubs.add(createSubMenu("Reimbursement"));
+        reportSubs.add(createSubMenu("report.project", "Project"));
+        reportSubs.add(createSubMenu("report.logistic", "Logistic"));
+        reportSubs.add(createSubMenu("report.administration", "Administration"));
+        reportSubs.add(createSubMenu("report.reimbursement", "Reimbursement"));
+
         addSubMenus(reportSubs);
         menuMap.put(report, reportSubs);
+        setArrow(report, false);
     }
 
     private void addSubMenus(java.util.List<JLabel> subs) {
-        for (int i = 0; i < subs.size(); i++) {
-            JLabel lbl = subs.get(i);
-            lbl.setVisible(true);
+        for (JLabel lbl : subs) {
+            lbl.setVisible(false);
             add(lbl);
         }
     }
 
-    private JLabel createMainMenu(String text, String arrow) {
-        JLabel lbl = new JLabel(getMainText(text, arrow));
-        lbl.setFont(new Font("Segoe UI", Font.PLAIN, 22));
-        lbl.setForeground(Color.WHITE);
-        lbl.setBorder(new EmptyBorder(10, 0, 10, 0));
+    private JLabel createMainMenu(String key, String text, String iconNormal, String iconActive) {
+        JLabel lbl = new JLabel(text);
+        lbl.putClientProperty("menuKey", key);
+        lbl.putClientProperty("text", text);
+        lbl.putClientProperty("iconNormal", iconNormal);
+        lbl.putClientProperty("iconActive", iconActive);
+        lbl.putClientProperty("defaultColor", WHITE);
+
+        lbl.setIcon(loadIcon(iconNormal, 20, 20));
+        lbl.setIconTextGap(12);
+        lbl.setForeground(WHITE);
+        lbl.setBorder(new EmptyBorder(10, 12, 10, 12));
         lbl.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        addMenuEffect(lbl, text, Color.WHITE, true);
+
+        addMenuEffect(lbl, key, WHITE);
+
         return lbl;
     }
 
-    private String getMainText(String text, String arrow) {
-        if (arrow == null || arrow.trim().length() == 0) {
-            return "▰  " + text;
-        }
-        return "▰  " + text + "                         " + arrow;
-    }
+    private JLabel createSubMenu(String key, String text) {
+        JLabel lbl = new JLabel(text);
+        lbl.putClientProperty("menuKey", key);
+        lbl.putClientProperty("text", text);
+        lbl.putClientProperty("iconNormal", "/image/icons/arrow_right_white.png");
+        lbl.putClientProperty("iconActive", "/image/icons/arrow_right_gold.png");
+        lbl.putClientProperty("defaultColor", WHITE);
 
-    private JLabel createSubMenu(String text) {
-        JLabel lbl = new JLabel("   ▸  " + text);
-        lbl.setFont(new Font("Segoe UI", Font.PLAIN, 21));
-        lbl.setForeground(Color.WHITE);
-        lbl.setBorder(new EmptyBorder(5, 28, 5, 0));
+        lbl.setIcon(loadIcon("/image/icons/arrow_right_white.png", 12, 12));
+        lbl.setIconTextGap(10);
+        lbl.setForeground(WHITE);
+        lbl.setBorder(new EmptyBorder(6, 35, 6, 10));
         lbl.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        addMenuEffect(lbl, text, Color.WHITE, false);
+
+        addMenuEffect(lbl, key, WHITE);
+
         return lbl;
     }
 
-    private void addMenuEffect(final JLabel lbl, final String text, final Color normalColor, final boolean isMain) {
+    private void addMenuEffect(final JLabel lbl, final String menuKey, final Color defaultColor) {
         lbl.addMouseListener(new java.awt.event.MouseAdapter() {
+
+            @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if (isMain) {
+                boolean isParent = menuMap.containsKey(lbl);
+
+                if (isParent) {
                     toggleMenu(lbl);
                 }
-                setActive(lbl);
-                if (listener != null) {
-                    listener.onClick(text);
+
+                if (activeMenu != null) {
+                    resetMenu(activeMenu);
                 }
+
+                activeMenu = lbl;
+                lbl.setForeground(GOLD);
+                setMenuIcon(lbl, true);
+
+                if (!isParent && listener != null) {
+                    listener.onClick(menuKey);
+                }
+
+                repaint();
             }
 
+            @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 if (lbl != activeMenu) {
-                    lbl.setForeground(RoundedColors.GOLD);
+                    lbl.setForeground(GOLD);
+                    setMenuIcon(lbl, true);
                 }
             }
 
+            @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 if (lbl != activeMenu) {
-                    lbl.setForeground(normalColor);
+                    lbl.setForeground(defaultColor);
+                    setMenuIcon(lbl, false);
                 }
             }
         });
     }
 
-    private void setActive(JLabel selected) {
-        if (activeMenu != null && activeMenu != selected) {
-            activeMenu.setForeground(Color.WHITE);
-        }
-        activeMenu = selected;
-        activeMenu.setForeground(RoundedColors.GOLD);
-    }
-
     private void toggleMenu(JLabel parent) {
         java.util.List<JLabel> subs = menuMap.get(parent);
+
         if (subs == null || subs.isEmpty()) {
             return;
         }
+
         boolean visible = subs.get(0).isVisible();
-        for (int i = 0; i < subs.size(); i++) {
-            subs.get(i).setVisible(!visible);
+
+        for (JLabel lbl : subs) {
+            lbl.setVisible(!visible);
         }
+
+        setArrow(parent, !visible);
         revalidate();
         repaint();
+    }
+
+    private void setArrow(JLabel lbl, boolean expanded) {
+        String text = (String) lbl.getClientProperty("text");
+
+        if (text == null) {
+            text = lbl.getText();
+        }
+
+        lbl.setText(expanded ? text + "    v" : text + "    >");
+    }
+
+    private void resetMenu(JLabel lbl) {
+        Color defaultColor = (Color) lbl.getClientProperty("defaultColor");
+
+        if (defaultColor == null) {
+            defaultColor = WHITE;
+        }
+
+        lbl.setForeground(defaultColor);
+        setMenuIcon(lbl, false);
+    }
+
+    private void setMenuIcon(JLabel lbl, boolean active) {
+        String iconPath = active
+                ? (String) lbl.getClientProperty("iconActive")
+                : (String) lbl.getClientProperty("iconNormal");
+
+        if (iconPath != null) {
+            int size = iconPath.contains("arrow") ? 12 : 20;
+            lbl.setIcon(loadIcon(iconPath, size, size));
+        }
+    }
+
+    private ImageIcon loadIcon(String path, int width, int height) {
+        java.net.URL url = getClass().getResource(path);
+
+        if (url == null) {
+            return null;
+        }
+
+        ImageIcon icon = new ImageIcon(url);
+        Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+        return new ImageIcon(image);
     }
 }

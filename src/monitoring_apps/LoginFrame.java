@@ -1,10 +1,76 @@
 package monitoring_apps;
+import koneksi.KoneksiDb;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 public class LoginFrame extends javax.swing.JFrame {
 
     public LoginFrame() {
         initComponents();
         setLocationRelativeTo(null);
+    }
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
+
+        String email = txtUsername.getText().trim();
+        String password = txtPassword.getText().trim();
+
+        if (email.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Email dan Password wajib diisi!",
+                "Peringatan",
+                JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        String sql = "SELECT * FROM user WHERE email = ? AND password = ?";
+
+        try (
+            Connection conn = new KoneksiDb().connect();
+            PreparedStatement ps = conn.prepareStatement(sql);
+        ) {
+            ps.setString(1, email);
+            ps.setString(2, password);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "Login Berhasil",
+                        "Sukses",
+                        JOptionPane.INFORMATION_MESSAGE
+                    );
+
+                    Dashboard dashboard = new Dashboard();
+                    dashboard.setLocationRelativeTo(null);
+                    dashboard.setVisible(true);
+                    this.dispose();
+
+                } else {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "Email atau Password salah!",
+                        "Login Gagal",
+                        JOptionPane.ERROR_MESSAGE
+                    );
+
+                    txtPassword.setText("");
+                    txtUsername.requestFocus();
+                }
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Terjadi kesalahan:\n" + e.getMessage(),
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -49,7 +115,7 @@ public class LoginFrame extends javax.swing.JFrame {
         lblTitle.setText("LOGIN");
         lblUsername.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
         lblUsername.setForeground(components.RoundedColors.TEXT_DARK);
-        lblUsername.setText("Username/Email");
+        lblUsername.setText("Email");
         lblPassword.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
         lblPassword.setForeground(components.RoundedColors.TEXT_DARK);
         lblPassword.setText("Password");
@@ -60,8 +126,8 @@ public class LoginFrame extends javax.swing.JFrame {
 
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Navigation.go(LoginFrame.this, new DashboardAdministrationFrame());
-            }
+        btnLoginActionPerformed(evt);
+    }
         });
 
         javax.swing.GroupLayout leftLayout = new javax.swing.GroupLayout(leftPanel);
@@ -150,6 +216,17 @@ public class LoginFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+    //     // TODO add your handling code here:
+    //     txtUsername.setText("Test");
+    // }//GEN-LAST:event_btnLoginActionPerformed
+    public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new LoginFrame().setVisible(true);
+            }
+        });
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private components.RoundedPanel cardPanel;
     private components.RoundedPanel leftPanel;

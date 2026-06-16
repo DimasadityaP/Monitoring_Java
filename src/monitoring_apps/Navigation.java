@@ -11,17 +11,53 @@ public final class Navigation {
         sidebar.setMenuListener(new SidebarMenu.MenuListener() {
             public void onClick(String menu) {
                 JFrame next = null;
-                if ("Dashboard".equals(menu) || "Konstruksi".equals(menu) || "Pengadaan".equals(menu)) {
-                    next = new DashboardAdministrationFrame();
-                } else if ("Project".equals(menu)) {
-                    next = new ProjectAdministrationListFrame();
-                } else if ("Logistic".equals(menu)) {
-                    next = new LogisticFormFrame();
-                } else if ("Administration".equals(menu)) {
+                if ("dashboard".equals(menu)) {
+                    next = new Dashboard();
+                }
+
+                else if ("master.barang".equals(menu)) {
+//                    next = new MasterBarangFrame();
+                }
+
+                else if ("master.administrasi".equals(menu)) {
                     next = new AdministrationFormFrame();
-                } else if ("Reimbursement".equals(menu)) {
+                }
+
+                else if ("master.user".equals(menu)) {
+                    next = new UserFormFrame();
+                }
+
+                else if ("master.reimbursement".equals(menu)) {
+                    next = new ReimbursementFormFrame();
+                } 
+                else if ("Mutasi Barang".equals(menu)) {
+                    next = new MutasiBarangListFrame();
+                }
+
+                else if ("transaksi.project".equals(menu)) {
+                    next = new ProjectAdministrationListFrame();
+                }
+
+                else if ("transaksi.mutasi_barang".equals(menu)) {
+                    next = new MutasiBarangListFrame();
+                }
+
+                else if ("report.project".equals(menu)) {
+                    next = new ProjectAdministrationListFrame();
+                }
+
+                else if ("report.logistic".equals(menu)) {
+                    next = new LogisticFormFrame();
+                }
+
+                else if ("report.administration".equals(menu)) {
+                    next = new AdministrationFormFrame();
+                }
+
+                else if ("report.reimbursement".equals(menu)) {
                     next = new ReimbursementFormFrame();
                 }
+
                 if (next != null) {
                     next.setVisible(true);
                     currentFrame.dispose();

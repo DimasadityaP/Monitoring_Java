@@ -1,103 +1,193 @@
 package components;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Window;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 public class UserProfileCard extends RoundedPanel {
+
+    public interface UserActionListener {
+        void onProfileClick();
+        void onLogoutClick();
+    }
+
     private JLabel lblAvatar;
-    private JLabel lblUser;
-    private JLabel lblDivision;
+    private JLabel lblUserName;
+    private JLabel lblRole;
     private JLabel lblArrow;
-    private JPopupMenu popup;
+
+    private String userName = "User_02463";
+    private String roleName = "Div. Administration";
+
+    private JPopupMenu popupMenu;
+    private UserActionListener listener;
 
     public UserProfileCard() {
-        super(30);
+        super(35);
         init();
-        setUserName("User_02463");
-        setDivision("Div. Administration");
+    }
+
+    public void setUserActionListener(UserActionListener listener) {
+        this.listener = listener;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+        if (lblUserName != null) {
+            lblUserName.setText(userName);
+        }
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+        if (lblRole != null) {
+            lblRole.setText(roleName);
+        }
     }
 
     private void init() {
         setLayout(new BorderLayout(10, 0));
-        setBackground(RoundedColors.SOFT_GRAY);
-        setPreferredSize(new Dimension(360, 96));
-        setMinimumSize(new Dimension(280, 82));
-        setBorder(new EmptyBorder(10, 16, 10, 18));
+        setBackground(new Color(217, 217, 217));
+        setPreferredSize(new Dimension(260, 75));
+        setBorder(new EmptyBorder(10, 15, 10, 15));
         setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        lblAvatar = new JLabel() {
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(Color.WHITE);
-                g2.fillOval(0, 0, getWidth(), getHeight());
-                g2.dispose();
-            }
-        };
-        lblAvatar.setPreferredSize(new Dimension(72, 72));
-        lblAvatar.setOpaque(false);
+        lblAvatar = new JLabel();
+        lblAvatar.setPreferredSize(new Dimension(45, 45));
+        lblAvatar.setHorizontalAlignment(JLabel.CENTER);
+        lblAvatar.setVerticalAlignment(JLabel.CENTER);
+        lblAvatar.setIcon(loadIcon("/image/icons/user_navy.png", 32, 32));
 
-        JPanel textPanel = new JPanel();
+        JPanel textPanel = new JPanel(new GridLayout(2, 1));
         textPanel.setOpaque(false);
-        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
 
-        lblUser = new JLabel();
-        lblUser.setFont(new Font("Segoe UI", Font.BOLD, 22));
-        lblUser.setForeground(Color.BLACK);
-        lblUser.setAlignmentX(Component.LEFT_ALIGNMENT);
+        lblUserName = new JLabel(userName);
+        lblUserName.setForeground(new Color(41, 45, 86));
+        lblUserName.setFont(new Font("Segoe UI", Font.BOLD, 14));
 
-        lblDivision = new JLabel();
-        lblDivision.setFont(new Font("Segoe UI", Font.PLAIN, 22));
-        lblDivision.setForeground(Color.BLACK);
-        lblDivision.setAlignmentX(Component.LEFT_ALIGNMENT);
+        lblRole = new JLabel(roleName);
+        lblRole.setForeground(new Color(41, 45, 86));
+        lblRole.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 
-        textPanel.add(Box.createVerticalGlue());
-        textPanel.add(lblUser);
-        textPanel.add(lblDivision);
-        textPanel.add(Box.createVerticalGlue());
+        textPanel.add(lblUserName);
+        textPanel.add(lblRole);
 
-        lblArrow = new JLabel("▾");
-        lblArrow.setFont(new Font("Segoe UI", Font.BOLD, 28));
-        lblArrow.setForeground(Color.BLACK);
-        lblArrow.setHorizontalAlignment(SwingConstants.CENTER);
-        lblArrow.setPreferredSize(new Dimension(38, 72));
+        lblArrow = new JLabel();
+        lblArrow.setHorizontalAlignment(JLabel.CENTER);
+        lblArrow.setIcon(loadIcon("/image/icons/arrow_down_navy.png", 14, 14));
 
         add(lblAvatar, BorderLayout.WEST);
         add(textPanel, BorderLayout.CENTER);
         add(lblArrow, BorderLayout.EAST);
 
-        popup = new JPopupMenu();
-        JMenuItem profile = new JMenuItem("Profil Saya");
-        JMenuItem logout = new JMenuItem("Logout");
-        popup.add(profile);
-        popup.add(logout);
+        initPopup();
+        bindClick(this);
+        bindClick(lblAvatar);
+        bindClick(lblUserName);
+        bindClick(lblRole);
+        bindClick(lblArrow);
+        bindClick(textPanel);
+    }
 
-        java.awt.event.MouseAdapter click = new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                popup.show(UserProfileCard.this, 120, getHeight() - 5);
+    private void initPopup() {
+        popupMenu = new JPopupMenu();
+        popupMenu.setBorder(BorderFactory.createLineBorder(new Color(220, 220, 220), 1));
+
+        JMenuItem profileItem = new JMenuItem("Profil Saya");
+        profileItem.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        profileItem.setForeground(new Color(41, 45, 86));
+        profileItem.setIcon(loadIcon("/image/icons/user_navy.png", 16, 16));
+
+        JMenuItem logoutItem = new JMenuItem("Logout");
+        logoutItem.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        logoutItem.setForeground(new Color(154, 61, 120));
+        logoutItem.setIcon(loadIcon("/image/icons/logout_pink.png", 16, 16));
+
+        profileItem.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                if (listener != null) {
+                    listener.onProfileClick();
+                }
             }
-        };
-        addMouseListener(click);
-        lblAvatar.addMouseListener(click);
-        lblUser.addMouseListener(click);
-        lblDivision.addMouseListener(click);
-        lblArrow.addMouseListener(click);
+        });
+
+        logoutItem.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                if (listener != null) {
+                    listener.onLogoutClick();
+                } else {
+                    int response = JOptionPane.showConfirmDialog(
+                        null,
+                        "Apakah Anda yakin ingin logout?",
+                        "Konfirmasi Logout",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE
+                    );
+
+                    if (response == JOptionPane.YES_OPTION) {
+                        Window ancestor = SwingUtilities.getWindowAncestor(UserProfileCard.this);
+                        if (ancestor instanceof JFrame) {
+                            monitoring_apps.Navigation.go((JFrame) ancestor, new monitoring_apps.LoginFrame());
+                        } else if (ancestor != null) {
+                            monitoring_apps.LoginFrame loginFrame = new monitoring_apps.LoginFrame();
+                            loginFrame.setVisible(true);
+                            ancestor.dispose();
+                        }
+                    }
+                }
+            }
+        });
+
+        popupMenu.add(profileItem);
+        popupMenu.addSeparator();
+        popupMenu.add(logoutItem);
     }
 
-    public String getUserName() {
-        return lblUser.getText();
+    private void bindClick(Component comp) {
+        comp.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                popupMenu.show(UserProfileCard.this, 0, getHeight() + 5);
+            }
+        });
     }
 
-    public void setUserName(String userName) {
-        lblUser.setText(userName);
-    }
+    private ImageIcon loadIcon(String path, int width, int height) {
+        java.net.URL url = getClass().getResource(path);
 
-    public String getDivision() {
-        return lblDivision.getText();
-    }
+        if (url == null) {
+            return null;
+        }
 
-    public void setDivision(String division) {
-        lblDivision.setText(division);
+        ImageIcon icon = new ImageIcon(url);
+        Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+        return new ImageIcon(image);
     }
 }
