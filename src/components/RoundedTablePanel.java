@@ -5,14 +5,27 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellEditor;
 
 public class RoundedTablePanel extends RoundedPanel {
     private JTable table;
     private DefaultTableModel model;
+    private int[] editableColumns = {1};  // Default hanya column 1
 
     public RoundedTablePanel() {
         super(18);
         init();
+    }
+    
+    public void setEditableColumns(int... columns) {
+        this.editableColumns = columns;
+    }
+    
+    private boolean isColumnEditable(int column) {
+        for (int col : editableColumns) {
+            if (col == column) return true;
+        }
+        return false;
     }
 
     private void init() {
@@ -22,7 +35,7 @@ public class RoundedTablePanel extends RoundedPanel {
 
         model = new DefaultTableModel() {
             public boolean isCellEditable(int row, int column) {
-                return column == 4;
+                return isColumnEditable(column);
             }
         };
 
@@ -52,6 +65,12 @@ public class RoundedTablePanel extends RoundedPanel {
         add(scroll, BorderLayout.CENTER);
     }
 
+        public void setColumnEditor(int columnIndex, TableCellEditor editor) {
+        if (table.getColumnCount() > columnIndex) {
+            table.getColumnModel().getColumn(columnIndex).setCellEditor(editor);
+        }
+    }
+
     public JTable getTable() {
         return table;
     }
@@ -61,7 +80,32 @@ public class RoundedTablePanel extends RoundedPanel {
     }
 
     public void setTableData(Object[][] data, Object[] columns) {
-        model = new DefaultTableModel(data, columns);
+        model = new DefaultTableModel(data, columns) {
+            public boolean isCellEditable(int row, int column) {
+                return isColumnEditable(column);
+            }
+        };
         table.setModel(model);
+    }
+
+    public void addRow() {
+        int rowCount = model.getRowCount();
+        model.addRow(new Object[]{rowCount + 1, "", ""});
+    }
+
+    public void clearTable() {
+        model.setRowCount(0);
+    }
+
+    public Object[][] getTableData() {
+        int rowCount = model.getRowCount();
+        int colCount = model.getColumnCount();
+        Object[][] data = new Object[rowCount][colCount];
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < colCount; j++) {
+                data[i][j] = model.getValueAt(i, j);
+            }
+        }
+        return data;
     }
 }

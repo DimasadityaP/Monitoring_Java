@@ -1,10 +1,58 @@
 package monitoring_apps;
 
-public class ProjectList extends javax.swing.JFrame {
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import koneksi.KoneksiDb;
 
+public class ProjectList extends javax.swing.JFrame {
+    private Connection conn = new KoneksiDb().connect() ;
+    private DefaultTableModel tabmode;
+    
     public ProjectList() {
         initComponents();
         setLocationRelativeTo(null);
+        dataTable();
+    }
+    
+    private void dataTable(){
+        Object[] columns = {"No","ID","Nama","TA","Sub Perusahaan","Jenis","Instansi","Tgl Mulai","Tgl Selesai","Nominal","Status"};
+        // initialize empty table model in the rounded panel
+        tblProjectList.setTableData(new Object[0][columns.length], columns);
+        DefaultTableModel model = (DefaultTableModel) tblProjectList.getModel();
+
+        String query = "SELECT id,nama,ta,sub_perusahaan,jenis,instansi,tgl_mulai,tgl_selesai,nominal,status FROM project ORDER BY created_at DESC";
+        try{
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+
+            int no = 1;
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    no++,
+                    rs.getString("id"),
+                    rs.getString("nama"),
+                    rs.getString("ta"),
+                    rs.getString("sub_perusahaan"),
+                    rs.getString("jenis"),
+                    rs.getString("instansi"),
+                    rs.getString("tgl_mulai"),
+                    rs.getString("tgl_selesai"),
+                    rs.getBigDecimal("nominal"),
+                    rs.getString("status")
+                });
+            }
+
+        } catch (Exception e) {
+            showError(e.getMessage());
+        }
+    }
+    
+    private void showError(String message) {
+        JOptionPane.showMessageDialog(null, message, "Gagal", JOptionPane.WARNING_MESSAGE) ;
     }
 
     @SuppressWarnings("unchecked")
@@ -15,10 +63,9 @@ public class ProjectList extends javax.swing.JFrame {
         sidebarMenu1 = new components.SidebarMenu();
         pageTitle1 = new components.PageTitle();
         searchBox1 = new components.SearchBox();
-        appTablePanel1 = new components.RoundedTablePanel();
+        tblProjectList = new components.RoundedTablePanel();
         btnViewReport = new components.RoundedButton();
         btnNewAdministration = new components.RoundedButton();
-        btnBack = new components.RoundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Monitoring Apps");
@@ -29,10 +76,11 @@ public class ProjectList extends javax.swing.JFrame {
         btnViewReport.setText("View Report");
 
         btnNewAdministration.setText("+ New Administration");
-
-        btnBack.setText("Back");
-        btnBack.setButtonColor(new java.awt.Color(217, 217, 217));
-        btnBack.setForeground(new java.awt.Color(0, 0, 0));
+        btnNewAdministration.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewAdministrationActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -47,13 +95,11 @@ public class ProjectList extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(appTablePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tblProjectList, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
-                        .addComponent(btnNewAdministration, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnNewAdministration, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -69,17 +115,23 @@ public class ProjectList extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
-                        .addComponent(appTablePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(70, 70, 70)
+                        .addComponent(tblProjectList, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(64, 64, 64)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnNewAdministration, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnNewAdministration, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnNewAdministrationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewAdministrationActionPerformed
+        JFrame next = new ProjectFormFrame();
+        next.pack();
+        next.setLocationRelativeTo(this);
+        next.setVisible(true);
+    }//GEN-LAST:event_btnNewAdministrationActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -101,13 +153,12 @@ public class ProjectList extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private components.RoundedTablePanel appTablePanel1;
-    private components.RoundedButton btnBack;
     private components.RoundedButton btnNewAdministration;
     private components.RoundedButton btnViewReport;
     private components.PageTitle pageTitle1;
     private components.SearchBox searchBox1;
     private components.SidebarMenu sidebarMenu1;
+    private components.RoundedTablePanel tblProjectList;
     private components.UserProfileCard userProfileCard1;
     // End of variables declaration//GEN-END:variables
 }
