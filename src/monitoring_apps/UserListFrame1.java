@@ -1,14 +1,71 @@
 package monitoring_apps;
-import javax.swing.table.DefaultTableModel;
-import java.sql.*;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
 import koneksi.KoneksiDb;
 
 public class UserListFrame1 extends javax.swing.JFrame {
 
     public UserListFrame1() {
-        initComponents();
+       initComponents();
+        pageTitle1.setText("DAFTAR USER");
+        getContentPane().setBackground(components.RoundedColors.BACKGROUND);
         setLocationRelativeTo(null);
         Navigation.bind(sidebarMenu1, this);
+        
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Navigation.go(UserListFrame1.this, new Dashboard());
+            }
+        });
+
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Navigation.go(UserListFrame1.this, new UserFormFrame());
+            }
+        });
+
+        loadData();
+    }
+    
+    private void loadData() {
+        javax.swing.table.DefaultTableModel model = roundedTablePanel1.getModel();
+    model.setRowCount(0);
+
+    model.setColumnIdentifiers(new Object[]{
+        "Nama Pengguna",
+        "Jabatan",
+        "Divisi",
+        "Email",
+        "No. Telepon",
+        "Alamat"
+    });
+
+    String sql = "SELECT nama, jabatan, divisi, email, no_telp, alamat " +
+                 "FROM user ORDER BY nama ASC";
+
+    try (
+        Connection conn = new KoneksiDb().connect();
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+    ) {
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getString("nama"),
+                rs.getString("jabatan"),
+                rs.getString("divisi"),
+                rs.getString("email"),
+                rs.getString("no_telp"),
+                rs.getString("alamat")
+            });
+        }
+
+    } catch (Exception e) {
+        System.out.println("Gagal memuat data user: " + e.getMessage());
+    }
     }
 
     @SuppressWarnings("unchecked")
@@ -50,8 +107,8 @@ public class UserListFrame1 extends javax.swing.JFrame {
                     .addComponent(userProfileCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(pageTitle1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
                     .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -59,7 +116,7 @@ public class UserListFrame1 extends javax.swing.JFrame {
                         .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
                         .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(roundedTablePanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 724, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(roundedTablePanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(

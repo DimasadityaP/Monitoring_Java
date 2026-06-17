@@ -27,7 +27,7 @@ public class UserFormFrame extends javax.swing.JFrame {
     txtTelepon.setText("");
     txtAlamat.setText("");
     txtEmail.setText("");
-    txtPassword.getText();
+    txtPassword.setText("");
     cmbDivisi.setSelectedIndex(0);
     }
     

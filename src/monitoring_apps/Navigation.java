@@ -24,7 +24,7 @@ public final class Navigation {
                 }
 
                 else if ("master.user".equals(menu)) {
-                    next = new UserFormFrame();
+                    next = new UserListFrame1();
                 }
 
                 else if ("master.reimbursement".equals(menu)) {
