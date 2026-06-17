@@ -47,7 +47,7 @@ public final class Navigation {
                 }
 
                 else if ("report.logistic".equals(menu)) {
-                    next = new LogisticFormFrame();
+                    next = new BarangFormFrame();
                 }
 
                 else if ("report.administration".equals(menu)) {

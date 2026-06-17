@@ -1,10 +1,17 @@
 package monitoring_apps;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import koneksi.KoneksiDb;
+
 public class MutasiBarangListFrame extends javax.swing.JFrame {
 
     public MutasiBarangListFrame() {
         initComponents();
         pageTitle1.setText("MUTASI BARANG");
+        getContentPane().setBackground(components.RoundedColors.BACKGROUND);
         setLocationRelativeTo(null);
         Navigation.bind(sidebarMenu1, this);
         
@@ -13,6 +20,52 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
                 Navigation.go(MutasiBarangListFrame.this, new Dashboard());
             }
         });
+
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Navigation.go(MutasiBarangListFrame.this, new MutasiBarangFormFrame());
+            }
+        });
+
+        loadData();
+    }
+
+    private void loadData() {
+        javax.swing.table.DefaultTableModel model = appTablePanel1.getModel();
+        model.setRowCount(0);
+        model.setColumnIdentifiers(new Object[]{"Barang", "Project/Tujuan", "Qty", "Tipe", "Keterangan", "Tanggal"});
+
+        String sql = "SELECT b.nama AS barang_nama, p.nama AS project_nama, m.qty, m.tipe, m.keterangan, m.created_at " +
+                     "FROM mutasi_stok m " +
+                     "LEFT JOIN barang b ON m.barang_id = b.id " +
+                     "LEFT JOIN project p ON m.project_id = p.id " +
+                     "ORDER BY m.created_at DESC";
+
+        try (
+            Connection conn = new KoneksiDb().connect();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+        ) {
+            while (rs.next()) {
+                String barang = rs.getString("barang_nama");
+                String project = rs.getString("project_nama");
+                int qty = rs.getInt("qty");
+                String tipe = rs.getString("tipe");
+                String keterangan = rs.getString("keterangan");
+                Timestamp tgl = rs.getTimestamp("created_at");
+                
+                model.addRow(new Object[]{
+                    barang != null ? barang : "-",
+                    project != null ? project : "-",
+                    qty,
+                    tipe != null ? tipe : "-",
+                    keterangan != null ? keterangan : "-",
+                    tgl != null ? tgl.toString() : "-"
+                });
+            }
+        } catch (Exception e) {
+            System.out.println("Gagal memuat data mutasi: " + e.getMessage());
+        }
     }
 
     @SuppressWarnings("unchecked")
