@@ -7,9 +7,37 @@ import java.sql.Timestamp;
 import koneksi.KoneksiDb;
 
 public class UserListFrame1 extends javax.swing.JFrame {
+    
+    private String selectedNama;
+    private String selectedJabatan;
+    private String selectedDivisi;
+    private String selectedEmail;
+    private String selectedTelepon;
+    private String selectedAlamat;
+    private String selectedPassword;
 
     public UserListFrame1() {
        initComponents();
+       
+       roundedTablePanel1.getTable().addMouseListener(
+        new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+
+                int row = roundedTablePanel1.getTable().getSelectedRow();
+
+                if (row != -1) {
+                    selectedNama    = roundedTablePanel1.getTable().getValueAt(row, 0).toString();
+                    selectedJabatan = roundedTablePanel1.getTable().getValueAt(row, 1).toString();
+                    selectedDivisi  = roundedTablePanel1.getTable().getValueAt(row, 2).toString();
+                    selectedEmail   = roundedTablePanel1.getTable().getValueAt(row, 3).toString();
+                    selectedTelepon = roundedTablePanel1.getTable().getValueAt(row, 4).toString();
+                    selectedAlamat  = roundedTablePanel1.getTable().getValueAt(row, 5).toString();
+                    selectedPassword  = roundedTablePanel1.getTable().getValueAt(row, 6).toString();
+                }
+            }
+        }
+    );
         pageTitle1.setText("DAFTAR USER");
         getContentPane().setBackground(components.RoundedColors.BACKGROUND);
         setLocationRelativeTo(null);
@@ -40,10 +68,11 @@ public class UserListFrame1 extends javax.swing.JFrame {
         "Divisi",
         "Email",
         "No. Telepon",
-        "Alamat"
+        "Alamat",
+        "Password"
     });
 
-    String sql = "SELECT nama, jabatan, divisi, email, no_telp, alamat " +
+    String sql = "SELECT nama, jabatan, divisi, email, no_telp, alamat, password " +
                  "FROM user ORDER BY nama ASC";
 
     try (
@@ -59,7 +88,8 @@ public class UserListFrame1 extends javax.swing.JFrame {
                 rs.getString("divisi"),
                 rs.getString("email"),
                 rs.getString("no_telp"),
-                rs.getString("alamat")
+                rs.getString("alamat"),
+                rs.getString("password")
             });
         }
 
@@ -80,6 +110,7 @@ public class UserListFrame1 extends javax.swing.JFrame {
         btnNew = new components.RoundedButton();
         btnBack = new components.RoundedButton();
         roundedTablePanel1 = new components.RoundedTablePanel();
+        btnEdit = new components.RoundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PROJECT ADMINISTRATION");
@@ -97,6 +128,19 @@ public class UserListFrame1 extends javax.swing.JFrame {
         btnBack.setText("Back");
         btnBack.setButtonColor(new java.awt.Color(217, 217, 217));
 
+        roundedTablePanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                roundedTablePanel1MouseClicked(evt);
+            }
+        });
+
+        btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -111,6 +155,8 @@ public class UserListFrame1 extends javax.swing.JFrame {
                     .addComponent(pageTitle1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
                     .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
                         .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
                         .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -137,12 +183,53 @@ public class UserListFrame1 extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // TODO add your handling code here:
+        int row = roundedTablePanel1.getTable().getSelectedRow();
+
+    if (row == -1) {
+        javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "Pilih data user terlebih dahulu!");
+        return;
+    }
+
+    UserFormFrame form = new UserFormFrame(
+            selectedNama,
+            selectedJabatan,
+            selectedDivisi,
+            selectedTelepon,
+            selectedAlamat,
+            selectedEmail,
+            selectedPassword
+    );
+
+    form.setVisible(true);
+    this.dispose();
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void roundedTablePanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundedTablePanel1MouseClicked
+        // TODO add your handling code here:
+        int row = roundedTablePanel1.getTable().getSelectedRow();
+
+    if (row != -1) {
+        selectedNama    = roundedTablePanel1.getTable().getValueAt(row, 0).toString();
+        selectedJabatan = roundedTablePanel1.getTable().getValueAt(row, 1).toString();
+        selectedDivisi  = roundedTablePanel1.getTable().getValueAt(row, 2).toString();
+        selectedEmail   = roundedTablePanel1.getTable().getValueAt(row, 3).toString();
+        selectedTelepon = roundedTablePanel1.getTable().getValueAt(row, 4).toString();
+        selectedAlamat  = roundedTablePanel1.getTable().getValueAt(row, 5).toString();
+        selectedPassword  = roundedTablePanel1.getTable().getValueAt(row, 6).toString();
+    }
+    }//GEN-LAST:event_roundedTablePanel1MouseClicked
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -154,6 +241,7 @@ public class UserListFrame1 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private components.RoundedButton btnBack;
+    private components.RoundedButton btnEdit;
     private components.RoundedButton btnNew;
     private components.RoundedButton btnViewReport;
     private components.PageTitle pageTitle1;
