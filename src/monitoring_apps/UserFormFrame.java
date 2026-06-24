@@ -7,6 +7,8 @@ import java.sql.Connection;
 
 
 public class UserFormFrame extends javax.swing.JFrame {
+    
+     private String oldEmail = "";
 
     public UserFormFrame() {
         initComponents();
@@ -14,10 +16,37 @@ public class UserFormFrame extends javax.swing.JFrame {
         Navigation.bind(sidebarMenu1, this);
     }
 
+    public UserFormFrame(
+            String nama,
+            String jabatan,
+            String divisi,
+            String telepon,
+            String alamat,
+            String email,
+            String password) {
+
+        initComponents();
+        setLocationRelativeTo(null);
+        Navigation.bind(sidebarMenu1, this);
+
+        this.oldEmail = email;
+
+        txtNama.setText(nama);
+        txtJabatan.setText(jabatan);
+        cmbDivisi.setSelectedItem(divisi);
+        txtTelepon.setText(telepon);
+        txtAlamat.setText(alamat);
+        txtEmail.setText(email);
+        txtPassword.setText(password);
+    
+
+    btnSave.setEnabled(false); // mode edit
+    }
+
     public static void main(String args[]) {
     java.awt.EventQueue.invokeLater(new Runnable() {
         public void run() {
-            new UserFormFrame().setVisible(true);
+
         }
     });
 }
@@ -27,7 +56,7 @@ public class UserFormFrame extends javax.swing.JFrame {
     txtTelepon.setText("");
     txtAlamat.setText("");
     txtEmail.setText("");
-    txtPassword.getText();
+    txtPassword.setText("");
     cmbDivisi.setSelectedIndex(0);
     }
     
@@ -293,7 +322,15 @@ public class UserFormFrame extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        String sql = "update user (email, password, role) values (?,?,?)";
+        String sql = "UPDATE user SET "
+           + "nama=?, "
+           + "jabatan=?, "
+           + "divisi=?, "
+           + "no_telp=?, "
+           + "alamat=?, "
+           + "email=?, "
+           + "password=? "
+           + "WHERE email=?";
     String nama = txtNama.getText();
     String jabatan = txtJabatan.getText();
     String divisi = cmbDivisi.getSelectedItem().toString();
@@ -304,15 +341,16 @@ public class UserFormFrame extends javax.swing.JFrame {
         try {
             Connection conn = new KoneksiDb().connect();
             PreparedStatement stat = conn.prepareStatement(sql);
-            stat.setString(2, nama);
-            stat.setString(3, jabatan);
-            stat.setString(4, divisi);
-            stat.setString(5, telepon);
-            stat.setString(6, alamat);
-            stat.setString(7, email);
-            stat.setString(8, password);
-            
-            
+
+            stat.setString(1, nama);
+            stat.setString(2, jabatan);
+            stat.setString(3, divisi);
+            stat.setString(4, telepon);
+            stat.setString(5, alamat);
+            stat.setString(6, email);
+            stat.setString(7, password);
+            stat.setString(8, oldEmail);
+
             stat.executeUpdate();
             JOptionPane.showMessageDialog(null, "Data Berhasil Diubah");
             kosong();

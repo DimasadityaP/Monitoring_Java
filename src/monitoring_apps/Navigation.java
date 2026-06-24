@@ -16,7 +16,7 @@ public final class Navigation {
                 }
 
                 else if ("master.barang".equals(menu)) {
-//                    next = new MasterBarangFrame();
+                    next = new BarangList();
                 }
 
                 else if ("master.administrasi".equals(menu)) {
@@ -24,7 +24,7 @@ public final class Navigation {
                 }
 
                 else if ("master.user".equals(menu)) {
-                    next = new UserFormFrame();
+                    next = new UserListFrame1();
                 }
 
                 else if ("master.reimbursement".equals(menu)) {
@@ -47,7 +47,7 @@ public final class Navigation {
                 }
 
                 else if ("report.logistic".equals(menu)) {
-                    next = new BarangFormFrame();
+                    next = new BarangList();
                 }
 
                 else if ("report.administration".equals(menu)) {
