@@ -19,6 +19,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.concurrent.atomic.AtomicReference;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.lang.String.*;
+import java.text.SimpleDateFormat;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -28,6 +30,8 @@ import models.ProjectData;
 public class ProjectFormFrame extends javax.swing.JFrame {
 
     private Connection conn;
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
 
     public ProjectFormFrame() {
         conn = new KoneksiDb().connect();
@@ -142,6 +146,9 @@ public class ProjectFormFrame extends javax.swing.JFrame {
         dat.nominal = new BigDecimal(txtNilaiPekerjaan.getText().trim().replaceAll("[^0-9.]", ""));
         dat.status = txtStatus.getText().trim();
 
+        if (tblItem.isEditing()) {
+            tblItem.getTable().getCellEditor().stopCellEditing();
+        }
         DefaultTableModel model = (DefaultTableModel) tblItem.getModel();
         for (int i = 0; i < model.getRowCount(); i++) {
             Object picValue = model.getValueAt(i, 1);
@@ -307,6 +314,8 @@ public class ProjectFormFrame extends javax.swing.JFrame {
         lblPerusahaan1 = new javax.swing.JLabel();
         txtId = new components.RoundedTextField();
         btnNew = new components.RoundedButton();
+        dtCStart = new com.toedter.calendar.JDateChooser();
+        dtCEnd = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FORMULIR PROJECT");
@@ -328,7 +337,11 @@ public class ProjectFormFrame extends javax.swing.JFrame {
 
         lblTglMulai.setText("Tgl Mulai");
 
+        txtTglMulai.setEnabled(false);
+
         lblTglSelesai.setText("Tgl Selesai");
+
+        txtTglSelesai.setEnabled(false);
 
         lblNilaiPekerjaan.setText("Nilai Pekerjaan");
 
@@ -354,6 +367,11 @@ public class ProjectFormFrame extends javax.swing.JFrame {
         btnBack.setForeground(new java.awt.Color(0, 0, 0));
         btnBack.setText("Back");
         btnBack.setButtonColor(new java.awt.Color(217, 217, 217));
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         btnAddItem.setText("Add Item +");
         btnAddItem.addActionListener(new java.awt.event.ActionListener() {
@@ -364,10 +382,24 @@ public class ProjectFormFrame extends javax.swing.JFrame {
 
         lblPerusahaan1.setText("Id Project");
 
+        txtId.setEnabled(false);
+
         btnNew.setText("New");
         btnNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNewActionPerformed(evt);
+            }
+        });
+
+        dtCStart.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dtCStartPropertyChange(evt);
+            }
+        });
+
+        dtCEnd.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dtCEndPropertyChange(evt);
             }
         });
 
@@ -382,55 +414,69 @@ public class ProjectFormFrame extends javax.swing.JFrame {
                     .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNamaPekerjaan)
-                            .addComponent(txtNamaPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAddItem, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tblItem, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblPerusahaan)
-                                            .addComponent(txtPerusahaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(lblNilaiPekerjaan)
-                                                .addComponent(txtNilaiPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblTglMulai)
-                                            .addComponent(txtTglMulai, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(lblPerusahaan1)
-                                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(60, 60, 60)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblStatus)
-                                    .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblTglSelesai)
-                                    .addComponent(txtTglSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblTahunAnggaran)
-                                    .addComponent(txtTahunAnggaran, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblPerusahaanInfo)
-                                    .addComponent(txtInstansi, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblJenisPekerjaan)
-                                    .addComponent(cmbJenisPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(396, 396, 396)
                         .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(314, 314, 314)
-                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnDraft, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(btnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(314, 314, 314)
+                                .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnDraft, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(btnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(70, 70, 70)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblNamaPekerjaan)
+                                    .addComponent(txtNamaPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnAddItem, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tblItem, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(lblPerusahaan)
+                                                .addComponent(txtPerusahaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                    .addComponent(lblNilaiPekerjaan)
+                                                    .addGap(315, 315, 315))
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                    .addComponent(lblTglMulai)
+                                                    .addGap(355, 355, 355))
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                    .addComponent(txtTglMulai, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGap(12, 12, 12)
+                                                    .addComponent(dtCStart, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(txtNilaiPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(lblPerusahaan1)
+                                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(60, 60, 60)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lblTahunAnggaran)
+                                                    .addComponent(txtTahunAnggaran, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(lblPerusahaanInfo)
+                                                    .addComponent(txtInstansi, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(lblJenisPekerjaan)
+                                                    .addComponent(cmbJenisPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lblStatus)
+                                                    .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addComponent(lblTglSelesai)
+                                                            .addComponent(txtTglSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(dtCEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))))))))
                         .addGap(20, 20, 20)
                         .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
-                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)))
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(67, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -471,26 +517,33 @@ public class ProjectFormFrame extends javax.swing.JFrame {
                                 .addComponent(lblTahunAnggaran)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtTahunAnggaran, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblTglMulai)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblTglMulai)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtTglMulai, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(dtCStart, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTglMulai, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblStatus)
+                                .addComponent(lblTglSelesai)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtTglSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(dtCEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblNilaiPekerjaan)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtNilaiPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblTglSelesai)
+                                .addComponent(lblStatus)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTglSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addComponent(btnAddItem, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(41, 41, 41)
@@ -524,8 +577,7 @@ public class ProjectFormFrame extends javax.swing.JFrame {
             txtStatus.setText("Draft");
             p_SaveData();
             JOptionPane.showMessageDialog(this, "Project disimpan sebagai Draft.", "Sukses", JOptionPane.INFORMATION_MESSAGE);
-            p_ResetField();
-            JFrame next = new ProjectList();
+            navigateBackToProjectList();
         } catch (Exception e) {
             showError(e.getMessage());
         }
@@ -536,13 +588,20 @@ public class ProjectFormFrame extends javax.swing.JFrame {
             txtStatus.setText("On Progress");
             p_SaveData();
             JOptionPane.showMessageDialog(this, "Project berhasil disubmit.", "Sukses", JOptionPane.INFORMATION_MESSAGE);
-            p_ResetField();
-            JFrame next = new ProjectList();
+            navigateBackToProjectList();
         } catch (Exception e) {
             showError(e.getMessage());
         }
     }
-    
+
+    private void navigateBackToProjectList() {
+        JFrame next = new ProjectList();
+        next.pack();
+        next.setLocationRelativeTo(this);
+        next.setVisible(true);
+        dispose();
+    }
+
     private void p_SaveData(){
         p_ValidateData();
             ProjectData dat = p_UiToData();
@@ -590,6 +649,27 @@ public class ProjectFormFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnNewActionPerformed
 
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        navigateBackToProjectList();
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void dtCStartPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dtCStartPropertyChange
+        // TODO add your handling code here:
+        if (dtCStart.getDate() != null){
+           String tanggalperiksa = format.format(dtCStart.getDate());
+           txtTglMulai.setText(tanggalperiksa);
+        }
+    }//GEN-LAST:event_dtCStartPropertyChange
+
+    private void dtCEndPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dtCEndPropertyChange
+        // TODO add your handling code here:
+        if (dtCEnd.getDate() != null){
+           String tanggalperiksa = format.format(dtCEnd.getDate());
+           txtTglSelesai.setText(tanggalperiksa);
+        }
+    }//GEN-LAST:event_dtCEndPropertyChange
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private components.RoundedButton btnAddItem;
     private components.RoundedButton btnBack;
@@ -599,6 +679,8 @@ public class ProjectFormFrame extends javax.swing.JFrame {
     private components.RoundedButton btnNew;
     private components.RoundedButton btnSubmit;
     private components.RoundedComboBox cmbJenisPekerjaan;
+    private com.toedter.calendar.JDateChooser dtCEnd;
+    private com.toedter.calendar.JDateChooser dtCStart;
     private javax.swing.JLabel lblJenisPekerjaan;
     private javax.swing.JLabel lblNamaPekerjaan;
     private javax.swing.JLabel lblNilaiPekerjaan;

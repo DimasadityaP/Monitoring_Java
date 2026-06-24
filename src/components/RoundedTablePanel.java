@@ -27,6 +27,16 @@ public class RoundedTablePanel extends RoundedPanel {
         }
         return false;
     }
+    
+    public boolean isEditing() {
+        return table.isEditing();
+    }
+
+    public void stopEditing() {
+        if (table.isEditing()) {
+            table.getCellEditor().stopCellEditing();
+        }
+    }
 
     private void init() {
         setLayout(new BorderLayout());

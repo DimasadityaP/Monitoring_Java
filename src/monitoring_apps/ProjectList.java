@@ -131,6 +131,7 @@ public class ProjectList extends javax.swing.JFrame {
         next.pack();
         next.setLocationRelativeTo(this);
         next.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnNewAdministrationActionPerformed
 
     public static void main(String args[]) {
