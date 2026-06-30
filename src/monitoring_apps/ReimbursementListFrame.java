@@ -5,9 +5,18 @@
  */
 package monitoring_apps;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.DefaultCellEditor;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.table.TableCellRenderer;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -15,8 +24,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import koneksi.KoneksiDb;
 
 /**
@@ -25,8 +40,12 @@ import koneksi.KoneksiDb;
  */
 public class ReimbursementListFrame extends javax.swing.JFrame {
 
+    private static final int ID_COLUMN = 0;
+    private static final int ACTION_COLUMN = 10;
+
     private final Connection conn = new KoneksiDb().connect();
     private DefaultTableModel reimbursementTableModel;
+    private Timer searchTimer;
     private String lastSearchKeyword = "";
 
     /**
@@ -48,7 +67,6 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        btnEdit = new components.RoundedButton();
         userProfileCard1 = new components.UserProfileCard();
         sidebarMenu1 = new components.SidebarMenu();
         pageTitle1 = new components.PageTitle();
@@ -58,24 +76,15 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
         btnBack = new components.RoundedButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LIST REIMBURSEMENT");
-
-        btnEdit.setText("Edit");
-        btnEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditActionPerformed(evt);
-            }
-        });
+        setMinimumSize(new java.awt.Dimension(1200, 800));
 
         pageTitle1.setText("USER");
-
         searchBox1.setText("Cari...");
 
         btnViewReport.setText("View Report");
-
         btnNew.setText("+ New Administration");
 
         btnBack.setForeground(new java.awt.Color(0, 0, 0));
@@ -95,16 +104,8 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setText("CARI");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
-
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -113,24 +114,18 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
                     .addComponent(userProfileCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(pageTitle1, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(3, 3, 3)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)
                         .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
                         .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
-                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1))
-                .addContainerGap(102, Short.MAX_VALUE))
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -142,35 +137,24 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(searchBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(47, 47, 47)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>                        
 
-    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        openSelectedReimbursement();
-    }                                       
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        loadReimbursementData(getSearchKeyword());
-    }                                        
-
     private void setupReimbursementListFrame() {
         pageTitle1.setText("LIST REIMBURSEMENT");
         btnNew.setText("+ New Reimbursement");
-        jButton1.setText("CARI");
+        searchBox1.setText("");
 
         setupReimbursementTable();
         setupButtonActions();
@@ -202,26 +186,7 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
     }
 
     private void setupSearchAction() {
-        searchBox1.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                if ("Cari...".equalsIgnoreCase(searchBox1.getText().trim())) {
-                    searchBox1.setText("");
-                    lastSearchKeyword = "";
-                }
-            }
-
-            @Override
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                if (searchBox1.getText().trim().isEmpty()) {
-                    searchBox1.setText("Cari...");
-                    lastSearchKeyword = "";
-                    loadReimbursementData("");
-                }
-            }
-        });
-
-        Timer searchTimer = new Timer(400, e -> {
+        searchTimer = new Timer(300, e -> {
             String keyword = getSearchKeyword();
 
             if (!keyword.equals(lastSearchKeyword)) {
@@ -229,8 +194,24 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
                 loadReimbursementData(keyword);
             }
         });
+        searchTimer.setRepeats(false);
 
-        searchTimer.start();
+        searchBox1.getTextField().getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                searchTimer.restart();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                searchTimer.restart();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                searchTimer.restart();
+            }
+        });
     }
 
     private String getSearchKeyword() {
@@ -261,13 +242,14 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
                 "PJ",
                 "Jumlah Item",
                 "Preview Uraian",
-                "Total Akhir"
+                "Total Akhir",
+                "Aksi"
             },
             0
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false;
+                return column == ACTION_COLUMN;
             }
         };
 
@@ -281,31 +263,164 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
 
         setTableColumnWidth();
         hideIdColumn();
+        applyReimbursementTableStyle();
+        setupActionColumn();
+    }
+
+    private void applyReimbursementTableStyle() {
+        final Color primary = new Color(63, 61, 150);
+        final Color grid = new Color(220, 220, 235);
+        final Color text = new Color(0, 0, 35);
+        final Color selected = new Color(232, 232, 250);
+
+        jTable1.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        jTable1.setForeground(text);
+        jTable1.setBackground(Color.WHITE);
+        jTable1.setRowHeight(38);
+        jTable1.setShowGrid(true);
+        jTable1.setGridColor(grid);
+        jTable1.setFillsViewportHeight(true);
+        jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        jTable1.setSelectionBackground(selected);
+        jTable1.setSelectionForeground(text);
+        jTable1.setOpaque(true);
+        jTable1.setIntercellSpacing(new Dimension(0, 1));
+
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        jScrollPane1.getViewport().setBackground(Color.WHITE);
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(
+                    JTable table,
+                    Object value,
+                    boolean isSelected,
+                    boolean hasFocus,
+                    int row,
+                    int column
+            ) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                setBackground(primary);
+                setForeground(Color.WHITE);
+                setFont(new Font("Segoe UI", Font.BOLD, 13));
+                setHorizontalAlignment(SwingConstants.CENTER);
+                setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 8, 0, 8));
+                setOpaque(true);
+                return this;
+            }
+        };
+
+        for (int i = 0; i < jTable1.getColumnModel().getColumnCount(); i++) {
+            jTable1.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+        }
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(
+                    JTable table,
+                    Object value,
+                    boolean isSelected,
+                    boolean hasFocus,
+                    int row,
+                    int column
+            ) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                setHorizontalAlignment(SwingConstants.CENTER);
+                setForeground(isSelected ? table.getSelectionForeground() : text);
+                setBackground(isSelected ? table.getSelectionBackground() : Color.WHITE);
+                return this;
+            }
+        };
+
+        DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(
+                    JTable table,
+                    Object value,
+                    boolean isSelected,
+                    boolean hasFocus,
+                    int row,
+                    int column
+            ) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                setHorizontalAlignment(SwingConstants.LEFT);
+                setForeground(isSelected ? table.getSelectionForeground() : text);
+                setBackground(isSelected ? table.getSelectionBackground() : Color.WHITE);
+                return this;
+            }
+        };
+
+        for (int i = 0; i < jTable1.getColumnModel().getColumnCount(); i++) {
+            if (i == ACTION_COLUMN) {
+                continue;
+            }
+            if (i == 5 || i == 8) {
+                jTable1.getColumnModel().getColumn(i).setCellRenderer(leftRenderer);
+            } else {
+                jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            }
+        }
+
+        jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.getTableHeader().setResizingAllowed(true);
+        jTable1.getTableHeader().setOpaque(false);
+        jTable1.getTableHeader().setPreferredSize(new Dimension(0, 44));
+        jTable1.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 13));
+        jTable1.repaint();
     }
 
     private void setTableColumnWidth() {
-        if (jTable1.getColumnModel().getColumnCount() < 10) {
+        if (jTable1.getColumnModel().getColumnCount() <= ACTION_COLUMN) {
             return;
         }
 
-        jTable1.getColumnModel().getColumn(0).setPreferredWidth(0);
-        jTable1.getColumnModel().getColumn(1).setPreferredWidth(150);
-        jTable1.getColumnModel().getColumn(2).setPreferredWidth(90);
-        jTable1.getColumnModel().getColumn(3).setPreferredWidth(90);
-        jTable1.getColumnModel().getColumn(4).setPreferredWidth(110);
-        jTable1.getColumnModel().getColumn(5).setPreferredWidth(220);
-        jTable1.getColumnModel().getColumn(6).setPreferredWidth(130);
-        jTable1.getColumnModel().getColumn(7).setPreferredWidth(90);
-        jTable1.getColumnModel().getColumn(8).setPreferredWidth(260);
-        jTable1.getColumnModel().getColumn(9).setPreferredWidth(140);
+        jTable1.getColumnModel().getColumn(ID_COLUMN).setPreferredWidth(0);
+
+        int equalWidth = 140;
+        for (int i = 1; i < ACTION_COLUMN; i++) {
+            jTable1.getColumnModel().getColumn(i).setPreferredWidth(equalWidth);
+            jTable1.getColumnModel().getColumn(i).setMinWidth(115);
+        }
+
+        jTable1.getColumnModel().getColumn(1).setPreferredWidth(165); // No Reimbursement
+        jTable1.getColumnModel().getColumn(5).setPreferredWidth(190); // Perihal
+        jTable1.getColumnModel().getColumn(8).setPreferredWidth(220); // Preview Uraian
+
+        TableColumn actionColumn = jTable1.getColumnModel().getColumn(ACTION_COLUMN);
+        actionColumn.setPreferredWidth(70);
+        actionColumn.setMinWidth(65);
+        actionColumn.setMaxWidth(80);
     }
 
     private void hideIdColumn() {
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(0);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(0);
+        if (jTable1.getColumnModel().getColumnCount() > ID_COLUMN) {
+            jTable1.getColumnModel().getColumn(ID_COLUMN).setMinWidth(0);
+            jTable1.getColumnModel().getColumn(ID_COLUMN).setMaxWidth(0);
+            jTable1.getColumnModel().getColumn(ID_COLUMN).setPreferredWidth(0);
         }
+    }
+
+    private void setupActionColumn() {
+        if (jTable1.getColumnModel().getColumnCount() <= ACTION_COLUMN) {
+            return;
+        }
+
+        Icon editIcon = loadEditIcon();
+        TableColumn actionColumn = jTable1.getColumnModel().getColumn(ACTION_COLUMN);
+        actionColumn.setCellRenderer(new ActionButtonRenderer(editIcon));
+        actionColumn.setCellEditor(new ActionButtonEditor(new JCheckBox(), editIcon));
+    }
+
+    private Icon loadEditIcon() {
+        java.net.URL iconUrl = getClass().getResource("/image/icon/edit.png");
+        if (iconUrl == null) {
+            return null;
+        }
+        ImageIcon icon = new ImageIcon(iconUrl);
+        java.awt.Image image = icon.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_SMOOTH);
+        return new ImageIcon(image);
     }
 
     private void loadReimbursementData(String keyword) {
@@ -336,9 +451,15 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
                 + "COALESCE(NULLIF(r.total_akhir, 0), SUM(ri.jumlah), 0) AS total_akhir "
                 + "FROM reimbursement r "
                 + "LEFT JOIN reimbursement_items ri ON ri.reimbursement_id = r.id "
+                + "LEFT JOIN project p ON p.id = r.project_id "
                 + "WHERE (? = '' "
                 + "OR COALESCE(r.reimbursement_no, '') LIKE ? "
                 + "OR CAST(r.project_id AS CHAR) LIKE ? "
+                + "OR COALESCE(p.nama, '') LIKE ? "
+                + "OR COALESCE(p.ta, '') LIKE ? "
+                + "OR COALESCE(p.sub_perusahaan, '') LIKE ? "
+                + "OR COALESCE(p.jenis, '') LIKE ? "
+                + "OR COALESCE(p.instansi, '') LIKE ? "
                 + "OR COALESCE(r.hari, '') LIKE ? "
                 + "OR CAST(r.tanggal AS CHAR) LIKE ? "
                 + "OR COALESCE(r.hal, '') LIKE ? "
@@ -353,13 +474,9 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, search);
-            ps.setString(2, like);
-            ps.setString(3, like);
-            ps.setString(4, like);
-            ps.setString(5, like);
-            ps.setString(6, like);
-            ps.setString(7, like);
-            ps.setString(8, like);
+            for (int i = 2; i <= 13; i++) {
+                ps.setString(i, like);
+            }
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -373,7 +490,8 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
                         nullToEmpty(rs.getString("pj")),
                         rs.getInt("jumlah_item"),
                         nullToEmpty(rs.getString("uraian_preview")),
-                        bigDecimalToString(rs.getBigDecimal("total_akhir"))
+                        bigDecimalToString(rs.getBigDecimal("total_akhir")),
+                        "Edit"
                     });
                 }
             }
@@ -406,8 +524,10 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
     }
 
     private void openSelectedReimbursement() {
-        Integer reimbursementId = getSelectedReimbursementId();
+        openReimbursementById(getSelectedReimbursementId());
+    }
 
+    private void openReimbursementById(Integer reimbursementId) {
         if (reimbursementId == null) {
             return;
         }
@@ -500,6 +620,86 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
         }
     }
 
+    private class ActionButtonRenderer extends JButton implements TableCellRenderer {
+
+        private final Icon editIcon;
+
+        ActionButtonRenderer(Icon editIcon) {
+            this.editIcon = editIcon;
+            setFocusPainted(false);
+            setBorderPainted(false);
+            setContentAreaFilled(false);
+            setOpaque(true);
+            setHorizontalAlignment(SwingConstants.CENTER);
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(
+                JTable table,
+                Object value,
+                boolean isSelected,
+                boolean hasFocus,
+                int row,
+                int column
+        ) {
+            setIcon(editIcon);
+            setText(editIcon == null ? "Edit" : "");
+            setToolTipText("Edit Reimbursement");
+            setBackground(isSelected ? table.getSelectionBackground() : Color.WHITE);
+            setForeground(new Color(63, 61, 150));
+            setFont(new Font("Segoe UI", Font.BOLD, 12));
+            return this;
+        }
+    }
+
+    private class ActionButtonEditor extends DefaultCellEditor {
+
+        private final JButton button = new JButton();
+        private Integer reimbursementId;
+
+        ActionButtonEditor(JCheckBox checkBox, Icon editIcon) {
+            super(checkBox);
+            button.setIcon(editIcon);
+            button.setText(editIcon == null ? "Edit" : "");
+            button.setToolTipText("Edit Reimbursement");
+            button.setFocusPainted(false);
+            button.setBorderPainted(false);
+            button.setContentAreaFilled(false);
+            button.setHorizontalAlignment(SwingConstants.CENTER);
+            button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            button.addActionListener(e -> {
+                fireEditingStopped();
+                openReimbursementById(reimbursementId);
+            });
+        }
+
+        @Override
+        public Component getTableCellEditorComponent(
+                JTable table,
+                Object value,
+                boolean isSelected,
+                int row,
+                int column
+        ) {
+            int modelRow = table.convertRowIndexToModel(row);
+            Object idValue = reimbursementTableModel.getValueAt(modelRow, ID_COLUMN);
+
+            try {
+                reimbursementId = Integer.parseInt(String.valueOf(idValue));
+            } catch (Exception e) {
+                reimbursementId = null;
+            }
+
+            button.setBackground(isSelected ? table.getSelectionBackground() : Color.WHITE);
+            return button;
+        }
+
+        @Override
+        public Object getCellEditorValue() {
+            return "Edit";
+        }
+    }
+
     private String nullToEmpty(String value) {
         return value == null ? "" : value;
     }
@@ -542,10 +742,8 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify                     
     private components.RoundedButton btnBack;
-    private components.RoundedButton btnEdit;
     private components.RoundedButton btnNew;
     private components.RoundedButton btnViewReport;
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private components.PageTitle pageTitle1;

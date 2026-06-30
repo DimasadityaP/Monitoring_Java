@@ -1,6 +1,16 @@
 package monitoring_apps;
 
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
@@ -10,16 +20,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.swing.BorderFactory;
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.JTextComponent;
 import koneksi.KoneksiDb;
 
 public class ReimbursementFormFrame extends javax.swing.JFrame {
@@ -27,9 +36,8 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
     private final Connection conn = new KoneksiDb().connect();
 
     private Integer selectedReimbursementId = null;
+    private Integer selectedProjectId = null;
     private DefaultTableModel itemTableModel;
-    private final List<ProjectComboItem> projectItems = new ArrayList<>();
-    private boolean loadingProjectCombo = false;
 
     public ReimbursementFormFrame() {
         initComponents();
@@ -47,7 +55,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         btnSave = new components.RoundedButton();
@@ -66,7 +74,6 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         lblHari = new javax.swing.JLabel();
         cmbHari = new components.RoundedComboBox();
         lblTanggal = new javax.swing.JLabel();
-        cmbproyek = new components.RoundedComboBox();
         jLabel1 = new javax.swing.JLabel();
         txtSatuan = new components.RoundedTextField();
         txtKuantitas = new components.RoundedTextField();
@@ -79,6 +86,8 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -117,12 +126,6 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
 
         lblTanggal.setText("Tanggal");
 
-        cmbproyek.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbproyekActionPerformed(evt);
-            }
-        });
-
         jLabel1.setText("Satuan");
 
         jLabel2.setText("Kuantitas");
@@ -158,6 +161,11 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        jTextField1.setText("");
+        jTextField1.setEditable(false);
+
+        jButton1.setText("");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -172,8 +180,11 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblProyekTujuan)
-                            .addComponent(cmbproyek, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(60, 60, 60)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(54, 54, 54)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblHari)
                             .addComponent(cmbHari, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -218,7 +229,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
                                         .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(jbtambah, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                .addContainerGap(106, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,13 +244,16 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblHari)
+                                .addComponent(lblProyekTujuan)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cmbproyek, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cmbHari, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(lblProyekTujuan))
-                        .addGap(18, 18, 18)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblHari)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbHari, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(16, 16, 16)
                         .addComponent(lblTanggal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -275,11 +289,11 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnUpdateActionPerformed
+    }                                         
 
     private void cmbHariActionPerformed(java.awt.event.ActionEvent evt) {
         // No action needed
@@ -297,35 +311,55 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         // No action needed
     }
 
-    private static class ProjectComboItem {
 
-        private final int id;
-        private final String name;
+    private static class SearchIcon implements Icon {
 
-        public ProjectComboItem(int id, String name) {
-            this.id = id;
-            this.name = name == null ? "" : name;
-        }
+        private final int size;
+        private final Color color;
 
-        public int getId() {
-            return id;
+        SearchIcon(int size, Color color) {
+            this.size = size;
+            this.color = color;
         }
 
         @Override
-        public String toString() {
-            if (id <= 0) {
-                return name;
-            }
-            return id + " - " + name;
+        public int getIconWidth() {
+            return size;
+        }
+
+        @Override
+        public int getIconHeight() {
+            return size;
+        }
+
+        @Override
+        public void paintIcon(Component c, Graphics g, int x, int y) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setColor(color);
+            g2.setStroke(new BasicStroke(2.4f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+
+            int lensSize = Math.max(9, size - 8);
+            int lensX = x + 2;
+            int lensY = y + 2;
+            g2.drawOval(lensX, lensY, lensSize, lensSize);
+
+            int startX = lensX + lensSize - 1;
+            int startY = lensY + lensSize - 1;
+            int endX = x + size - 2;
+            int endY = y + size - 2;
+            g2.drawLine(startX, startY, endX, endY);
+            g2.dispose();
         }
     }
 
     private void setupReimbursementForm() {
         txtTotal.setEditable(false);
+        setupMainInputSizing();
 
         setupHariCombo();
         setupDateChooser();
-        setupProjectCombo();
+        setupProjectChooser();
         setupItemTable();
 
         btnUpdate.setEnabled(false);
@@ -363,130 +397,284 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         Nominal.getDocument().addDocumentListener(totalListener);
     }
 
-    private void setupProjectCombo() {
-        cmbproyek.setEditable(true);
-        loadProjectCombo();
+    private void setupMainInputSizing() {
+        Dimension inputSize = new Dimension(420, 44);
+        Dimension projectTextSize = new Dimension(362, 44);
+        Dimension searchButtonSize = new Dimension(52, 44);
 
-        Object editorComponent = cmbproyek.getEditor().getEditorComponent();
-        if (editorComponent instanceof JTextComponent) {
-            JTextComponent editor = (JTextComponent) editorComponent;
-            editor.addKeyListener(new KeyAdapter() {
-                @Override
-                public void keyReleased(KeyEvent e) {
-                    if (e.getKeyCode() == KeyEvent.VK_UP
-                            || e.getKeyCode() == KeyEvent.VK_DOWN
-                            || e.getKeyCode() == KeyEvent.VK_ENTER
-                            || e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                        return;
-                    }
+        jTextField1.setPreferredSize(projectTextSize);
+        jTextField1.setMinimumSize(projectTextSize);
+        jTextField1.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        jTextField1.setMargin(new Insets(0, 12, 0, 12));
 
-                    filterProjectCombo(editor.getText());
-                }
-            });
-        }
+        jButton1.setPreferredSize(searchButtonSize);
+        jButton1.setMinimumSize(searchButtonSize);
+
+        cmbHari.setPreferredSize(inputSize);
+        jDateChooser1.setPreferredSize(inputSize);
+        txtPerihal.setPreferredSize(new Dimension(420, 80));
+        txtUraian1.setPreferredSize(new Dimension(240, 44));
+        txtKuantitas.setPreferredSize(new Dimension(135, 44));
+        txtSatuan.setPreferredSize(new Dimension(135, 44));
+        Nominal.setPreferredSize(new Dimension(135, 44));
+        txtTotal.setPreferredSize(new Dimension(135, 44));
+        jbtambah.setPreferredSize(new Dimension(56, 44));
     }
 
-    private void loadProjectCombo() {
-        projectItems.clear();
+    private void setupProjectChooser() {
+        selectedProjectId = null;
 
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
-        model.addElement(new ProjectComboItem(0, "Pilih"));
+        jTextField1.setEditable(false);
+        jTextField1.setFocusable(false);
+        jTextField1.setText("");
+        jTextField1.setBackground(new Color(250, 250, 250));
+        jTextField1.setForeground(new Color(20, 20, 20));
+        jTextField1.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(190, 190, 190), 1),
+                BorderFactory.createEmptyBorder(0, 12, 0, 12)
+        ));
+        jTextField1.setToolTipText("Klik tombol search untuk memilih proyek");
 
-        String[] queries = new String[]{
-            "SELECT id, nama AS project_name FROM project ORDER BY id DESC"
+        jButton1.setText("");
+        jButton1.setIcon(new SearchIcon(20, Color.WHITE));
+        jButton1.setToolTipText("Cari dan pilih proyek / tujuan");
+        jButton1.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        jButton1.setFocusable(false);
+        jButton1.setContentAreaFilled(true);
+        jButton1.setOpaque(true);
+        jButton1.setBackground(new Color(70, 74, 160));
+        jButton1.setBorder(BorderFactory.createEmptyBorder(8, 12, 8, 12));
+        jButton1.setMargin(new Insets(0, 0, 0, 0));
+        jButton1.addActionListener(e -> showProjectChooserDialog());
+    }
+
+    private void showProjectChooserDialog() {
+        javax.swing.JDialog dialog = new javax.swing.JDialog(this, "Pilih Proyek / Tujuan", true);
+        dialog.setLayout(new BorderLayout(10, 10));
+
+        javax.swing.JPanel rootPanel = new javax.swing.JPanel(new BorderLayout(12, 12));
+        rootPanel.setBackground(new Color(245, 246, 250));
+        rootPanel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
+
+        javax.swing.JPanel searchPanel = new javax.swing.JPanel(new BorderLayout(10, 0));
+        searchPanel.setOpaque(false);
+        javax.swing.JLabel searchLabel = new javax.swing.JLabel("Cari Proyek");
+        javax.swing.JTextField txtSearchProject = new javax.swing.JTextField();
+        txtSearchProject.setPreferredSize(new Dimension(420, 40));
+        txtSearchProject.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        txtSearchProject.setMargin(new Insets(0, 12, 0, 12));
+        searchLabel.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        searchLabel.setPreferredSize(new Dimension(90, 40));
+        searchPanel.add(searchLabel, BorderLayout.WEST);
+        searchPanel.add(txtSearchProject, BorderLayout.CENTER);
+
+        DefaultTableModel projectTableModel = new DefaultTableModel(
+                new Object[]{"ID", "Nama Proyek", "TA", "Sub Perusahaan", "Jenis", "Instansi"},
+                0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
         };
 
-        for (String sql : queries) {
-            if (tryLoadProjectsWithSql(sql, model)) {
-                break;
-            }
-        }
+        javax.swing.JTable tblProjectPopup = new javax.swing.JTable(projectTableModel);
+        tblProjectPopup.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        styleProjectPopupTable(tblProjectPopup);
+        setProjectPopupColumnWidths(tblProjectPopup);
 
-        loadingProjectCombo = true;
-        cmbproyek.setModel(model);
-        cmbproyek.setSelectedIndex(0);
-        loadingProjectCombo = false;
+        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(tblProjectPopup);
+        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(210, 210, 210), 1));
+
+        javax.swing.JPanel buttonPanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 10, 0));
+        buttonPanel.setOpaque(false);
+        javax.swing.JButton btnChoose = new javax.swing.JButton("Pilih");
+        javax.swing.JButton btnCancel = new javax.swing.JButton("Batal");
+        styleDialogButton(btnChoose, true);
+        styleDialogButton(btnCancel, false);
+        buttonPanel.add(btnChoose);
+        buttonPanel.add(btnCancel);
+
+        rootPanel.add(searchPanel, BorderLayout.NORTH);
+        rootPanel.add(scrollPane, BorderLayout.CENTER);
+        rootPanel.add(buttonPanel, BorderLayout.SOUTH);
+        dialog.add(rootPanel, BorderLayout.CENTER);
+
+        txtSearchProject.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                loadProjectPopupData(projectTableModel, txtSearchProject.getText());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                loadProjectPopupData(projectTableModel, txtSearchProject.getText());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                loadProjectPopupData(projectTableModel, txtSearchProject.getText());
+            }
+        });
+
+        tblProjectPopup.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    chooseProjectFromDialog(tblProjectPopup, projectTableModel, dialog);
+                }
+            }
+        });
+
+        btnChoose.addActionListener(e -> chooseProjectFromDialog(tblProjectPopup, projectTableModel, dialog));
+        btnCancel.addActionListener(e -> dialog.dispose());
+
+        loadProjectPopupData(projectTableModel, "");
+
+        dialog.setSize(950, 540);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
     }
 
-    private boolean tryLoadProjectsWithSql(String sql, DefaultComboBoxModel model) {
-        try (PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
 
-            boolean hasData = false;
+    private void styleProjectPopupTable(javax.swing.JTable table) {
+        table.setRowHeight(34);
+        table.setShowGrid(true);
+        table.setGridColor(new Color(225, 225, 225));
+        table.setFillsViewportHeight(true);
+        table.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        table.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        table.getTableHeader().setReorderingAllowed(false);
+        table.getTableHeader().setPreferredSize(new Dimension(0, 42));
+        table.getTableHeader().setBackground(new Color(70, 64, 150));
+        table.getTableHeader().setForeground(Color.WHITE);
+        table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 13));
 
-            while (rs.next()) {
-                hasData = true;
-                ProjectComboItem item = new ProjectComboItem(rs.getInt("id"), rs.getString("project_name"));
-                projectItems.add(item);
-                model.addElement(item);
-            }
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        headerRenderer.setBackground(new Color(70, 64, 150));
+        headerRenderer.setForeground(Color.WHITE);
+        headerRenderer.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        table.getTableHeader().setDefaultRenderer(headerRenderer);
 
-            return hasData;
-        } catch (SQLException ignored) {
-            return false;
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
     }
 
-    private void filterProjectCombo(String keyword) {
-        if (loadingProjectCombo) {
+    private void setProjectPopupColumnWidths(javax.swing.JTable table) {
+        int[] widths = {70, 260, 90, 160, 120, 210};
+        for (int i = 0; i < widths.length && i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setPreferredWidth(widths[i]);
+            table.getColumnModel().getColumn(i).setMinWidth(widths[i]);
+        }
+    }
+
+    private void styleDialogButton(javax.swing.JButton button, boolean primary) {
+        button.setPreferredSize(new Dimension(120, 40));
+        button.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        button.setFocusable(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.setBorder(BorderFactory.createEmptyBorder(8, 18, 8, 18));
+        if (primary) {
+            button.setBackground(new Color(70, 74, 160));
+            button.setForeground(Color.WHITE);
+        } else {
+            button.setBackground(new Color(217, 217, 217));
+            button.setForeground(Color.BLACK);
+        }
+    }
+
+    private void loadProjectPopupData(DefaultTableModel model, String keyword) {
+        model.setRowCount(0);
+
+        String search = keyword == null ? "" : keyword.trim();
+        String like = "%" + search + "%";
+
+        String sql = "SELECT id, nama, ta, sub_perusahaan, jenis, instansi "
+                + "FROM project "
+                + "WHERE (? = '' "
+                + "OR CAST(id AS CHAR) LIKE ? "
+                + "OR COALESCE(nama, '') LIKE ? "
+                + "OR COALESCE(ta, '') LIKE ? "
+                + "OR COALESCE(sub_perusahaan, '') LIKE ? "
+                + "OR COALESCE(jenis, '') LIKE ? "
+                + "OR COALESCE(instansi, '') LIKE ?) "
+                + "ORDER BY id DESC";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, search);
+            ps.setString(2, like);
+            ps.setString(3, like);
+            ps.setString(4, like);
+            ps.setString(5, like);
+            ps.setString(6, like);
+            ps.setString(7, like);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    model.addRow(new Object[]{
+                        rs.getInt("id"),
+                        nullToEmpty(rs.getString("nama")),
+                        nullToEmpty(rs.getString("ta")),
+                        nullToEmpty(rs.getString("sub_perusahaan")),
+                        nullToEmpty(rs.getString("jenis")),
+                        nullToEmpty(rs.getString("instansi"))
+                    });
+                }
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Gagal mengambil data proyek:\n" + e.getMessage());
+        }
+    }
+
+    private void chooseProjectFromDialog(javax.swing.JTable table, DefaultTableModel model, javax.swing.JDialog dialog) {
+        int selectedRow = table.getSelectedRow();
+
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(dialog, "Pilih proyek terlebih dahulu.");
             return;
         }
 
-        String search = keyword == null ? "" : keyword.trim().toLowerCase();
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
-        model.addElement(new ProjectComboItem(0, "Pilih"));
+        int modelRow = table.convertRowIndexToModel(selectedRow);
+        int projectId = Integer.parseInt(String.valueOf(model.getValueAt(modelRow, 0)));
+        String projectName = String.valueOf(model.getValueAt(modelRow, 1));
 
-        for (ProjectComboItem item : projectItems) {
-            String text = item.toString().toLowerCase();
-            if (search.isEmpty() || text.contains(search)) {
-                model.addElement(item);
-            }
-        }
-
-        loadingProjectCombo = true;
-        cmbproyek.setModel(model);
-        cmbproyek.setSelectedItem(keyword);
-
-        Object editorComponent = cmbproyek.getEditor().getEditorComponent();
-        if (editorComponent instanceof JTextComponent) {
-            ((JTextComponent) editorComponent).setText(keyword);
-        }
-
-        cmbproyek.showPopup();
-        loadingProjectCombo = false;
+        selectedProjectId = projectId;
+        jTextField1.setText(projectId + " - " + projectName);
+        dialog.dispose();
     }
 
     private Integer getSelectedProjectId() {
-        Object selected = cmbproyek.getSelectedItem();
-
-        if (selected instanceof ProjectComboItem) {
-            ProjectComboItem item = (ProjectComboItem) selected;
-            return item.getId() <= 0 ? null : item.getId();
-        }
-
-        if (selected != null) {
-            String text = selected.toString().trim();
-
-            if (text.matches("^\\d+.*")) {
-                try {
-                    return Integer.parseInt(text.replaceAll("[^0-9].*$", ""));
-                } catch (Exception ignored) {
-                }
-            }
-        }
-
-        return null;
+        return selectedProjectId;
     }
 
     private void setSelectedProjectById(int projectId) {
-        for (ProjectComboItem item : projectItems) {
-            if (item.getId() == projectId) {
-                cmbproyek.setSelectedItem(item);
-                return;
-            }
+        if (projectId <= 0) {
+            selectedProjectId = null;
+            jTextField1.setText("");
+            return;
         }
 
-        cmbproyek.setSelectedItem(projectId + " - Project ID " + projectId);
+        String sql = "SELECT id, nama FROM project WHERE id = ? LIMIT 1";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, projectId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    selectedProjectId = rs.getInt("id");
+                    jTextField1.setText(selectedProjectId + " - " + nullToEmpty(rs.getString("nama")));
+                    return;
+                }
+            }
+        } catch (SQLException ignored) {
+        }
+
+        selectedProjectId = projectId;
+        jTextField1.setText(projectId + " - Project ID " + projectId);
     }
 
     private void setupDateChooser() {
@@ -880,9 +1068,8 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
     private void clearReimbursementForm() {
         selectedReimbursementId = null;
 
-        if (cmbproyek.getItemCount() > 0) {
-            cmbproyek.setSelectedIndex(0);
-        }
+        selectedProjectId = null;
+        jTextField1.setText("");
 
         if (cmbHari.getItemCount() > 0) {
             cmbHari.setSelectedIndex(0);
@@ -902,7 +1089,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         btnUpdate.setEnabled(false);
         btnDelete.setEnabled(false);
 
-        cmbproyek.requestFocus();
+        jButton1.requestFocus();
     }
 
     private boolean validateReimbursementForm() {
@@ -910,7 +1097,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
 
         if (selectedProjectId == null) {
             JOptionPane.showMessageDialog(this, "Proyek / Tujuan wajib dipilih.");
-            cmbproyek.requestFocus();
+            jButton1.requestFocus();
             return false;
         }
 
@@ -1112,7 +1299,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private components.RoundedTextField Nominal;
     private components.RoundedButton btnBack;
     private components.RoundedButton btnClear;
@@ -1120,7 +1307,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
     private components.RoundedButton btnSave;
     private components.RoundedButton btnUpdate;
     private components.RoundedComboBox cmbHari;
-    private components.RoundedComboBox cmbproyek;
+    private javax.swing.JButton jButton1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -1128,6 +1315,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton jbtambah;
     private javax.swing.JLabel lblHari;
     private javax.swing.JLabel lblPerihal;
@@ -1142,5 +1330,5 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
     private components.RoundedTextField txtTotal;
     private components.RoundedTextField txtUraian1;
     private components.UserProfileCard userProfileCard1;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 }
