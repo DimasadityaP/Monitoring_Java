@@ -4,10 +4,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 import koneksi.KoneksiDb;
 
 public class UserListFrame1 extends javax.swing.JFrame {
     
+    private Connection conn = new KoneksiDb().connect() ;
+    private DefaultTableModel tabmode;
+    
+    private Timer searchTimer;
     private String selectedNama;
     private String selectedJabatan;
     private String selectedDivisi;
@@ -17,9 +27,9 @@ public class UserListFrame1 extends javax.swing.JFrame {
     private String selectedPassword;
 
     public UserListFrame1() {
-       initComponents();
-       
-       roundedTablePanel1.getTable().addMouseListener(
+    initComponents();
+
+    roundedTablePanel1.getTable().addMouseListener(
         new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -27,62 +37,207 @@ public class UserListFrame1 extends javax.swing.JFrame {
                 int row = roundedTablePanel1.getTable().getSelectedRow();
 
                 if (row != -1) {
-                    selectedNama    = roundedTablePanel1.getTable().getValueAt(row, 0).toString();
+                    selectedNama = roundedTablePanel1.getTable().getValueAt(row, 0).toString();
                     selectedJabatan = roundedTablePanel1.getTable().getValueAt(row, 1).toString();
-                    selectedDivisi  = roundedTablePanel1.getTable().getValueAt(row, 2).toString();
-                    selectedEmail   = roundedTablePanel1.getTable().getValueAt(row, 3).toString();
+                    selectedDivisi = roundedTablePanel1.getTable().getValueAt(row, 2).toString();
+                    selectedEmail = roundedTablePanel1.getTable().getValueAt(row, 3).toString();
                     selectedTelepon = roundedTablePanel1.getTable().getValueAt(row, 4).toString();
-                    selectedAlamat  = roundedTablePanel1.getTable().getValueAt(row, 5).toString();
-                    selectedPassword  = roundedTablePanel1.getTable().getValueAt(row, 6).toString();
+                    selectedAlamat = roundedTablePanel1.getTable().getValueAt(row, 5).toString();
+                    selectedPassword = roundedTablePanel1.getTable().getValueAt(row, 6).toString();
                 }
             }
         }
     );
-        pageTitle1.setText("DAFTAR USER");
-        getContentPane().setBackground(components.RoundedColors.BACKGROUND);
-        setLocationRelativeTo(null);
-        Navigation.bind(sidebarMenu1, this);
-        
-        btnBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Navigation.go(UserListFrame1.this, new Dashboard());
-            }
-        });
-
-        btnNew.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Navigation.go(UserListFrame1.this, new UserFormFrame());
-            }
-        });
-
-        loadData();
-    }
     
-    private void loadData() {
-        javax.swing.table.DefaultTableModel model = roundedTablePanel1.getModel();
-    model.setRowCount(0);
+    initUi();
 
-    model.setColumnIdentifiers(new Object[]{
-        "Nama Pengguna",
-        "Jabatan",
-        "Divisi",
-        "Email",
-        "No. Telepon",
-        "Alamat",
-        "Password"
+    pageTitle1.setText("DAFTAR USER");
+    getContentPane().setBackground(components.RoundedColors.BACKGROUND);
+    setLocationRelativeTo(null);
+    Navigation.bind(sidebarMenu1, this);
+
+    btnBack.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            Navigation.go(UserListFrame1.this, new Dashboard());
+        }
     });
 
-    String sql = "SELECT nama, jabatan, divisi, email, no_telp, alamat, password " +
-                 "FROM user ORDER BY nama ASC";
+    btnNew.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            Navigation.go(UserListFrame1.this, new UserFormFrame());
+        }
+    });
 
-    try (
-        Connection conn = new KoneksiDb().connect();
+    loadData();
+    iniEvent(); // PENTING AGAR SEARCH BERJALAN
+}
+    private void initUi() {
+    roundedTablePanel1.setActionColumn(
+        "/image/edit.png",
+        new components.RoundedTablePanel.ActionClickListener() {
+            @Override
+            public void onActionClick(int row) {
+
+                String nama = tabmode.getValueAt(row, 0).toString();
+                String jabatan = tabmode.getValueAt(row, 1).toString();
+                String divisi = tabmode.getValueAt(row, 2).toString();
+                String email = tabmode.getValueAt(row, 3).toString();
+                String telepon = tabmode.getValueAt(row, 4).toString();
+                String alamat = tabmode.getValueAt(row, 5).toString();
+                String password = tabmode.getValueAt(row, 6).toString();
+
+                openEditForm(
+                    nama,
+                    jabatan,
+                    divisi,
+                    telepon,
+                    alamat,
+                    email,
+                    password
+                );
+            }
+        }
+    );
+}
+    private void openEditForm(
+        String nama,
+        String jabatan,
+        String divisi,
+        String telepon,
+        String alamat,
+        String email,
+        String password) {
+
+    JFrame next = new UserFormFrame(
+            nama,
+            jabatan,
+            divisi,
+            telepon,
+            alamat,
+            email,
+            password
+    );
+
+    next.pack();
+    next.setLocationRelativeTo(this);
+    next.setVisible(true);
+    dispose();
+}
+    
+    private void openEditForm(String projectId) {
+        JFrame next = new UserFormFrame(projectId);
+        next.pack();
+        next.setLocationRelativeTo(this);
+        next.setVisible(true);
+        dispose();
+    }
+    
+    private void iniEvent() {
+    searchTimer = new Timer(300, e -> search());
+    searchTimer.setRepeats(false);
+
+    searchBox1.getTextField().getDocument().addDocumentListener(
+        new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                searchTimer.restart();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                searchTimer.restart();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                searchTimer.restart();
+            }
+        }
+    );
+}
+    
+    private void showError(String message) {
+        JOptionPane.showMessageDialog(null, message, "Gagal", JOptionPane.WARNING_MESSAGE) ;
+    }
+    
+    private void search() {
+    String keyword = searchBox1.getText().trim();
+
+    tabmode.setRowCount(0);
+
+    String sql =
+            "SELECT nama, jabatan, divisi, email, no_telp, alamat, password " +
+            "FROM user " +
+            "WHERE nama LIKE ? " +
+            "OR jabatan LIKE ? " +
+            "OR divisi LIKE ? " +
+            "OR email LIKE ? " +
+            "OR no_telp LIKE ? " +
+            "OR alamat LIKE ? " +
+            "OR password LIKE ? " +
+            "ORDER BY nama ASC";
+
+    try {
         PreparedStatement ps = conn.prepareStatement(sql);
+
+        String key = "%" + keyword + "%";
+
+        for (int i = 1; i <= 7; i++) {
+            ps.setString(i, key);
+        }
+
         ResultSet rs = ps.executeQuery();
-    ) {
 
         while (rs.next()) {
-            model.addRow(new Object[]{
+            tabmode.addRow(new Object[]{
+    rs.getString("nama"),
+    rs.getString("jabatan"),
+    rs.getString("divisi"),
+    rs.getString("email"),
+    rs.getString("no_telp"),
+    rs.getString("alamat"),
+    rs.getString("password"),
+    null
+});
+        }
+
+        rs.close();
+        ps.close();
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Gagal mencari data : " + e.getMessage()
+        );
+    }
+}
+    
+    private void loadData() {
+    tabmode = roundedTablePanel1.getModel();
+    tabmode.setRowCount(0);
+
+    tabmode.setColumnIdentifiers(new Object[]{
+    "Nama Pengguna",
+    "Jabatan",
+    "Divisi",
+    "Email",
+    "No. Telepon",
+    "Alamat",
+    "Password",
+    "Aksi"
+});
+
+    String sql =
+            "SELECT nama, jabatan, divisi, email, no_telp, alamat, password " +
+            "FROM user ORDER BY nama ASC";
+
+    try {
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            tabmode.addRow(new Object[]{
                 rs.getString("nama"),
                 rs.getString("jabatan"),
                 rs.getString("divisi"),
@@ -93,10 +248,16 @@ public class UserListFrame1 extends javax.swing.JFrame {
             });
         }
 
+        rs.close();
+        ps.close();
+
     } catch (Exception e) {
-        System.out.println("Gagal memuat data user: " + e.getMessage());
+        JOptionPane.showMessageDialog(
+                this,
+                "Gagal memuat data user : " + e.getMessage()
+        );
     }
-    }
+}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -110,15 +271,12 @@ public class UserListFrame1 extends javax.swing.JFrame {
         btnNew = new components.RoundedButton();
         btnBack = new components.RoundedButton();
         roundedTablePanel1 = new components.RoundedTablePanel();
-        btnEdit = new components.RoundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PROJECT ADMINISTRATION");
         setMinimumSize(new java.awt.Dimension(1200, 800));
 
         pageTitle1.setText("USER");
-
-        searchBox1.setText("Cari...");
 
         btnViewReport.setText("View Report");
 
@@ -131,13 +289,6 @@ public class UserListFrame1 extends javax.swing.JFrame {
         roundedTablePanel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 roundedTablePanel1MouseClicked(evt);
-            }
-        });
-
-        btnEdit.setText("Edit");
-        btnEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditActionPerformed(evt);
             }
         });
 
@@ -155,8 +306,6 @@ public class UserListFrame1 extends javax.swing.JFrame {
                     .addComponent(pageTitle1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
                     .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)
                         .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
                         .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -183,38 +332,12 @@ public class UserListFrame1 extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        // TODO add your handling code here:
-        int row = roundedTablePanel1.getTable().getSelectedRow();
-
-    if (row == -1) {
-        javax.swing.JOptionPane.showMessageDialog(
-                this,
-                "Pilih data user terlebih dahulu!");
-        return;
-    }
-
-    UserFormFrame form = new UserFormFrame(
-            selectedNama,
-            selectedJabatan,
-            selectedDivisi,
-            selectedTelepon,
-            selectedAlamat,
-            selectedEmail,
-            selectedPassword
-    );
-
-    form.setVisible(true);
-    this.dispose();
-    }//GEN-LAST:event_btnEditActionPerformed
 
     private void roundedTablePanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundedTablePanel1MouseClicked
         // TODO add your handling code here:
@@ -241,7 +364,6 @@ public class UserListFrame1 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private components.RoundedButton btnBack;
-    private components.RoundedButton btnEdit;
     private components.RoundedButton btnNew;
     private components.RoundedButton btnViewReport;
     private components.PageTitle pageTitle1;

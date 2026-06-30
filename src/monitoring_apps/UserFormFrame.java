@@ -15,6 +15,8 @@ public class UserFormFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         Navigation.bind(sidebarMenu1, this);
     }
+    
+    
 
     public UserFormFrame(
             String nama,
@@ -50,6 +52,10 @@ public class UserFormFrame extends javax.swing.JFrame {
         }
     });
 }
+
+    UserFormFrame(String projectId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     protected void kosong(){
     txtNama.setText("");
     txtJabatan.setText("");

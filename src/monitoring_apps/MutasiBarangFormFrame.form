@@ -43,25 +43,24 @@
                       </Group>
                       <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblBarang" min="-2" max="-2" attributes="0"/>
-                          <Component id="cmbBarang" min="-2" pref="420" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Component id="lblProject" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="cmbProject" alignment="0" min="-2" pref="420" max="-2" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lblQty" min="-2" max="-2" attributes="0"/>
                           <Component id="txtQty" min="-2" pref="420" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblKeterangan" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtKeterangan" min="-2" pref="420" max="-2" attributes="0"/>
-                      </Group>
                   </Group>
-                  <Component id="lblTanggalSurat" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtTanggalSurat" alignment="0" min="-2" pref="420" max="-2" attributes="0"/>
+                  <Component id="lblBarang" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="txtBarang" min="-2" pref="840" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                      <Component id="btnSearchBarang" min="-2" pref="50" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="lblProject" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="txtProject" min="-2" pref="840" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                      <Component id="btnSearchProject" min="-2" pref="50" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="lblKeterangan" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtKeterangan" alignment="0" min="-2" pref="900" max="-2" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="btnSave" min="-2" pref="150" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
@@ -97,32 +96,29 @@
                               <Component id="cmbTipe" min="-2" pref="42" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="lblBarang" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="cmbBarang" min="-2" pref="42" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                      <Component id="lblProject" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cmbProject" min="-2" pref="42" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
                               <Component id="lblQty" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="txtQty" min="-2" pref="42" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="lblKeterangan" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txtKeterangan" min="-2" pref="42" max="-2" attributes="0"/>
-                          </Group>
                       </Group>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                      <Component id="lblTanggalSurat" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblBarang" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtTanggalSurat" min="-2" pref="42" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="txtBarang" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
+                          <Component id="btnSearchBarang" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <Component id="lblProject" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="txtProject" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
+                          <Component id="btnSearchProject" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <Component id="lblKeterangan" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="txtKeterangan" min="-2" pref="100" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnSave" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
@@ -160,14 +156,18 @@
         <Property name="text" type="java.lang.String" value="Barang"/>
       </Properties>
     </Component>
-    <Component class="components.RoundedComboBox" name="cmbBarang">
+    <Component class="components.RoundedTextField" name="txtBarang">
+    </Component>
+    <Component class="components.RoundedButton" name="btnSearchBarang">
     </Component>
     <Component class="javax.swing.JLabel" name="lblProject">
       <Properties>
         <Property name="text" type="java.lang.String" value="Project / Tujuan"/>
       </Properties>
     </Component>
-    <Component class="components.RoundedComboBox" name="cmbProject">
+    <Component class="components.RoundedTextField" name="txtProject">
+    </Component>
+    <Component class="components.RoundedButton" name="btnSearchProject">
     </Component>
     <Component class="javax.swing.JLabel" name="lblQty">
       <Properties>
@@ -181,15 +181,9 @@
         <Property name="text" type="java.lang.String" value="Keterangan"/>
       </Properties>
     </Component>
-    <Component class="components.RoundedTextField" name="txtKeterangan">
+    <Component class="components.RoundedTextArea" name="txtKeterangan">
     </Component>
-    <Component class="javax.swing.JLabel" name="lblTanggalSurat">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Tanggal Surat"/>
-      </Properties>
-    </Component>
-    <Component class="components.RoundedTextField" name="txtTanggalSurat">
-    </Component>
+
     <Component class="components.RoundedButton" name="btnSave">
       <Properties>
         <Property name="text" type="java.lang.String" value="Save"/>

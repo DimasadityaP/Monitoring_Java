@@ -6,6 +6,7 @@ import koneksi.KoneksiDb;
 import java.sql.Connection;
 
 public class BarangFormFrame extends javax.swing.JFrame {
+    private Connection conn = new KoneksiDb().connect() ;
     public BarangFormFrame(){
     initComponents();
     setLocationRelativeTo(null);
@@ -53,6 +54,8 @@ public class BarangFormFrame extends javax.swing.JFrame {
     cmbJenis.setSelectedIndex(0);
     txtKode.setEditable(true);
 }
+    
+
  
 
     @SuppressWarnings("unchecked")
@@ -429,7 +432,13 @@ public class BarangFormFrame extends javax.swing.JFrame {
     private void cmbJenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbJenisActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbJenisActionPerformed
-
+    public static void main(String[] args) {
+                java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new BarangFormFrame().setVisible(true);
+            }
+        });
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private components.RoundedButton btnBack;
     private components.RoundedButton btnClear;

@@ -1,54 +1,43 @@
 package monitoring_apps;
+
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.RenderingHints;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.Icon;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import koneksi.KoneksiDb;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerDateModel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import koneksi.KoneksiDb;
 
 public class ReimbursementFormFrame extends javax.swing.JFrame {
 
-    private static final String DB_HOST = "localhost";
-    private static final String DB_PORT = "3306";
-    private static final String DB_NAME = "monitoring_dev";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "";
-    private Connection conn= new KoneksiDb().connect();
+    private final Connection conn = new KoneksiDb().connect();
 
     private Integer selectedReimbursementId = null;
-    private JTable tblItems;
-private JScrollPane scrollItems;
-private components.RoundedButton btnTambahItem;
-private components.RoundedButton btnHapusItem;
-private DefaultTableModel itemTableModel;
-private String selectedReimbursementNo = null;
+    private Integer selectedProjectId = null;
+    private DefaultTableModel itemTableModel;
 
     public ReimbursementFormFrame() {
         initComponents();
@@ -57,44 +46,73 @@ private String selectedReimbursementNo = null;
         setupReimbursementForm();
     }
 
+    public ReimbursementFormFrame(Integer reimbursementId) {
+        initComponents();
+        setLocationRelativeTo(null);
+        Navigation.bind(sidebarMenu1, this);
+        setupReimbursementForm();
+        loadReimbursementById(reimbursementId);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        userProfileCard1 = new components.UserProfileCard();
-        sidebarMenu1 = new components.SidebarMenu();
-        pageTitle1 = new components.PageTitle();
-        lblProyekTujuan = new javax.swing.JLabel();
-        txtProyekTujuan = new components.RoundedTextField();
-        lblHari = new javax.swing.JLabel();
-        cmbHari = new components.RoundedComboBox();
-        lblTanggal = new javax.swing.JLabel();
-        txtTanggal = new components.RoundedTextField();
-        lblPerihal = new javax.swing.JLabel();
-        txtPerihal = new components.RoundedTextArea();
-        lblUraian = new javax.swing.JLabel();
-        txtUraian1 = new components.RoundedTextField();
-        lblKuantitas = new javax.swing.JLabel();
-        txtKuantitas1 = new components.RoundedTextField();
-        lblSatuan = new javax.swing.JLabel();
-        txtSatuan1 = new components.RoundedTextField();
-        lblNominal = new javax.swing.JLabel();
-        txtNominal1 = new components.RoundedTextField();
-        lblTotal = new javax.swing.JLabel();
-        txtTotal1 = new components.RoundedTextField();
-        lblTotalAkhir = new javax.swing.JLabel();
-        txtTotalAkhir = new components.RoundedTextField();
         btnSave = new components.RoundedButton();
         btnUpdate = new components.RoundedButton();
         btnClear = new components.RoundedButton();
         btnDelete = new components.RoundedButton();
         btnBack = new components.RoundedButton();
+        lblPerihal = new javax.swing.JLabel();
+        txtPerihal = new components.RoundedTextArea();
+        lblUraian = new javax.swing.JLabel();
+        txtUraian1 = new components.RoundedTextField();
+        userProfileCard1 = new components.UserProfileCard();
+        sidebarMenu1 = new components.SidebarMenu();
+        pageTitle1 = new components.PageTitle();
+        lblProyekTujuan = new javax.swing.JLabel();
+        lblHari = new javax.swing.JLabel();
+        cmbHari = new components.RoundedComboBox();
+        lblTanggal = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        txtSatuan = new components.RoundedTextField();
+        txtKuantitas = new components.RoundedTextField();
+        jLabel2 = new javax.swing.JLabel();
+        Nominal = new components.RoundedTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtTotal = new components.RoundedTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jbtambah = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("FORMULIR REIMBURSEMEN");
-        setMinimumSize(new java.awt.Dimension(1200, 800));
 
-        pageTitle1.setText("FORMULIR REIMBURSEMEN");
+        btnSave.setText("Save");
+
+        btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
+        btnClear.setText("Clear");
+
+        btnDelete.setText("Delete");
+        btnDelete.setButtonColor(new java.awt.Color(154, 61, 120));
+
+        btnBack.setText("Back");
+        btnBack.setButtonColor(new java.awt.Color(217, 217, 217));
+
+        lblPerihal.setText("Perihal");
+
+        lblUraian.setText("Masukan Uraian");
+
+        pageTitle1.setText("FORMULIR REIMBURSEMENT");
 
         lblProyekTujuan.setText("Proyek / Tujuan");
 
@@ -108,95 +126,110 @@ private String selectedReimbursementNo = null;
 
         lblTanggal.setText("Tanggal");
 
-        lblPerihal.setText("Perihal");
+        jLabel1.setText("Satuan");
 
-        lblUraian.setText("Masukan Uraian");
+        jLabel2.setText("Kuantitas");
 
-        lblKuantitas.setText("Kuantitas");
+        Nominal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NominalActionPerformed(evt);
+            }
+        });
 
-        lblSatuan.setText("Satuan");
+        jLabel3.setText("Nominal");
 
-        lblNominal.setText("Nominal");
+        txtTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTotalActionPerformed(evt);
+            }
+        });
 
-        lblTotal.setText("Total");
+        jLabel4.setText("Total");
 
-        lblTotalAkhir.setText("Total Akhir");
+        jbtambah.setText("+");
 
-        btnSave.setText("Save");
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
-        btnUpdate.setText("Update");
+        jTextField1.setText("");
+        jTextField1.setEditable(false);
 
-        btnClear.setText("Clear");
-
-        btnDelete.setText("Delete");
-        btnDelete.setButtonColor(new java.awt.Color(154, 61, 120));
-
-        btnBack.setForeground(new java.awt.Color(0, 0, 0));
-        btnBack.setText("Back");
-        btnBack.setButtonColor(new java.awt.Color(217, 217, 217));
+        jButton1.setText("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                    
-                    
-                    
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(userProfileCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(70, 70, 70)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblProyekTujuan)
-                            .addComponent(txtProyekTujuan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(60, 60, 60)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(54, 54, 54)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblHari)
                             .addComponent(cmbHari, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(lblTanggal, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtTanggal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPerihal, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtPerihal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblUraian)
-                            .addComponent(txtUraian1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(60, 60, 60)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblKuantitas)
-                            .addComponent(txtKuantitas1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblSatuan)
-                            .addComponent(txtSatuan1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(60, 60, 60)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNominal)
-                            .addComponent(txtNominal1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblTotal)
-                            .addComponent(txtTotal1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(60, 60, 60)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblTotalAkhir)
-                            .addComponent(txtTotalAkhir, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(40, Short.MAX_VALUE))
+                    .addComponent(lblTanggal)
+                    .addComponent(lblPerihal)
+                    .addComponent(txtPerihal, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(39, 39, 39)
+                            .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(49, 49, 49)
+                            .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(36, 36, 36)
+                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(58, 58, 58)
+                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtUraian1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblUraian))
+                                .addGap(45, 45, 45)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtKuantitas, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Nominal, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jbtambah, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,56 +239,45 @@ private String selectedReimbursementNo = null;
                     .addComponent(userProfileCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblProyekTujuan)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtProyekTujuan, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblHari)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cmbHari, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
+                        .addGap(16, 16, 16)
                         .addComponent(lblTanggal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblPerihal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtPerihal, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblUraian)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtUraian1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblKuantitas)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtKuantitas1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblSatuan)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtSatuan1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblNominal)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtNominal1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblTotal)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTotal1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblTotalAkhir)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTotalAkhir, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblUraian)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtUraian1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtKuantitas, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Nominal, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbtambah, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -263,262 +285,688 @@ private String selectedReimbursementNo = null;
                             .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>                        
 
-   
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+    }                                         
 
-   private void setupReimbursementForm() {
-    txtTotal1.setEditable(false);
-    txtTotalAkhir.setEditable(false);
-
-   setupHariCombo();
-   setupTanggalPicker();
-
-    btnSave.addActionListener(e -> saveReimbursement());
-    btnUpdate.addActionListener(e -> updateReimbursement());
-    btnDelete.addActionListener(e -> deleteReimbursement());
-    btnClear.addActionListener(e -> clearReimbursementForm());
-
-    DocumentListener totalListener = new DocumentListener() {
-        @Override
-        public void insertUpdate(DocumentEvent e) {
-            calculateTotal();
-        }
-
-        @Override
-        public void removeUpdate(DocumentEvent e) {
-            calculateTotal();
-        }
-
-        @Override
-        public void changedUpdate(DocumentEvent e) {
-            calculateTotal();
-        }
-    };
-
-    txtKuantitas1.getDocument().addDocumentListener(totalListener);
-    txtNominal1.getDocument().addDocumentListener(totalListener);
-
-    txtProyekTujuan.addActionListener(e -> loadLatestByProjectId(false));
-    txtProyekTujuan.addFocusListener(new FocusAdapter() {
-        @Override
-        public void focusLost(FocusEvent e) {
-            loadLatestByProjectId(false);
-        }
-    });
-}
-
-   private void saveReimbursement() {
-    if (!validateReimbursementForm()) {
-        return;
+    private void cmbHariActionPerformed(java.awt.event.ActionEvent evt) {
+        // No action needed
     }
 
-    String sql = "INSERT INTO reimbursement "
-            + "(project_id, hari, tanggal, hal, uraian, qty, satuan, harga_satuan, jumlah, pj) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private void cmbproyekActionPerformed(java.awt.event.ActionEvent evt) {
+        // No action needed
+    }
 
-    try (
-         PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+    private void NominalActionPerformed(java.awt.event.ActionEvent evt) {
+        // No action needed
+    }
 
-        int projectId = parseInteger(txtProyekTujuan.getText());
-        String hari = getSelectedHari();
-        String tanggal = normalizeTanggalForDb(txtTanggal.getText().trim());
-        String hal = txtPerihal.getText().trim();
+    private void txtTotalActionPerformed(java.awt.event.ActionEvent evt) {
+        // No action needed
+    }
 
-        String uraian = txtUraian1.getText().trim();
-        int qty = parseInteger(txtKuantitas1.getText());
-        String satuan = txtSatuan1.getText().trim();
-        BigDecimal hargaSatuan = parseDecimal(txtNominal1.getText());
-        BigDecimal jumlah = new BigDecimal(qty).multiply(hargaSatuan);
 
-        String pj = getCurrentAdminAccount();
+    private static class SearchIcon implements Icon {
 
-        ps.setInt(1, projectId);
-        ps.setString(2, hari);
-        ps.setString(3, tanggal);
-        ps.setString(4, hal);
-        ps.setString(5, uraian);
-        ps.setInt(6, qty);
-        ps.setString(7, satuan);
-        ps.setBigDecimal(8, hargaSatuan);
-        ps.setBigDecimal(9, jumlah);
-        ps.setString(10, pj);
+        private final int size;
+        private final Color color;
 
-        ps.executeUpdate();
+        SearchIcon(int size, Color color) {
+            this.size = size;
+            this.color = color;
+        }
 
-        try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-            if (generatedKeys.next()) {
-                selectedReimbursementId = generatedKeys.getInt(1);
+        @Override
+        public int getIconWidth() {
+            return size;
+        }
+
+        @Override
+        public int getIconHeight() {
+            return size;
+        }
+
+        @Override
+        public void paintIcon(Component c, Graphics g, int x, int y) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setColor(color);
+            g2.setStroke(new BasicStroke(2.4f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+
+            int lensSize = Math.max(9, size - 8);
+            int lensX = x + 2;
+            int lensY = y + 2;
+            g2.drawOval(lensX, lensY, lensSize, lensSize);
+
+            int startX = lensX + lensSize - 1;
+            int startY = lensY + lensSize - 1;
+            int endX = x + size - 2;
+            int endY = y + size - 2;
+            g2.drawLine(startX, startY, endX, endY);
+            g2.dispose();
+        }
+    }
+
+    private void setupReimbursementForm() {
+        txtTotal.setEditable(false);
+        setupMainInputSizing();
+
+        setupHariCombo();
+        setupDateChooser();
+        setupProjectChooser();
+        setupItemTable();
+
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
+
+        jbtambah.addActionListener(e -> addItemToTable());
+
+        btnSave.addActionListener(e -> saveReimbursement());
+        btnUpdate.addActionListener(e -> updateReimbursement());
+        btnDelete.addActionListener(e -> deleteReimbursement());
+        btnClear.addActionListener(e -> clearReimbursementForm());
+        btnBack.addActionListener(e -> {
+            new ReimbursementListFrame().setVisible(true);
+            dispose();
+        });
+
+        DocumentListener totalListener = new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                calculateCurrentItemTotal();
             }
-        }
 
-        JOptionPane.showMessageDialog(this, "Data reimbursement berhasil disimpan.");
-        clearReimbursementForm();
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                calculateCurrentItemTotal();
+            }
 
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(this, "Gagal menyimpan data: " + e.getMessage());
-    } catch (Exception e) {
-    e.printStackTrace();
-    JOptionPane.showMessageDialog(this, "Input tidak valid: " + e.getClass().getSimpleName() + " - " + e.getMessage());
-}
-    
-}
- 
-   private void setupTanggalPicker() {
-    txtTanggal.setEditable(false);
-    txtTanggal.setToolTipText("Klik untuk pilih tanggal");
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                calculateCurrentItemTotal();
+            }
+        };
 
-    txtTanggal.addMouseListener(new java.awt.event.MouseAdapter() {
-        @Override
-        public void mouseClicked(java.awt.event.MouseEvent e) {
-            openTanggalPicker();
-        }
-    });
-}
-
-private void openTanggalPicker() {
-    Date initialDate = new Date();
-
-    try {
-        String currentText = txtTanggal.getText().trim();
-        if (!currentText.isEmpty()) {
-            initialDate = parseTanggalInput(currentText);
-        }
-    } catch (Exception ignored) {
-        initialDate = new Date();
+        txtKuantitas.getDocument().addDocumentListener(totalListener);
+        Nominal.getDocument().addDocumentListener(totalListener);
     }
 
-    SpinnerDateModel model = new SpinnerDateModel(
-            initialDate,
-            null,
-            null,
-            Calendar.DAY_OF_MONTH
-    );
+    private void setupMainInputSizing() {
+        Dimension inputSize = new Dimension(420, 44);
+        Dimension projectTextSize = new Dimension(362, 44);
+        Dimension searchButtonSize = new Dimension(52, 44);
 
-    JSpinner spinner = new JSpinner(model);
-    spinner.setEditor(new JSpinner.DateEditor(spinner, "dd/MM/yyyy"));
+        jTextField1.setPreferredSize(projectTextSize);
+        jTextField1.setMinimumSize(projectTextSize);
+        jTextField1.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        jTextField1.setMargin(new Insets(0, 12, 0, 12));
 
-    int option = JOptionPane.showConfirmDialog(
-            this,
-            spinner,
-            "Pilih Tanggal",
-            JOptionPane.OK_CANCEL_OPTION,
-            JOptionPane.PLAIN_MESSAGE
-    );
+        jButton1.setPreferredSize(searchButtonSize);
+        jButton1.setMinimumSize(searchButtonSize);
 
-    if (option == JOptionPane.OK_OPTION) {
-        Date selectedDate = (Date) spinner.getValue();
-        txtTanggal.setText(new SimpleDateFormat("yyyy-MM-dd").format(selectedDate));
+        cmbHari.setPreferredSize(inputSize);
+        jDateChooser1.setPreferredSize(inputSize);
+        txtPerihal.setPreferredSize(new Dimension(420, 80));
+        txtUraian1.setPreferredSize(new Dimension(240, 44));
+        txtKuantitas.setPreferredSize(new Dimension(135, 44));
+        txtSatuan.setPreferredSize(new Dimension(135, 44));
+        Nominal.setPreferredSize(new Dimension(135, 44));
+        txtTotal.setPreferredSize(new Dimension(135, 44));
+        jbtambah.setPreferredSize(new Dimension(56, 44));
     }
-}
 
-private Date parseTanggalInput(String value) throws ParseException {
-    String clean = value.trim();
+    private void setupProjectChooser() {
+        selectedProjectId = null;
 
-    SimpleDateFormat[] formats = new SimpleDateFormat[]{
-        new SimpleDateFormat("yyyy-MM-dd"),
-        new SimpleDateFormat("dd/MM/yyyy"),
-        new SimpleDateFormat("dd-MM-yyyy"),
-        new SimpleDateFormat("ddMMyyyy")
-    };
+        jTextField1.setEditable(false);
+        jTextField1.setFocusable(false);
+        jTextField1.setText("");
+        jTextField1.setBackground(new Color(250, 250, 250));
+        jTextField1.setForeground(new Color(20, 20, 20));
+        jTextField1.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(190, 190, 190), 1),
+                BorderFactory.createEmptyBorder(0, 12, 0, 12)
+        ));
+        jTextField1.setToolTipText("Klik tombol search untuk memilih proyek");
 
-    for (SimpleDateFormat format : formats) {
-        format.setLenient(false);
-        try {
-            return format.parse(clean);
-        } catch (ParseException ignored) {
+        jButton1.setText("");
+        jButton1.setIcon(new SearchIcon(20, Color.WHITE));
+        jButton1.setToolTipText("Cari dan pilih proyek / tujuan");
+        jButton1.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        jButton1.setFocusable(false);
+        jButton1.setContentAreaFilled(true);
+        jButton1.setOpaque(true);
+        jButton1.setBackground(new Color(70, 74, 160));
+        jButton1.setBorder(BorderFactory.createEmptyBorder(8, 12, 8, 12));
+        jButton1.setMargin(new Insets(0, 0, 0, 0));
+        jButton1.addActionListener(e -> showProjectChooserDialog());
+    }
+
+    private void showProjectChooserDialog() {
+        javax.swing.JDialog dialog = new javax.swing.JDialog(this, "Pilih Proyek / Tujuan", true);
+        dialog.setLayout(new BorderLayout(10, 10));
+
+        javax.swing.JPanel rootPanel = new javax.swing.JPanel(new BorderLayout(12, 12));
+        rootPanel.setBackground(new Color(245, 246, 250));
+        rootPanel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
+
+        javax.swing.JPanel searchPanel = new javax.swing.JPanel(new BorderLayout(10, 0));
+        searchPanel.setOpaque(false);
+        javax.swing.JLabel searchLabel = new javax.swing.JLabel("Cari Proyek");
+        javax.swing.JTextField txtSearchProject = new javax.swing.JTextField();
+        txtSearchProject.setPreferredSize(new Dimension(420, 40));
+        txtSearchProject.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        txtSearchProject.setMargin(new Insets(0, 12, 0, 12));
+        searchLabel.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        searchLabel.setPreferredSize(new Dimension(90, 40));
+        searchPanel.add(searchLabel, BorderLayout.WEST);
+        searchPanel.add(txtSearchProject, BorderLayout.CENTER);
+
+        DefaultTableModel projectTableModel = new DefaultTableModel(
+                new Object[]{"ID", "Nama Proyek", "TA", "Sub Perusahaan", "Jenis", "Instansi"},
+                0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        javax.swing.JTable tblProjectPopup = new javax.swing.JTable(projectTableModel);
+        tblProjectPopup.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        styleProjectPopupTable(tblProjectPopup);
+        setProjectPopupColumnWidths(tblProjectPopup);
+
+        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(tblProjectPopup);
+        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(210, 210, 210), 1));
+
+        javax.swing.JPanel buttonPanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 10, 0));
+        buttonPanel.setOpaque(false);
+        javax.swing.JButton btnChoose = new javax.swing.JButton("Pilih");
+        javax.swing.JButton btnCancel = new javax.swing.JButton("Batal");
+        styleDialogButton(btnChoose, true);
+        styleDialogButton(btnCancel, false);
+        buttonPanel.add(btnChoose);
+        buttonPanel.add(btnCancel);
+
+        rootPanel.add(searchPanel, BorderLayout.NORTH);
+        rootPanel.add(scrollPane, BorderLayout.CENTER);
+        rootPanel.add(buttonPanel, BorderLayout.SOUTH);
+        dialog.add(rootPanel, BorderLayout.CENTER);
+
+        txtSearchProject.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                loadProjectPopupData(projectTableModel, txtSearchProject.getText());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                loadProjectPopupData(projectTableModel, txtSearchProject.getText());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                loadProjectPopupData(projectTableModel, txtSearchProject.getText());
+            }
+        });
+
+        tblProjectPopup.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    chooseProjectFromDialog(tblProjectPopup, projectTableModel, dialog);
+                }
+            }
+        });
+
+        btnChoose.addActionListener(e -> chooseProjectFromDialog(tblProjectPopup, projectTableModel, dialog));
+        btnCancel.addActionListener(e -> dialog.dispose());
+
+        loadProjectPopupData(projectTableModel, "");
+
+        dialog.setSize(950, 540);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }
+
+
+    private void styleProjectPopupTable(javax.swing.JTable table) {
+        table.setRowHeight(34);
+        table.setShowGrid(true);
+        table.setGridColor(new Color(225, 225, 225));
+        table.setFillsViewportHeight(true);
+        table.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        table.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        table.getTableHeader().setReorderingAllowed(false);
+        table.getTableHeader().setPreferredSize(new Dimension(0, 42));
+        table.getTableHeader().setBackground(new Color(70, 64, 150));
+        table.getTableHeader().setForeground(Color.WHITE);
+        table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 13));
+
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        headerRenderer.setBackground(new Color(70, 64, 150));
+        headerRenderer.setForeground(Color.WHITE);
+        headerRenderer.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        table.getTableHeader().setDefaultRenderer(headerRenderer);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
     }
 
-    throw new ParseException("Format tanggal tidak valid", 0);
-}
-
-private String normalizeTanggalForDb(String value) throws ParseException {
-    Date date = parseTanggalInput(value);
-    return new SimpleDateFormat("yyyy-MM-dd").format(date);
-}
-
- private void updateReimbursement() {
-    if (!validateReimbursementForm()) {
-        return;
+    private void setProjectPopupColumnWidths(javax.swing.JTable table) {
+        int[] widths = {70, 260, 90, 160, 120, 210};
+        for (int i = 0; i < widths.length && i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setPreferredWidth(widths[i]);
+            table.getColumnModel().getColumn(i).setMinWidth(widths[i]);
+        }
     }
 
-    if (selectedReimbursementId == null) {
-        boolean found = loadLatestByProjectId(true);
-        if (!found || selectedReimbursementId == null) {
-            JOptionPane.showMessageDialog(this, "Data belum ditemukan. Isi ID Proyek/Tujuan yang sudah tersimpan, lalu tekan Enter atau klik keluar field.");
+    private void styleDialogButton(javax.swing.JButton button, boolean primary) {
+        button.setPreferredSize(new Dimension(120, 40));
+        button.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        button.setFocusable(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.setBorder(BorderFactory.createEmptyBorder(8, 18, 8, 18));
+        if (primary) {
+            button.setBackground(new Color(70, 74, 160));
+            button.setForeground(Color.WHITE);
+        } else {
+            button.setBackground(new Color(217, 217, 217));
+            button.setForeground(Color.BLACK);
+        }
+    }
+
+    private void loadProjectPopupData(DefaultTableModel model, String keyword) {
+        model.setRowCount(0);
+
+        String search = keyword == null ? "" : keyword.trim();
+        String like = "%" + search + "%";
+
+        String sql = "SELECT id, nama, ta, sub_perusahaan, jenis, instansi "
+                + "FROM project "
+                + "WHERE (? = '' "
+                + "OR CAST(id AS CHAR) LIKE ? "
+                + "OR COALESCE(nama, '') LIKE ? "
+                + "OR COALESCE(ta, '') LIKE ? "
+                + "OR COALESCE(sub_perusahaan, '') LIKE ? "
+                + "OR COALESCE(jenis, '') LIKE ? "
+                + "OR COALESCE(instansi, '') LIKE ?) "
+                + "ORDER BY id DESC";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, search);
+            ps.setString(2, like);
+            ps.setString(3, like);
+            ps.setString(4, like);
+            ps.setString(5, like);
+            ps.setString(6, like);
+            ps.setString(7, like);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    model.addRow(new Object[]{
+                        rs.getInt("id"),
+                        nullToEmpty(rs.getString("nama")),
+                        nullToEmpty(rs.getString("ta")),
+                        nullToEmpty(rs.getString("sub_perusahaan")),
+                        nullToEmpty(rs.getString("jenis")),
+                        nullToEmpty(rs.getString("instansi"))
+                    });
+                }
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Gagal mengambil data proyek:\n" + e.getMessage());
+        }
+    }
+
+    private void chooseProjectFromDialog(javax.swing.JTable table, DefaultTableModel model, javax.swing.JDialog dialog) {
+        int selectedRow = table.getSelectedRow();
+
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(dialog, "Pilih proyek terlebih dahulu.");
             return;
         }
+
+        int modelRow = table.convertRowIndexToModel(selectedRow);
+        int projectId = Integer.parseInt(String.valueOf(model.getValueAt(modelRow, 0)));
+        String projectName = String.valueOf(model.getValueAt(modelRow, 1));
+
+        selectedProjectId = projectId;
+        jTextField1.setText(projectId + " - " + projectName);
+        dialog.dispose();
     }
 
-    String sql = "UPDATE reimbursement SET "
-            + "project_id = ?, "
-            + "hari = ?, "
-            + "tanggal = ?, "
-            + "hal = ?, "
-            + "uraian = ?, "
-            + "qty = ?, "
-            + "satuan = ?, "
-            + "harga_satuan = ?, "
-            + "jumlah = ?, "
-            + "pj = ? "
-            + "WHERE id = ?";
+    private Integer getSelectedProjectId() {
+        return selectedProjectId;
+    }
 
-    try (
-         PreparedStatement ps = conn.prepareStatement(sql)) {
-
-        int projectId = parseInteger(txtProyekTujuan.getText());
-        String hari = getSelectedHari();
-    String tanggal = normalizeTanggalForDb(txtTanggal.getText().trim());
-        String hal = txtPerihal.getText().trim();
-
-        String uraian = txtUraian1.getText().trim();
-        int qty = parseInteger(txtKuantitas1.getText());
-        String satuan = txtSatuan1.getText().trim();
-        BigDecimal hargaSatuan = parseDecimal(txtNominal1.getText());
-        BigDecimal jumlah = new BigDecimal(qty).multiply(hargaSatuan);
-
-        String pj = getCurrentAdminAccount();
-
-        ps.setInt(1, projectId);
-        ps.setString(2, hari);
-        ps.setString(3, tanggal);
-        ps.setString(4, hal);
-        ps.setString(5, uraian);
-        ps.setInt(6, qty);
-        ps.setString(7, satuan);
-        ps.setBigDecimal(8, hargaSatuan);
-        ps.setBigDecimal(9, jumlah);
-        ps.setString(10, pj);
-        ps.setInt(11, selectedReimbursementId);
-
-        int affectedRows = ps.executeUpdate();
-
-        if (affectedRows > 0) {
-            JOptionPane.showMessageDialog(this, "Data reimbursement berhasil diupdate.");
-            clearReimbursementForm();
-        } else {
-            JOptionPane.showMessageDialog(this, "Data reimbursement tidak ditemukan.");
+    private void setSelectedProjectById(int projectId) {
+        if (projectId <= 0) {
+            selectedProjectId = null;
+            jTextField1.setText("");
+            return;
         }
 
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(this, "Gagal update data: " + e.getMessage());
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Input tidak valid: " + e.getMessage());
+        String sql = "SELECT id, nama FROM project WHERE id = ? LIMIT 1";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, projectId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    selectedProjectId = rs.getInt("id");
+                    jTextField1.setText(selectedProjectId + " - " + nullToEmpty(rs.getString("nama")));
+                    return;
+                }
+            }
+        } catch (SQLException ignored) {
+        }
+
+        selectedProjectId = projectId;
+        jTextField1.setText(projectId + " - Project ID " + projectId);
     }
-}
+
+    private void setupDateChooser() {
+        jDateChooser1.setDateFormatString("yyyy-MM-dd");
+        jDateChooser1.setDate(new Date());
+    }
+
+    private String getTanggalForDb() {
+        Date selectedDate = jDateChooser1.getDate();
+
+        if (selectedDate == null) {
+            return "";
+        }
+
+        return new SimpleDateFormat("yyyy-MM-dd").format(selectedDate);
+    }
+
+    private void setTanggalFromDb(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            jDateChooser1.setDate(null);
+            return;
+        }
+
+        try {
+            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(value.trim());
+            jDateChooser1.setDate(date);
+        } catch (Exception e) {
+            jDateChooser1.setDate(null);
+        }
+    }
+
+    private void setupItemTable() {
+        itemTableModel = new DefaultTableModel(
+                new Object[]{"Uraian", "Qty", "Satuan", "Nominal", "Total"},
+                0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        jTable1.setModel(itemTableModel);
+        jTable1.setRowHeight(30);
+        jTable1.setShowGrid(true);
+        jTable1.setFillsViewportHeight(true);
+        jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
+
+        jTable1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+                    removeSelectedItem();
+                }
+            }
+        });
+
+        updateTableTitle(BigDecimal.ZERO);
+    }
+
+    private void addItemToTable() {
+        String uraian = txtUraian1.getText().trim();
+        String qtyText = txtKuantitas.getText().trim();
+        String satuan = txtSatuan.getText().trim();
+        String nominalText = Nominal.getText().trim();
+
+        if (uraian.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Uraian wajib diisi.");
+            txtUraian1.requestFocus();
+            return;
+        }
+
+        if (qtyText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Kuantitas wajib diisi.");
+            txtKuantitas.requestFocus();
+            return;
+        }
+
+        if (satuan.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Satuan wajib diisi.");
+            txtSatuan.requestFocus();
+            return;
+        }
+
+        if (nominalText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nominal wajib diisi.");
+            Nominal.requestFocus();
+            return;
+        }
+
+        try {
+            int qty = parseInteger(qtyText);
+            BigDecimal nominal = parseDecimal(nominalText);
+            BigDecimal total = new BigDecimal(qty).multiply(nominal);
+
+            itemTableModel.addRow(new Object[]{
+                uraian,
+                qty,
+                satuan,
+                nominal.toPlainString(),
+                total.toPlainString()
+            });
+
+            clearItemInput();
+            calculateTotalAkhir();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Item tidak valid: " + e.getMessage());
+        }
+    }
+
+    private void removeSelectedItem() {
+        int selectedRow = jTable1.getSelectedRow();
+
+        if (selectedRow < 0) {
+            return;
+        }
+
+        itemTableModel.removeRow(selectedRow);
+        calculateTotalAkhir();
+    }
+
+    private void clearItemInput() {
+        txtUraian1.setText("");
+        txtKuantitas.setText("");
+        txtSatuan.setText("");
+        Nominal.setText("");
+        txtTotal.setText("");
+        txtUraian1.requestFocus();
+    }
+
+    private void calculateCurrentItemTotal() {
+        try {
+            String qtyText = txtKuantitas.getText().trim();
+            String nominalText = Nominal.getText().trim();
+
+            if (qtyText.isEmpty() || nominalText.isEmpty()) {
+                txtTotal.setText("");
+                return;
+            }
+
+            int qty = parseInteger(qtyText);
+            BigDecimal nominal = parseDecimal(nominalText);
+            BigDecimal total = new BigDecimal(qty).multiply(nominal);
+            txtTotal.setText(total.toPlainString());
+        } catch (Exception e) {
+            txtTotal.setText("");
+        }
+    }
+
+    private BigDecimal calculateTotalAkhir() {
+        BigDecimal totalAkhir = BigDecimal.ZERO;
+
+        for (int i = 0; i < itemTableModel.getRowCount(); i++) {
+            BigDecimal totalItem = parseDecimal(String.valueOf(itemTableModel.getValueAt(i, 4)));
+            totalAkhir = totalAkhir.add(totalItem);
+        }
+
+        updateTableTitle(totalAkhir);
+        return totalAkhir;
+    }
+
+    private void updateTableTitle(BigDecimal totalAkhir) {
+        jScrollPane1.setBorder(BorderFactory.createTitledBorder(
+                "Daftar Item Reimbursement | Total Akhir: " + totalAkhir.toPlainString()
+        ));
+    }
+
+    private void saveReimbursement() {
+        if (!validateReimbursementForm()) {
+            return;
+        }
+
+        String insertHeaderSql = "INSERT INTO reimbursement "
+                + "(reimbursement_no, project_id, hari, tanggal, hal, pj, total_akhir) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        String insertItemSql = "INSERT INTO reimbursement_items "
+                + "(reimbursement_id, uraian, qty, satuan, harga_satuan, jumlah) "
+                + "VALUES (?, ?, ?, ?, ?, ?)";
+
+        try {
+            conn.setAutoCommit(false);
+
+            int reimbursementId;
+
+            try (PreparedStatement ps = conn.prepareStatement(insertHeaderSql, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setString(1, generateReimbursementNo());
+                ps.setInt(2, getSelectedProjectId());
+                ps.setString(3, getSelectedHari());
+                ps.setString(4, getTanggalForDb());
+                ps.setString(5, txtPerihal.getText().trim());
+                ps.setString(6, getCurrentAdminAccount());
+                ps.setBigDecimal(7, calculateTotalAkhir());
+                ps.executeUpdate();
+
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (!rs.next()) {
+                        throw new SQLException("Gagal mendapatkan ID reimbursement.");
+                    }
+
+                    reimbursementId = rs.getInt(1);
+                }
+            }
+
+            saveItems(reimbursementId, insertItemSql);
+            conn.commit();
+
+            JOptionPane.showMessageDialog(this, "Data reimbursement berhasil disimpan.");
+            clearReimbursementForm();
+
+        } catch (Exception e) {
+            rollbackQuietly();
+            JOptionPane.showMessageDialog(this, "Gagal menyimpan data: " + e.getMessage());
+        } finally {
+            restoreAutoCommitQuietly();
+        }
+    }
+
+    private void updateReimbursement() {
+        if (!validateReimbursementForm()) {
+            return;
+        }
+
+        if (selectedReimbursementId == null) {
+            JOptionPane.showMessageDialog(this, "Pilih data reimbursement dari list terlebih dahulu untuk update.");
+            return;
+        }
+
+        String updateHeaderSql = "UPDATE reimbursement SET "
+                + "project_id = ?, hari = ?, tanggal = ?, hal = ?, pj = ?, total_akhir = ? "
+                + "WHERE id = ?";
+
+        String deleteItemsSql = "DELETE FROM reimbursement_items WHERE reimbursement_id = ?";
+
+        String insertItemSql = "INSERT INTO reimbursement_items "
+                + "(reimbursement_id, uraian, qty, satuan, harga_satuan, jumlah) "
+                + "VALUES (?, ?, ?, ?, ?, ?)";
+
+        try {
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement ps = conn.prepareStatement(updateHeaderSql)) {
+                ps.setInt(1, getSelectedProjectId());
+                ps.setString(2, getSelectedHari());
+                ps.setString(3, getTanggalForDb());
+                ps.setString(4, txtPerihal.getText().trim());
+                ps.setString(5, getCurrentAdminAccount());
+                ps.setBigDecimal(6, calculateTotalAkhir());
+                ps.setInt(7, selectedReimbursementId);
+                ps.executeUpdate();
+            }
+
+            try (PreparedStatement ps = conn.prepareStatement(deleteItemsSql)) {
+                ps.setInt(1, selectedReimbursementId);
+                ps.executeUpdate();
+            }
+
+            saveItems(selectedReimbursementId, insertItemSql);
+            conn.commit();
+
+            JOptionPane.showMessageDialog(this, "Data reimbursement berhasil diupdate.");
+            clearReimbursementForm();
+
+        } catch (Exception e) {
+            rollbackQuietly();
+            JOptionPane.showMessageDialog(this, "Gagal update data: " + e.getMessage());
+        } finally {
+            restoreAutoCommitQuietly();
+        }
+    }
+
+    private void saveItems(int reimbursementId, String insertItemSql) throws SQLException {
+        try (PreparedStatement psItem = conn.prepareStatement(insertItemSql)) {
+            for (int i = 0; i < itemTableModel.getRowCount(); i++) {
+                psItem.setInt(1, reimbursementId);
+                psItem.setString(2, String.valueOf(itemTableModel.getValueAt(i, 0)));
+                psItem.setInt(3, parseInteger(String.valueOf(itemTableModel.getValueAt(i, 1))));
+                psItem.setString(4, String.valueOf(itemTableModel.getValueAt(i, 2)));
+                psItem.setBigDecimal(5, parseDecimal(String.valueOf(itemTableModel.getValueAt(i, 3))));
+                psItem.setBigDecimal(6, parseDecimal(String.valueOf(itemTableModel.getValueAt(i, 4))));
+                psItem.addBatch();
+            }
+
+            psItem.executeBatch();
+        }
+    }
 
     private void deleteReimbursement() {
         if (selectedReimbursementId == null) {
-            boolean found = loadLatestByProjectId(true);
-            if (!found || selectedReimbursementId == null) {
-                JOptionPane.showMessageDialog(this, "Data belum ditemukan. Isi ID Proyek/Tujuan yang sudah tersimpan, lalu tekan Enter atau klik keluar field.");
-                return;
-            }
+            JOptionPane.showMessageDialog(this, "Pilih data reimbursement dari list terlebih dahulu untuk delete.");
+            return;
         }
 
         int confirm = JOptionPane.showConfirmDialog(
@@ -534,9 +982,7 @@ private String normalizeTanggalForDb(String value) throws ParseException {
 
         String sql = "DELETE FROM reimbursement WHERE id = ?";
 
-        try (
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, selectedReimbursementId);
 
             int affectedRows = ps.executeUpdate();
@@ -553,300 +999,246 @@ private String normalizeTanggalForDb(String value) throws ParseException {
         }
     }
 
-    private boolean loadLatestByProjectId(boolean showMessageIfNotFound) {
-    String projectText = txtProyekTujuan.getText().trim();
-
-    if (projectText.isEmpty()) {
-        selectedReimbursementId = null;
-        return false;
-    }
-
-    int projectId;
-    try {
-        projectId = parseInteger(projectText);
-    } catch (Exception e) {
-        selectedReimbursementId = null;
-        return false;
-    }
-
-    String sql = "SELECT id, project_id, hari, tanggal, hal, uraian, qty, satuan, harga_satuan, jumlah, pj "
-            + "FROM reimbursement "
-            + "WHERE project_id = ? "
-            + "ORDER BY id DESC "
-            + "LIMIT 1";
-
-    try (
-         PreparedStatement ps = conn.prepareStatement(sql)) {
-
-        ps.setInt(1, projectId);
-
-        try (ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) {
-                selectedReimbursementId = rs.getInt("id");
-
-                txtProyekTujuan.setText(String.valueOf(rs.getInt("project_id")));
-                setSelectedHari(nullToEmpty(rs.getString("hari")));
-                txtTanggal.setText(nullToEmpty(rs.getString("tanggal")));
-                txtPerihal.setText(nullToEmpty(rs.getString("hal")));
-
-                txtUraian1.setText(nullToEmpty(rs.getString("uraian")));
-                txtKuantitas1.setText(String.valueOf(rs.getInt("qty")));
-                txtSatuan1.setText(nullToEmpty(rs.getString("satuan")));
-                txtNominal1.setText(bigDecimalToString(rs.getBigDecimal("harga_satuan")));
-                txtTotal1.setText(bigDecimalToString(rs.getBigDecimal("jumlah")));
-                txtTotalAkhir.setText(bigDecimalToString(rs.getBigDecimal("jumlah")));
-
-                return true;
-            }
-        }
-
-        selectedReimbursementId = null;
-
-        if (showMessageIfNotFound) {
-            JOptionPane.showMessageDialog(this, "Data reimbursement dengan ID Proyek/Tujuan tersebut tidak ditemukan.");
-        }
-
-        return false;
-
-    } catch (SQLException e) {
-        selectedReimbursementId = null;
-        JOptionPane.showMessageDialog(this, "Gagal mengambil data: " + e.getMessage());
-        return false;
-    }
-}
-
-private void setupHariCombo() {
-    cmbHari.removeAllItems();
-
-    cmbHari.addItem("Pilih Hari");
-    cmbHari.addItem("Senin");
-    cmbHari.addItem("Selasa");
-    cmbHari.addItem("Rabu");
-    cmbHari.addItem("Kamis");
-    cmbHari.addItem("Jumat");
-    cmbHari.addItem("Sabtu");
-    cmbHari.addItem("Minggu");
-
-    cmbHari.setSelectedIndex(0);
-}
-
-private String getSelectedHari() {
-    Object item = cmbHari.getSelectedItem();
-
-    if (item == null) {
-        return "";
-    }
-
-    String hari = item.toString().trim();
-
-    if (hari.equalsIgnoreCase("Pilih") || hari.equalsIgnoreCase("Pilih Hari")) {
-        return "";
-    }
-
-    return hari;
-}
-
-private void setSelectedHari(String hari) {
-    if (hari == null || hari.trim().isEmpty()) {
-        cmbHari.setSelectedIndex(0);
-        return;
-    }
-
-    String value = hari.trim();
-
-    for (int i = 0; i < cmbHari.getItemCount(); i++) {
-        Object item = cmbHari.getItemAt(i);
-
-        if (item != null && item.toString().equalsIgnoreCase(value)) {
-            cmbHari.setSelectedIndex(i);
+    public void loadReimbursementById(Integer reimbursementId) {
+        if (reimbursementId == null) {
             return;
         }
-    }
 
-    // Kalau data lama isinya Pengadaan/Konstruksi/Administrasi,
-    // jangan dimasukkan lagi ke combo Hari.
-    cmbHari.setSelectedIndex(0);
-}
+        String sql = "SELECT id, project_id, hari, tanggal, hal, pj, total_akhir "
+                + "FROM reimbursement "
+                + "WHERE id = ? "
+                + "LIMIT 1";
 
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, reimbursementId);
 
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    selectedReimbursementId = rs.getInt("id");
 
-private String getCurrentAdminAccount() {
-    String userFromCard = findUserTextFromContainer(userProfileCard1);
+                    setSelectedProjectById(rs.getInt("project_id"));
+                    setSelectedHari(nullToEmpty(rs.getString("hari")));
+                    setTanggalFromDb(rs.getString("tanggal"));
+                    txtPerihal.setText(nullToEmpty(rs.getString("hal")));
 
-    if (!userFromCard.isEmpty()) {
-        return userFromCard;
-    }
+                    loadReimbursementItems(selectedReimbursementId);
 
-    String osUser = System.getProperty("user.name");
-    if (osUser != null && !osUser.trim().isEmpty()) {
-        return osUser.trim();
-    }
-
-    return "ADMIN";
-}
-
-private String findUserTextFromContainer(java.awt.Container container) {
-    if (container == null) {
-        return "";
-    }
-
-    java.awt.Component[] components = container.getComponents();
-
-    for (java.awt.Component component : components) {
-        if (component instanceof javax.swing.JLabel) {
-            String text = ((javax.swing.JLabel) component).getText();
-
-            if (text != null && text.trim().toLowerCase().startsWith("user")) {
-                return text.trim();
+                    btnSave.setEnabled(false);
+                    btnUpdate.setEnabled(true);
+                    btnDelete.setEnabled(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Data reimbursement tidak ditemukan.");
+                }
             }
-        }
-
-        if (component instanceof java.awt.Container) {
-            String result = findUserTextFromContainer((java.awt.Container) component);
-
-            if (!result.isEmpty()) {
-                return result;
-            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Gagal mengambil data reimbursement: " + e.getMessage());
         }
     }
 
-    return "";
-}
+    private void loadReimbursementItems(int reimbursementId) {
+        itemTableModel.setRowCount(0);
+
+        String sql = "SELECT uraian, qty, satuan, harga_satuan, jumlah "
+                + "FROM reimbursement_items "
+                + "WHERE reimbursement_id = ? "
+                + "ORDER BY id ASC";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, reimbursementId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    itemTableModel.addRow(new Object[]{
+                        nullToEmpty(rs.getString("uraian")),
+                        rs.getInt("qty"),
+                        nullToEmpty(rs.getString("satuan")),
+                        bigDecimalToString(rs.getBigDecimal("harga_satuan")),
+                        bigDecimalToString(rs.getBigDecimal("jumlah"))
+                    });
+                }
+            }
+
+            calculateTotalAkhir();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Gagal mengambil item reimbursement: " + e.getMessage());
+        }
+    }
 
     private void clearReimbursementForm() {
         selectedReimbursementId = null;
 
-        txtProyekTujuan.setText("");
-        txtTanggal.setText("");
-        txtPerihal.setText("");
-        txtUraian1.setText("");
-        txtKuantitas1.setText("");
-        txtSatuan1.setText("");
-        txtNominal1.setText("");
-        txtTotal1.setText("");
-        txtTotalAkhir.setText("");
+        selectedProjectId = null;
+        jTextField1.setText("");
 
         if (cmbHari.getItemCount() > 0) {
             cmbHari.setSelectedIndex(0);
         }
 
-        txtProyekTujuan.requestFocus();
-    }
+        jDateChooser1.setDate(new Date());
+        txtPerihal.setText("");
+        clearItemInput();
 
-    private void calculateTotal() {
-        try {
-            String qtyText = txtKuantitas1.getText().trim();
-            String nominalText = txtNominal1.getText().trim();
-
-            if (qtyText.isEmpty() || nominalText.isEmpty()) {
-                txtTotal1.setText("");
-                txtTotalAkhir.setText("");
-                return;
-            }
-
-            int qty = parseInteger(qtyText);
-            BigDecimal hargaSatuan = parseDecimal(nominalText);
-            BigDecimal total = new BigDecimal(qty).multiply(hargaSatuan);
-
-            txtTotal1.setText(total.toPlainString());
-            txtTotalAkhir.setText(total.toPlainString());
-
-        } catch (Exception e) {
-            txtTotal1.setText("");
-            txtTotalAkhir.setText("");
+        if (itemTableModel != null) {
+            itemTableModel.setRowCount(0);
         }
+
+        updateTableTitle(BigDecimal.ZERO);
+
+        btnSave.setEnabled(true);
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
+
+        jButton1.requestFocus();
     }
 
     private boolean validateReimbursementForm() {
-    if (txtProyekTujuan.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Proyek / Tujuan wajib diisi dengan ID Project.");
-        txtProyekTujuan.requestFocus();
-        return false;
+        Integer selectedProjectId = getSelectedProjectId();
+
+        if (selectedProjectId == null) {
+            JOptionPane.showMessageDialog(this, "Proyek / Tujuan wajib dipilih.");
+            jButton1.requestFocus();
+            return false;
+        }
+
+        if (getSelectedHari().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Hari wajib dipilih.");
+            cmbHari.requestFocus();
+            return false;
+        }
+
+        if (jDateChooser1.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Tanggal wajib dipilih.");
+            jDateChooser1.requestFocus();
+            return false;
+        }
+
+        if (txtPerihal.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Perihal wajib diisi.");
+            txtPerihal.requestFocus();
+            return false;
+        }
+
+        if (itemTableModel.getRowCount() <= 0) {
+            JOptionPane.showMessageDialog(this, "Minimal harus ada 1 item reimbursement. Isi item lalu klik tombol +.");
+            txtUraian1.requestFocus();
+            return false;
+        }
+
+        calculateTotalAkhir();
+        return true;
     }
 
-    try {
-        parseInteger(txtProyekTujuan.getText());
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Proyek / Tujuan harus berupa angka ID Project.");
-        txtProyekTujuan.requestFocus();
-        return false;
+    private void setupHariCombo() {
+        cmbHari.removeAllItems();
+        cmbHari.addItem("Pilih");
+        cmbHari.addItem("Senin");
+        cmbHari.addItem("Selasa");
+        cmbHari.addItem("Rabu");
+        cmbHari.addItem("Kamis");
+        cmbHari.addItem("Jumat");
+        cmbHari.addItem("Sabtu");
+        cmbHari.addItem("Minggu");
+        cmbHari.setSelectedIndex(0);
     }
 
- if (getSelectedHari().isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Hari wajib dipilih.");
-    cmbHari.requestFocus();
-    return false;
-}
+    private String getSelectedHari() {
+        Object item = cmbHari.getSelectedItem();
 
-if (txtTanggal.getText().trim().isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Tanggal wajib diisi.");
-    txtTanggal.requestFocus();
-    return false;
-}
+        if (item == null) {
+            return "";
+        }
 
-try {
-    normalizeTanggalForDb(txtTanggal.getText().trim());
-} catch (Exception e) {
-    JOptionPane.showMessageDialog(this, "Format tanggal tidak valid. Klik field tanggal lalu pilih tanggal.");
-    txtTanggal.requestFocus();
-    return false;
-}
+        String hari = item.toString().trim();
 
-    if (txtPerihal.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Perihal wajib diisi.");
-        txtPerihal.requestFocus();
-        return false;
+        if (hari.equalsIgnoreCase("Pilih") || hari.equalsIgnoreCase("Pilih Hari")) {
+            return "";
+        }
+
+        return hari;
     }
 
-    if (txtUraian1.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Uraian wajib diisi.");
-        txtUraian1.requestFocus();
-        return false;
+    private void setSelectedHari(String hari) {
+        if (hari == null || hari.trim().isEmpty()) {
+            cmbHari.setSelectedIndex(0);
+            return;
+        }
+
+        String value = hari.trim();
+
+        for (int i = 0; i < cmbHari.getItemCount(); i++) {
+            Object item = cmbHari.getItemAt(i);
+
+            if (item != null && item.toString().equalsIgnoreCase(value)) {
+                cmbHari.setSelectedIndex(i);
+                return;
+            }
+        }
+
+        cmbHari.setSelectedIndex(0);
     }
 
-    if (txtKuantitas1.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Kuantitas wajib diisi.");
-        txtKuantitas1.requestFocus();
-        return false;
+    private String generateReimbursementNo() {
+        String prefix = "REIM-" + new SimpleDateFormat("yyyyMMdd").format(new Date()) + "-";
+        String sql = "SELECT COUNT(*) + 1 AS next_no FROM reimbursement WHERE reimbursement_no LIKE ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, prefix + "%");
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return prefix + String.format("%04d", rs.getInt("next_no"));
+                }
+            }
+        } catch (SQLException ignored) {
+        }
+
+        return prefix + System.currentTimeMillis();
     }
 
-    try {
-        parseInteger(txtKuantitas1.getText());
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Kuantitas harus angka.");
-        txtKuantitas1.requestFocus();
-        return false;
+    private String getCurrentAdminAccount() {
+        String userFromCard = findUserTextFromContainer(userProfileCard1);
+
+        if (!userFromCard.isEmpty()) {
+            return userFromCard;
+        }
+
+        String osUser = System.getProperty("user.name");
+
+        if (osUser != null && !osUser.trim().isEmpty()) {
+            return osUser.trim();
+        }
+
+        return "ADMIN";
     }
 
-    if (txtSatuan1.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Satuan wajib diisi.");
-        txtSatuan1.requestFocus();
-        return false;
+    private String findUserTextFromContainer(java.awt.Container container) {
+        if (container == null) {
+            return "";
+        }
+
+        java.awt.Component[] components = container.getComponents();
+
+        for (java.awt.Component component : components) {
+            if (component instanceof javax.swing.JLabel) {
+                String text = ((javax.swing.JLabel) component).getText();
+
+                if (text != null && text.trim().toLowerCase().startsWith("user")) {
+                    return text.trim();
+                }
+            }
+
+            if (component instanceof java.awt.Container) {
+                String result = findUserTextFromContainer((java.awt.Container) component);
+
+                if (!result.isEmpty()) {
+                    return result;
+                }
+            }
+        }
+
+        return "";
     }
-
-    if (txtNominal1.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Nominal wajib diisi.");
-        txtNominal1.requestFocus();
-        return false;
-    }
-
-    try {
-        parseDecimal(txtNominal1.getText());
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Nominal harus angka.");
-        txtNominal1.requestFocus();
-        return false;
-    }
-
-    calculateTotal();
-
-    if (txtTotal1.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Total gagal dihitung. Periksa kuantitas dan nominal.");
-        return false;
-    }
-
-    return true;
-}
 
     private int parseInteger(String value) {
         String cleanValue = value.trim().replaceAll("[^0-9]", "");
@@ -887,45 +1279,56 @@ try {
         return value == null ? "" : value.toPlainString();
     }
 
-    private void cmbHariActionPerformed(java.awt.event.ActionEvent evt) {
-        // No action needed
+    private void rollbackQuietly() {
+        try {
+            conn.rollback();
+        } catch (SQLException ignored) {
+        }
     }
 
-   public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ReimbursementFormFrame().setVisible(true);
-            }
+    private void restoreAutoCommitQuietly() {
+        try {
+            conn.setAutoCommit(true);
+        } catch (SQLException ignored) {
+        }
+    }
+
+    public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(() -> {
+            new ReimbursementFormFrame().setVisible(true);
         });
     }
+
     // Variables declaration - do not modify                     
-    private components.UserProfileCard userProfileCard1;
-    private components.SidebarMenu sidebarMenu1;
-    private components.PageTitle pageTitle1;
-    private javax.swing.JLabel lblProyekTujuan;
-    private components.RoundedTextField txtProyekTujuan;
-    private javax.swing.JLabel lblHari;
-    private components.RoundedComboBox cmbHari;
-    private javax.swing.JLabel lblTanggal;
-    private components.RoundedTextField txtTanggal;
-    private javax.swing.JLabel lblPerihal;
-    private components.RoundedTextArea txtPerihal;
-    private javax.swing.JLabel lblUraian;
-    private components.RoundedTextField txtUraian1;
-    private javax.swing.JLabel lblKuantitas;
-    private components.RoundedTextField txtKuantitas1;
-    private javax.swing.JLabel lblSatuan;
-    private components.RoundedTextField txtSatuan1;
-    private javax.swing.JLabel lblNominal;
-    private components.RoundedTextField txtNominal1;
-    private javax.swing.JLabel lblTotal;
-    private components.RoundedTextField txtTotal1;
-    private javax.swing.JLabel lblTotalAkhir;
-    private components.RoundedTextField txtTotalAkhir;
-    private components.RoundedButton btnSave;
-    private components.RoundedButton btnUpdate;
+    private components.RoundedTextField Nominal;
+    private components.RoundedButton btnBack;
     private components.RoundedButton btnClear;
     private components.RoundedButton btnDelete;
-    private components.RoundedButton btnBack;
+    private components.RoundedButton btnSave;
+    private components.RoundedButton btnUpdate;
+    private components.RoundedComboBox cmbHari;
+    private javax.swing.JButton jButton1;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton jbtambah;
+    private javax.swing.JLabel lblHari;
+    private javax.swing.JLabel lblPerihal;
+    private javax.swing.JLabel lblProyekTujuan;
+    private javax.swing.JLabel lblTanggal;
+    private javax.swing.JLabel lblUraian;
+    private components.PageTitle pageTitle1;
+    private components.SidebarMenu sidebarMenu1;
+    private components.RoundedTextField txtKuantitas;
+    private components.RoundedTextArea txtPerihal;
+    private components.RoundedTextField txtSatuan;
+    private components.RoundedTextField txtTotal;
+    private components.RoundedTextField txtUraian1;
+    private components.UserProfileCard userProfileCard1;
     // End of variables declaration                   
 }

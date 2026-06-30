@@ -28,8 +28,9 @@ public final class Navigation {
                 }
 
                 else if ("master.reimbursement".equals(menu)) {
-                    next = new ReimbursementFormFrame();
-                } 
+                        next = new ReimbursementListFrame();
+                    }
+               
                 else if ("Mutasi Barang".equals(menu)) {
                     next = new MutasiBarangListFrame();
                 }
@@ -43,7 +44,7 @@ public final class Navigation {
                 }
 
                 else if ("report.project".equals(menu)) {
-                    next = new ProjectAdministrationListFrame();
+                    next = new ProjectList();
                 }
 
                 else if ("report.logistic".equals(menu)) {
@@ -54,10 +55,10 @@ public final class Navigation {
                     next = new AdministrationFormFrame();
                 }
 
-                else if ("report.reimbursement".equals(menu)) {
-                    next = new ReimbursementFormFrame();
+              else if ("report.reimbursement".equals(menu)) {
+                    next = new ReimbursementListFrame();
                 }
-
+                
                 if (next != null) {
                     next.setVisible(true);
                     currentFrame.dispose();
