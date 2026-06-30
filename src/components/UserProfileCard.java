@@ -32,8 +32,8 @@ public class UserProfileCard extends RoundedPanel {
     private JLabel lblRole;
     private JLabel lblArrow;
 
-    private String userName = "User_02463";
-    private String roleName = "Div. Administration";
+    private String userName = monitoring_apps.UserSession.getUserName();
+    private String roleName = monitoring_apps.UserSession.getRoleName();
 
     private JPopupMenu popupMenu;
     private UserActionListener listener;

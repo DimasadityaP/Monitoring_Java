@@ -4,9 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import javax.swing.Timer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import koneksi.KoneksiDb;
 
 public class MutasiBarangListFrame extends javax.swing.JFrame {
+
+    private final java.util.List<Integer> mutasiIds = new java.util.ArrayList<>();
+    private Timer searchTimer;
 
     public MutasiBarangListFrame() {
         initComponents();
@@ -27,15 +33,53 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
             }
         });
 
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                int selectedRow = appTablePanel1.getTable().getSelectedRow();
+                if (selectedRow == -1) {
+                    javax.swing.JOptionPane.showMessageDialog(MutasiBarangListFrame.this, 
+                        "Silakan pilih baris data mutasi yang ingin diubah terlebih dahulu!", 
+                        "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                
+                int selectedId = mutasiIds.get(selectedRow);
+                Navigation.go(MutasiBarangListFrame.this, new MutasiBarangFormFrame(selectedId));
+            }
+        });
+
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                int selectedRow = appTablePanel1.getTable().getSelectedRow();
+                if (selectedRow == -1) {
+                    javax.swing.JOptionPane.showMessageDialog(MutasiBarangListFrame.this, 
+                        "Silakan pilih baris data mutasi yang ingin dihapus terlebih dahulu!", 
+                        "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                
+                int confirm = javax.swing.JOptionPane.showConfirmDialog(MutasiBarangListFrame.this, 
+                    "Apakah Anda yakin ingin menghapus data mutasi barang ini? Tindakan ini akan mengembalikan stok barang.", 
+                    "Konfirmasi Hapus", javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE);
+                
+                if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+                    int selectedId = mutasiIds.get(selectedRow);
+                    deleteMutasi(selectedId);
+                }
+            }
+        });
+
         loadData();
+        iniEvent();
     }
 
     private void loadData() {
+        mutasiIds.clear();
         javax.swing.table.DefaultTableModel model = appTablePanel1.getModel();
         model.setRowCount(0);
         model.setColumnIdentifiers(new Object[]{"Barang", "Project/Tujuan", "Qty", "Tipe", "Keterangan", "Tanggal"});
 
-        String sql = "SELECT b.nama AS barang_nama, p.nama AS project_nama, m.qty, m.tipe, m.keterangan, m.created_at " +
+        String sql = "SELECT m.id, b.nama AS barang_nama, p.nama AS project_nama, m.qty, m.tipe, m.keterangan, m.created_at " +
                      "FROM mutasi_stok m " +
                      "LEFT JOIN barang b ON m.barang_id = b.id " +
                      "LEFT JOIN project p ON m.project_id = p.id " +
@@ -47,6 +91,7 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
             ResultSet rs = ps.executeQuery();
         ) {
             while (rs.next()) {
+                mutasiIds.add(rs.getInt("id"));
                 String barang = rs.getString("barang_nama");
                 String project = rs.getString("project_nama");
                 int qty = rs.getInt("qty");
@@ -68,6 +113,146 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
         }
     }
 
+    private void deleteMutasi(int mutasiId) {
+        Connection conn = null;
+        try {
+            conn = new KoneksiDb().connect();
+            conn.setAutoCommit(false); // Start transaction
+
+            // 1. Get mutasi details
+            String selectSql = "SELECT barang_id, qty, tipe FROM mutasi_stok WHERE id = ?";
+            int barangId = -1;
+            int qty = 0;
+            String tipe = "";
+            try (PreparedStatement psSelect = conn.prepareStatement(selectSql)) {
+                psSelect.setInt(1, mutasiId);
+                try (ResultSet rs = psSelect.executeQuery()) {
+                    if (rs.next()) {
+                        barangId = rs.getInt("barang_id");
+                        qty = rs.getInt("qty");
+                        tipe = rs.getString("tipe");
+                    }
+                }
+            }
+
+            if (barangId != -1) {
+                // 2. Revert stock based on tipe
+                String updateStockSql;
+                if ("keluar".equalsIgnoreCase(tipe)) {
+                    // Revert keluar: add qty back
+                    updateStockSql = "UPDATE barang SET qty = qty + ? WHERE id = ?";
+                } else {
+                    // Revert masuk: subtract qty
+                    updateStockSql = "UPDATE barang SET qty = qty - ? WHERE id = ?";
+                }
+                
+                try (PreparedStatement psUpdate = conn.prepareStatement(updateStockSql)) {
+                    psUpdate.setInt(1, qty);
+                    psUpdate.setInt(2, barangId);
+                    psUpdate.executeUpdate();
+                }
+
+                // 3. Delete mutation record
+                String deleteSql = "DELETE FROM mutasi_stok WHERE id = ?";
+                try (PreparedStatement psDelete = conn.prepareStatement(deleteSql)) {
+                    psDelete.setInt(1, mutasiId);
+                    psDelete.executeUpdate();
+                }
+
+                conn.commit();
+                javax.swing.JOptionPane.showMessageDialog(this, "Data mutasi berhasil dihapus!", "Sukses", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                loadData();
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "Data mutasi tidak ditemukan!", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                conn.rollback();
+            }
+        } catch (Exception e) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (Exception ex) {
+                    System.out.println("Rollback failed: " + ex.getMessage());
+                }
+            }
+            javax.swing.JOptionPane.showMessageDialog(this, "Gagal menghapus data mutasi: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (Exception e) {
+                    System.out.println("Close failed: " + e.getMessage());
+                }
+            }
+        }
+    }
+
+    private void iniEvent() {
+        searchTimer = new Timer(300, e -> search());
+        searchTimer.setRepeats(false);
+
+        searchBox1.getTextField().getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) { searchTimer.restart(); }
+            public void removeUpdate(DocumentEvent e) { searchTimer.restart(); }
+            public void changedUpdate(DocumentEvent e) { searchTimer.restart(); }
+        });
+    }
+
+    private void search() {
+        String keyword = searchBox1.getText().trim();
+        if (keyword.isEmpty()) {
+            loadData();
+            return;
+        }
+
+        mutasiIds.clear();
+        javax.swing.table.DefaultTableModel model = appTablePanel1.getModel();
+        model.setRowCount(0);
+
+        String sql = "SELECT m.id, b.nama AS barang_nama, p.nama AS project_nama, m.qty, m.tipe, m.keterangan, m.created_at " +
+                     "FROM mutasi_stok m " +
+                     "LEFT JOIN barang b ON m.barang_id = b.id " +
+                     "LEFT JOIN project p ON m.project_id = p.id " +
+                     "WHERE b.nama LIKE ? " +
+                     "OR p.nama LIKE ? " +
+                     "OR m.tipe LIKE ? " +
+                     "OR m.keterangan LIKE ? " +
+                     "OR DATE_FORMAT(m.created_at, '%Y-%m-%d') LIKE ? " +
+                     "ORDER BY m.created_at DESC";
+
+        try (
+            Connection conn = new KoneksiDb().connect();
+            PreparedStatement ps = conn.prepareStatement(sql);
+        ) {
+            String likeKeyword = "%" + keyword + "%";
+            for (int i = 1; i <= 5; i++) {
+                ps.setString(i, likeKeyword);
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    mutasiIds.add(rs.getInt("id"));
+                    String barang = rs.getString("barang_nama");
+                    String project = rs.getString("project_nama");
+                    int qty = rs.getInt("qty");
+                    String tipe = rs.getString("tipe");
+                    String keterangan = rs.getString("keterangan");
+                    Timestamp tgl = rs.getTimestamp("created_at");
+                    
+                    model.addRow(new Object[]{
+                        barang != null ? barang : "-",
+                        project != null ? project : "-",
+                        qty,
+                        tipe != null ? tipe : "-",
+                        keterangan != null ? keterangan : "-",
+                        tgl != null ? tgl.toString() : "-"
+                    });
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Gagal mencari data mutasi: " + e.getMessage());
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -79,6 +264,8 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
         appTablePanel1 = new components.RoundedTablePanel();
         btnViewReport = new components.RoundedButton();
         btnNew = new components.RoundedButton();
+        btnUpdate = new components.RoundedButton();
+        btnDelete = new components.RoundedButton();
         btnBack = new components.RoundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -90,6 +277,11 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
         btnViewReport.setText("View Report");
 
         btnNew.setText("+ New Mutasi ");
+
+        btnUpdate.setText("Update");
+
+        btnDelete.setText("Delete");
+        btnDelete.setButtonColor(new java.awt.Color(154, 61, 120));
 
         btnBack.setText("Back");
         btnBack.setButtonColor(new java.awt.Color(217, 217, 217));
@@ -110,11 +302,15 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
                     .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(appTablePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -135,6 +331,8 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
@@ -153,7 +351,9 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private components.RoundedTablePanel appTablePanel1;
     private components.RoundedButton btnBack;
+    private components.RoundedButton btnDelete;
     private components.RoundedButton btnNew;
+    private components.RoundedButton btnUpdate;
     private components.RoundedButton btnViewReport;
     private components.PageTitle pageTitle1;
     private components.SearchBox searchBox1;

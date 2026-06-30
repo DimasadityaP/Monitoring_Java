@@ -38,6 +38,27 @@ public class LoginFrame extends javax.swing.JFrame {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
+                    // Simpan informasi pengguna yang login ke UserSession
+                    UserSession.setUserId(rs.getInt("id"));
+                    UserSession.setUserName(rs.getString("nama"));
+                    UserSession.setJabatan(rs.getString("jabatan"));
+                    UserSession.setDivisi(rs.getString("divisi"));
+                    UserSession.setNoTelp(rs.getString("no_telp"));
+                    UserSession.setAlamat(rs.getString("alamat"));
+                    UserSession.setEmail(rs.getString("email"));
+                    
+                    String role = rs.getString("jabatan");
+                    String divisi = rs.getString("divisi");
+                    if (role != null && !role.trim().isEmpty()) {
+                        if (divisi != null && !divisi.trim().isEmpty()) {
+                            UserSession.setRoleName(role.trim() + " - " + divisi.trim());
+                        } else {
+                            UserSession.setRoleName(role.trim());
+                        }
+                    } else if (divisi != null && !divisi.trim().isEmpty()) {
+                        UserSession.setRoleName(divisi.trim());
+                    }
+
                     JOptionPane.showMessageDialog(
                         this,
                         "Login Berhasil",

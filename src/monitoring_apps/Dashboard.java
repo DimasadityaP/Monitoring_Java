@@ -6,6 +6,7 @@ public class Dashboard extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         Navigation.bind(sidebarMenu1, this);
+        lblHeroTitle.setText("Hello, " + UserSession.getUserName() + "!");
     }
 
     @SuppressWarnings("unchecked")
