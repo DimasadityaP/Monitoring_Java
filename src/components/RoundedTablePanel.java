@@ -278,20 +278,33 @@ public class RoundedTablePanel extends RoundedPanel {
                 if (row < 0 || col != aksiCol) return;
 
                 if (deleteOnlyMode) {
-                    // Cuma 1 icon, full cell width = delete
                     if (deleteClickListener != null) deleteClickListener.onActionClick(row);
                     return;
                 }
 
-                // Mode edit+delete (existing logic)
-                Rectangle cellRect = t.getCellRect(row, col, false);
-                int clickX = e.getX() - cellRect.x;
-                int cellWidth = cellRect.width;
+                boolean showEdit = actionClickListener != null;
+                boolean showDelete = deleteClickListener != null;
 
-                if (clickX < cellWidth / 2) {
-                    if (actionClickListener != null) actionClickListener.onActionClick(row);
-                } else {
-                    if (deleteClickListener != null) deleteClickListener.onActionClick(row);
+                // Cuma edit yang aktif → seluruh cell = edit
+                if (showEdit && !showDelete) {
+                    actionClickListener.onActionClick(row);
+                    return;
+                }
+                // Cuma delete yang aktif → seluruh cell = delete
+                if (showDelete && !showEdit) {
+                    deleteClickListener.onActionClick(row);
+                    return;
+                }
+                // Dua-duanya aktif → split kiri/kanan
+                if (showEdit && showDelete) {
+                    Rectangle cellRect = t.getCellRect(row, col, false);
+                    int clickX = e.getX() - cellRect.x;
+                    int cellWidth = cellRect.width;
+                    if (clickX < cellWidth / 2) {
+                        actionClickListener.onActionClick(row);
+                    } else {
+                        deleteClickListener.onActionClick(row);
+                    }
                 }
             }
             @Override
@@ -304,6 +317,7 @@ public class RoundedTablePanel extends RoundedPanel {
                         : Cursor.getDefaultCursor());
             }
         });
+
 
         return t;
     }
@@ -344,9 +358,13 @@ public class RoundedTablePanel extends RoundedPanel {
         }
 
         private final boolean deleteOnly;
+        private final boolean showEdit;
+        private final boolean showDelete;
 
-        public ActionRenderer(boolean deleteOnly) {
+        public ActionRenderer(boolean deleteOnly, boolean showEdit, boolean showDelete) {
             this.deleteOnly = deleteOnly;
+            this.showEdit = showEdit;
+            this.showDelete = showDelete;
         }
 
         @Override
@@ -365,20 +383,26 @@ public class RoundedTablePanel extends RoundedPanel {
                 return lbl;
             }
 
-            JPanel panel = new JPanel(new GridLayout(1, 2, 4, 0));
+            // Hitung berapa icon yang sebenarnya aktif
+            int activeCount = (showEdit ? 1 : 0) + (showDelete ? 1 : 0);
+            JPanel panel = new JPanel(new GridLayout(1, Math.max(activeCount, 1), 4, 0));
             panel.setOpaque(true);
             panel.setBackground(bg);
 
-            JLabel editLbl = new JLabel(editIcon != null ? editIcon : null);
-            editLbl.setHorizontalAlignment(SwingConstants.CENTER);
-            if (editIcon == null) editLbl.setText("E");
+            if (showEdit) {
+                JLabel editLbl = new JLabel(editIcon != null ? editIcon : null);
+                editLbl.setHorizontalAlignment(SwingConstants.CENTER);
+                if (editIcon == null) editLbl.setText("E");
+                panel.add(editLbl);
+            }
 
-            JLabel deleteLbl = new JLabel(deleteIcon != null ? deleteIcon : null);
-            deleteLbl.setHorizontalAlignment(SwingConstants.CENTER);
-            if (deleteIcon == null) deleteLbl.setText("D");
+            if (showDelete) {
+                JLabel deleteLbl = new JLabel(deleteIcon != null ? deleteIcon : null);
+                deleteLbl.setHorizontalAlignment(SwingConstants.CENTER);
+                if (deleteIcon == null) deleteLbl.setText("D");
+                panel.add(deleteLbl);
+            }
 
-            panel.add(editLbl);
-            panel.add(deleteLbl);
             return panel;
         }
     }
@@ -425,9 +449,12 @@ public class RoundedTablePanel extends RoundedPanel {
         // Kolom Aksi pakai ActionRenderer
         if (showActionColumn) {
             int aksiCol = table.getColumnCount() - 1;
-            table.getColumnModel().getColumn(aksiCol).setCellRenderer(new ActionRenderer(deleteOnlyMode));
+            boolean showEdit = actionClickListener != null;
+            boolean showDelete = deleteClickListener != null;
+            table.getColumnModel().getColumn(aksiCol)
+                 .setCellRenderer(new ActionRenderer(deleteOnlyMode, showEdit, showDelete));
 
-            int width = deleteOnlyMode ? 60 : 90;
+            int width = deleteOnlyMode ? 60 : (showEdit && showDelete ? 90 : 60);
             table.getColumnModel().getColumn(aksiCol).setPreferredWidth(width);
             table.getColumnModel().getColumn(aksiCol).setMaxWidth(width);
             table.getColumnModel().getColumn(aksiCol).setMinWidth(width);

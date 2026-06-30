@@ -36,7 +36,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
     private final Connection conn = new KoneksiDb().connect();
 
     private Integer selectedReimbursementId = null;
-    private Integer selectedProjectId = null;
+    private String selectedProjectId = null;
     private DefaultTableModel itemTableModel;
 
     public ReimbursementFormFrame() {
@@ -55,7 +55,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         btnSave = new components.RoundedButton();
@@ -289,7 +289,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>                        
+    }// </editor-fold>//GEN-END:initComponents
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // TODO add your handling code here:
@@ -639,7 +639,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         }
 
         int modelRow = table.convertRowIndexToModel(selectedRow);
-        int projectId = Integer.parseInt(String.valueOf(model.getValueAt(modelRow, 0)));
+        String projectId = String.valueOf(model.getValueAt(modelRow, 0));
         String projectName = String.valueOf(model.getValueAt(modelRow, 1));
 
         selectedProjectId = projectId;
@@ -647,12 +647,12 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         dialog.dispose();
     }
 
-    private Integer getSelectedProjectId() {
+    private String getSelectedProjectId() {
         return selectedProjectId;
     }
 
-    private void setSelectedProjectById(int projectId) {
-        if (projectId <= 0) {
+    private void setSelectedProjectById(String projectId) {
+        if (projectId == "") {
             selectedProjectId = null;
             jTextField1.setText("");
             return;
@@ -661,11 +661,11 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         String sql = "SELECT id, nama FROM project WHERE id = ? LIMIT 1";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, projectId);
+            ps.setString(1, projectId);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    selectedProjectId = rs.getInt("id");
+                    selectedProjectId = rs.getString("id");
                     jTextField1.setText(selectedProjectId + " - " + nullToEmpty(rs.getString("nama")));
                     return;
                 }
@@ -863,7 +863,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
 
             try (PreparedStatement ps = conn.prepareStatement(insertHeaderSql, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setString(1, generateReimbursementNo());
-                ps.setInt(2, getSelectedProjectId());
+                ps.setString(2, getSelectedProjectId());
                 ps.setString(3, getSelectedHari());
                 ps.setString(4, getTanggalForDb());
                 ps.setString(5, txtPerihal.getText().trim());
@@ -918,7 +918,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
             conn.setAutoCommit(false);
 
             try (PreparedStatement ps = conn.prepareStatement(updateHeaderSql)) {
-                ps.setInt(1, getSelectedProjectId());
+                ps.setString(1, getSelectedProjectId());
                 ps.setString(2, getSelectedHari());
                 ps.setString(3, getTanggalForDb());
                 ps.setString(4, txtPerihal.getText().trim());
@@ -1016,7 +1016,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
                 if (rs.next()) {
                     selectedReimbursementId = rs.getInt("id");
 
-                    setSelectedProjectById(rs.getInt("project_id"));
+                    setSelectedProjectById(rs.getString("project_id"));
                     setSelectedHari(nullToEmpty(rs.getString("hari")));
                     setTanggalFromDb(rs.getString("tanggal"));
                     txtPerihal.setText(nullToEmpty(rs.getString("hal")));
@@ -1093,7 +1093,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
     }
 
     private boolean validateReimbursementForm() {
-        Integer selectedProjectId = getSelectedProjectId();
+        String selectedProjectId = getSelectedProjectId();
 
         if (selectedProjectId == null) {
             JOptionPane.showMessageDialog(this, "Proyek / Tujuan wajib dipilih.");
@@ -1299,7 +1299,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify                     
+    // Variables declaration - do not modify//GEN-BEGIN:variables
     private components.RoundedTextField Nominal;
     private components.RoundedButton btnBack;
     private components.RoundedButton btnClear;
@@ -1330,5 +1330,5 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
     private components.RoundedTextField txtTotal;
     private components.RoundedTextField txtUraian1;
     private components.UserProfileCard userProfileCard1;
-    // End of variables declaration                   
+    // End of variables declaration//GEN-END:variables
 }

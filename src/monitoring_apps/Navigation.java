@@ -36,7 +36,7 @@ public final class Navigation {
                 }
 
                 else if ("transaksi.project".equals(menu)) {
-                    next = new ProjectAdministrationListFrame();
+                    next = new ProjectList();
                 }
 
                 else if ("transaksi.mutasi_barang".equals(menu)) {

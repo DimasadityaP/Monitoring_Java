@@ -23,8 +23,8 @@ private Connection conn = new KoneksiDb().connect() ;
         pageTitle1.setText("LIST LOGISTIC");
         getContentPane().setBackground(components.RoundedColors.BACKGROUND);
         setLocationRelativeTo(null);
-        
-        
+        Navigation.bind(sidebarMenu1, this);
+
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Navigation.go(BarangList.this, new Dashboard());
@@ -37,7 +37,34 @@ private Connection conn = new KoneksiDb().connect() ;
             }
         });
 
+        initUi();   // setActionColumn DULU sebelum loadData
         loadData();
+        iniEvent();
+    }
+
+    private void initUi() {
+        appTablePanel1.setActionColumn(
+            "/image/edit.png",
+            new components.RoundedTablePanel.ActionClickListener() {
+                public void onActionClick(int row) {
+                    openEditForm(row);
+                }
+            }
+        );
+    }
+
+    private void openEditForm(int row) {
+        String kode    = tabmode.getValueAt(row, 0).toString();
+        String nama    = tabmode.getValueAt(row, 1).toString();
+        String spek    = tabmode.getValueAt(row, 2).toString();
+        String jenis   = tabmode.getValueAt(row, 3).toString();
+        int    qty     = Integer.parseInt(tabmode.getValueAt(row, 4).toString());
+        String satuan  = tabmode.getValueAt(row, 5).toString();
+        String kondisi = tabmode.getValueAt(row, 6).toString();
+
+        Navigation.go(BarangList.this,
+            new BarangFormFrame(kode, nama, spek, jenis, qty, satuan, kondisi)
+        );
     }
     
     private void iniEvent(){
@@ -52,65 +79,58 @@ private Connection conn = new KoneksiDb().connect() ;
     }
     
     private void search() {
-        String keyword = searchBox1.getText();
+        String keyword = searchBox1.getText().trim();
         tabmode.setRowCount(0);
 
         String query =
-                    "SELECT * FROM project " +
-                    "WHERE id LIKE ? " +
-                    "OR nama LIKE ? " +
-                    "OR ta LIKE ? " +
-                    "OR sub_perusahaan LIKE ? " +
-                    "OR jenis LIKE ? " +
-                    "OR instansi LIKE ? " +
-                    "OR DATE_FORMAT(tgl_mulai,'%Y-%m-%d') LIKE ? " +
-                    "OR DATE_FORMAT(tgl_selesai,'%Y-%m-%d') LIKE ? " +
-                    "OR CAST(nominal AS CHAR) LIKE ? " +
-                    "OR status LIKE ? " +
-                    "ORDER BY created_at DESC";
+                "SELECT * FROM barang " +
+                "WHERE kode    LIKE ? " +
+                "OR nama       LIKE ? " +
+                "OR spek       LIKE ? " +
+                "OR jenis      LIKE ? " +
+                "OR satuan     LIKE ? " +
+                "OR kondisi    LIKE ? " +
+                "ORDER BY created_at DESC";
 
-        try{
+        try {
             PreparedStatement ps = conn.prepareStatement(query);
-            String likeKeyword = "%" + keyword + "%";
-
-            for (int i = 1; i <= 10; i++) {
-                ps.setString(i, likeKeyword);
-            }
+            String like = "%" + keyword + "%";
+            for (int i = 1; i <= 6; i++) ps.setString(i, like);
 
             ResultSet rs = ps.executeQuery();
-            int no = 1;
-
             while (rs.next()) {
+                String kode    = rs.getString("kode");
+                String nama    = rs.getString("nama");
+                String spek    = rs.getString("spek");
+                String jenis   = rs.getString("jenis");
+                int    qty     = rs.getInt("qty");
+                String satuan  = rs.getString("satuan");
+                String kondisi = rs.getString("kondisi");
+                Timestamp tgl  = rs.getTimestamp("created_at");
+
                 tabmode.addRow(new Object[]{
-                    no++,
-                    rs.getString("id"),
-                    rs.getString("nama"),
-                    rs.getString("ta"),
-                    rs.getString("sub_perusahaan"),
-                    rs.getString("jenis"),
-                    rs.getString("instansi"),
-                    rs.getString("tgl_mulai"),
-                    rs.getString("tgl_selesai"),
-                    rs.getBigDecimal("nominal"),
-                    rs.getString("status"),
-                    null
+                    kode    != null ? kode    : "-",
+                    nama    != null ? nama    : "-",
+                    spek    != null ? spek    : "-",
+                    jenis   != null ? jenis   : "-",
+                    qty,
+                    satuan  != null ? satuan  : "-",
+                    kondisi != null ? kondisi : "-",
+                    tgl     != null ? tgl.toString() : "-",
+                    null  // slot kolom Aksi
                 });
             }
-
         } catch (Exception e) {
-    JOptionPane.showMessageDialog(this,
-            e.getMessage(),
-            "Error",
-            JOptionPane.ERROR_MESSAGE);
-}
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
    
 
 
     private void loadData() {
-        javax.swing.table.DefaultTableModel model = appTablePanel1.getModel();
-        model.setRowCount(0);
-        model.setColumnIdentifiers(new Object[]{"Kode", "Nama", "Spek", "Jenis", "Qty", "Satuan", "Kondisi", "Tgl"});
+        Object[] columns = {"Kode", "Nama", "Spek", "Jenis", "Qty", "Satuan", "Kondisi", "Tgl"};
+        appTablePanel1.setTableData(new Object[0][columns.length], columns);
+        tabmode = appTablePanel1.getModel();
 
         String sql = "SELECT * FROM barang";
 
@@ -120,24 +140,25 @@ private Connection conn = new KoneksiDb().connect() ;
             ResultSet rs = ps.executeQuery();
         ) {
             while (rs.next()) {
-                String kode = rs.getString("kode");
-                String nama = rs.getString("nama");
-                String spek = rs.getString("spek");
-                String jenis = rs.getString("jenis");
-                int qty = rs.getInt("qty");
-                String satuan = rs.getString("satuan");
+                String kode    = rs.getString("kode");
+                String nama    = rs.getString("nama");
+                String spek    = rs.getString("spek");
+                String jenis   = rs.getString("jenis");
+                int    qty     = rs.getInt("qty");
+                String satuan  = rs.getString("satuan");
                 String kondisi = rs.getString("kondisi");
-                Timestamp tgl = rs.getTimestamp("created_at");
-                
-                model.addRow(new Object[]{
-                    kode != null ? kode : "-",
-                    nama != null ? nama : "-",
-                    spek != null ? spek : "-",
-                    jenis != null ? jenis : "-",
+                Timestamp tgl  = rs.getTimestamp("created_at");
+
+                tabmode.addRow(new Object[]{
+                    kode    != null ? kode    : "-",
+                    nama    != null ? nama    : "-",
+                    spek    != null ? spek    : "-",
+                    jenis   != null ? jenis   : "-",
                     qty,
-                    satuan != null ? satuan : "-",
+                    satuan  != null ? satuan  : "-",
                     kondisi != null ? kondisi : "-",
-                    tgl != null ? tgl.toString() : "-"
+                    tgl     != null ? tgl.toString() : "-",
+                    null  // slot kolom Aksi
                 });
             }
         } catch (Exception e) {
@@ -156,7 +177,6 @@ private Connection conn = new KoneksiDb().connect() ;
         appTablePanel1 = new components.RoundedTablePanel();
         btnNew = new components.RoundedButton();
         btnBack = new components.RoundedButton();
-        btnUpdate = new components.RoundedButton();
         btnDelete = new components.RoundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -170,13 +190,6 @@ private Connection conn = new KoneksiDb().connect() ;
         btnBack.setForeground(new java.awt.Color(0, 0, 0));
         btnBack.setText("Back");
         btnBack.setButtonColor(new java.awt.Color(217, 217, 217));
-
-        btnUpdate.setText("Edit");
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
-            }
-        });
 
         btnDelete.setText("Delete");
         btnDelete.setButtonColor(new java.awt.Color(154, 61, 120));
@@ -202,9 +215,7 @@ private Connection conn = new KoneksiDb().connect() ;
                                     .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(appTablePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(97, 97, 97)
-                                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(60, 60, 60)
+                                .addGap(307, 307, 307)
                                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(49, 49, 49)
                                 .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -235,48 +246,12 @@ private Connection conn = new KoneksiDb().connect() ;
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-
-    javax.swing.JTable table = appTablePanel1.getTable();
-
-    int row = table.getSelectedRow();
-
-    if (row == -1) {
-        JOptionPane.showMessageDialog(this,
-                "Pilih data yang akan diedit!");
-        return;
-    }
-
-    String kode = table.getValueAt(row, 0).toString();
-    String nama = table.getValueAt(row, 1).toString();
-    String spek = table.getValueAt(row, 2).toString();
-    String jenis = table.getValueAt(row, 3).toString();
-    int qty = Integer.parseInt(table.getValueAt(row, 4).toString());
-    String satuan = table.getValueAt(row, 5).toString();
-    String kondisi = table.getValueAt(row, 6).toString();
-
-    Navigation.go(this,
-        new BarangFormFrame(
-            kode,
-            nama,
-            spek,
-            jenis,
-            qty,
-            satuan,
-            kondisi
-        )
-    );
-    
-
-    }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
     JTable table = appTablePanel1.getTable();
@@ -350,7 +325,6 @@ private Connection conn = new KoneksiDb().connect() ;
     private components.RoundedButton btnBack;
     private components.RoundedButton btnDelete;
     private components.RoundedButton btnNew;
-    private components.RoundedButton btnUpdate;
     private components.PageTitle pageTitle1;
     private components.SearchBox searchBox1;
     private components.SidebarMenu sidebarMenu1;

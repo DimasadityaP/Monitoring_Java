@@ -73,7 +73,8 @@
                                               <Group type="102" alignment="1" attributes="0">
                                                   <Component id="txtTglMulai" min="-2" pref="395" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                                  <Component id="dtCStart" min="-2" pref="24" max="-2" attributes="0"/>
+                                                  <Component id="dtCStart" min="-2" pref="23" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                                               </Group>
                                               <Component id="txtNilaiPekerjaan" min="-2" pref="413" max="-2" attributes="0"/>
                                           </Group>

@@ -1,14 +1,19 @@
 package monitoring_apps;
 
+import java.awt.Component;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import koneksi.KoneksiDb;
 
@@ -27,105 +32,109 @@ public class UserListFrame1 extends javax.swing.JFrame {
     private String selectedPassword;
 
     public UserListFrame1() {
-    initComponents();
+        initComponents();
+        initUi();
 
-    roundedTablePanel1.getTable().addMouseListener(
-        new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
+        pageTitle1.setText("DAFTAR USER");
+        getContentPane().setBackground(components.RoundedColors.BACKGROUND);
+        setLocationRelativeTo(null);
+        Navigation.bind(sidebarMenu1, this);
 
-                int row = roundedTablePanel1.getTable().getSelectedRow();
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Navigation.go(UserListFrame1.this, new Dashboard());
+            }
+        });
 
-                if (row != -1) {
-                    selectedNama = roundedTablePanel1.getTable().getValueAt(row, 0).toString();
-                    selectedJabatan = roundedTablePanel1.getTable().getValueAt(row, 1).toString();
-                    selectedDivisi = roundedTablePanel1.getTable().getValueAt(row, 2).toString();
-                    selectedEmail = roundedTablePanel1.getTable().getValueAt(row, 3).toString();
-                    selectedTelepon = roundedTablePanel1.getTable().getValueAt(row, 4).toString();
-                    selectedAlamat = roundedTablePanel1.getTable().getValueAt(row, 5).toString();
-                    selectedPassword = roundedTablePanel1.getTable().getValueAt(row, 6).toString();
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Navigation.go(UserListFrame1.this, new UserFormFrame());
+            }
+        });
+
+        loadData();
+        setColumnWidths();
+        iniEvent(); // PENTING AGAR SEARCH BERJALAN
+    }
+    
+    private void initUi() {
+        roundedTablePanel1.setActionColumn(
+            "/image/edit.png",
+            new components.RoundedTablePanel.ActionClickListener() {
+                @Override
+                public void onActionClick(int row) {
+                    String nama = tabmode.getValueAt(row, 0).toString();
+                    String jabatan = tabmode.getValueAt(row, 1).toString();
+                    String divisi = tabmode.getValueAt(row, 2).toString();
+                    String email = tabmode.getValueAt(row, 3).toString();
+                    String telepon = tabmode.getValueAt(row, 4).toString();
+                    String alamat = tabmode.getValueAt(row, 5).toString();
+                    String password = tabmode.getValueAt(row, 6).toString();
+
+                    openEditForm(
+                        nama,
+                        jabatan,
+                        divisi,
+                        telepon,
+                        alamat,
+                        email,
+                        password
+                    );
                 }
             }
-        }
-    );
+        );
+    }
     
-    initUi();
+    private void setColumnWidths() {
+        JTable table = roundedTablePanel1.getTable();
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-    pageTitle1.setText("DAFTAR USER");
-    getContentPane().setBackground(components.RoundedColors.BACKGROUND);
-    setLocationRelativeTo(null);
-    Navigation.bind(sidebarMenu1, this);
-
-    btnBack.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            Navigation.go(UserListFrame1.this, new Dashboard());
-        }
-    });
-
-    btnNew.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            Navigation.go(UserListFrame1.this, new UserFormFrame());
-        }
-    });
-
-    loadData();
-    iniEvent(); // PENTING AGAR SEARCH BERJALAN
-}
-    private void initUi() {
-    roundedTablePanel1.setActionColumn(
-        "/image/edit.png",
-        new components.RoundedTablePanel.ActionClickListener() {
-            @Override
-            public void onActionClick(int row) {
-
-                String nama = tabmode.getValueAt(row, 0).toString();
-                String jabatan = tabmode.getValueAt(row, 1).toString();
-                String divisi = tabmode.getValueAt(row, 2).toString();
-                String email = tabmode.getValueAt(row, 3).toString();
-                String telepon = tabmode.getValueAt(row, 4).toString();
-                String alamat = tabmode.getValueAt(row, 5).toString();
-                String password = tabmode.getValueAt(row, 6).toString();
-
-                openEditForm(
-                    nama,
-                    jabatan,
-                    divisi,
-                    telepon,
-                    alamat,
-                    email,
-                    password
-                );
+        for (Component comp : roundedTablePanel1.getComponents()) {
+            if (comp instanceof JScrollPane) {
+                JScrollPane scroll = (JScrollPane) comp;
+                scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                break;
             }
         }
-    );
-}
-    private void openEditForm(
-        String nama,
-        String jabatan,
-        String divisi,
-        String telepon,
-        String alamat,
-        String email,
-        String password) {
 
-    JFrame next = new UserFormFrame(
-            nama,
-            jabatan,
-            divisi,
-            telepon,
-            alamat,
-            email,
-            password
-    );
+        int[] widths = {
+            210, 130, 150, 100, 170, 100, 100, 70
+        };
 
-    next.pack();
-    next.setLocationRelativeTo(this);
-    next.setVisible(true);
-    dispose();
-}
+        for (int i = 0; i < widths.length && i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setPreferredWidth(widths[i]);
+            table.getColumnModel().getColumn(i).setMinWidth(widths[i]);
+            table.getColumnModel().getColumn(i).setMaxWidth(widths[i]);
+        }
+
+        DefaultTableCellRenderer center = new DefaultTableCellRenderer();
+        center.setHorizontalAlignment(SwingConstants.CENTER);
+        int aksiCol = table.getColumnCount() - 1;
+        for (int i = 0; i < aksiCol; i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(center);
+        }
+    }
     
-    private void openEditForm(String projectId) {
-        JFrame next = new UserFormFrame(projectId);
+    private void openEditForm(
+            String nama,
+            String jabatan,
+            String divisi,
+            String telepon,
+            String alamat,
+            String email,
+            String password) {
+
+        JFrame next = new UserFormFrame(
+                nama,
+                jabatan,
+                divisi,
+                telepon,
+                alamat,
+                email,
+                password
+        );
+
         next.pack();
         next.setLocationRelativeTo(this);
         next.setVisible(true);
@@ -133,131 +142,130 @@ public class UserListFrame1 extends javax.swing.JFrame {
     }
     
     private void iniEvent() {
-    searchTimer = new Timer(300, e -> search());
-    searchTimer.setRepeats(false);
+        searchTimer = new Timer(300, e -> search());
+        searchTimer.setRepeats(false);
 
-    searchBox1.getTextField().getDocument().addDocumentListener(
-        new DocumentListener() {
+        searchBox1.getTextField().getDocument().addDocumentListener(
+            new DocumentListener() {
 
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                searchTimer.restart();
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    searchTimer.restart();
+                }
+
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    searchTimer.restart();
+                }
+
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    searchTimer.restart();
+                }
             }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                searchTimer.restart();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                searchTimer.restart();
-            }
-        }
-    );
-}
+        );
+    }
     
     private void showError(String message) {
         JOptionPane.showMessageDialog(null, message, "Gagal", JOptionPane.WARNING_MESSAGE) ;
     }
     
     private void search() {
-    String keyword = searchBox1.getText().trim();
+        String keyword = searchBox1.getText().trim();
 
-    tabmode.setRowCount(0);
+        tabmode.setRowCount(0);
 
-    String sql =
-            "SELECT nama, jabatan, divisi, email, no_telp, alamat, password " +
-            "FROM user " +
-            "WHERE nama LIKE ? " +
-            "OR jabatan LIKE ? " +
-            "OR divisi LIKE ? " +
-            "OR email LIKE ? " +
-            "OR no_telp LIKE ? " +
-            "OR alamat LIKE ? " +
-            "OR password LIKE ? " +
-            "ORDER BY nama ASC";
+        String sql =
+                "SELECT nama, jabatan, divisi, email, no_telp, alamat, password " +
+                "FROM user " +
+                "WHERE nama LIKE ? " +
+                "OR jabatan LIKE ? " +
+                "OR divisi LIKE ? " +
+                "OR email LIKE ? " +
+                "OR no_telp LIKE ? " +
+                "OR alamat LIKE ? " +
+                "OR password LIKE ? " +
+                "ORDER BY nama ASC";
 
-    try {
-        PreparedStatement ps = conn.prepareStatement(sql);
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
 
-        String key = "%" + keyword + "%";
+            String key = "%" + keyword + "%";
 
-        for (int i = 1; i <= 7; i++) {
-            ps.setString(i, key);
+            for (int i = 1; i <= 7; i++) {
+                ps.setString(i, key);
+            }
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                tabmode.addRow(new Object[]{
+        rs.getString("nama"),
+        rs.getString("jabatan"),
+        rs.getString("divisi"),
+        rs.getString("email"),
+        rs.getString("no_telp"),
+        rs.getString("alamat"),
+        rs.getString("password"),
+        null
+    });
+            }
+
+            rs.close();
+            ps.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Gagal mencari data : " + e.getMessage()
+            );
         }
-
-        ResultSet rs = ps.executeQuery();
-
-        while (rs.next()) {
-            tabmode.addRow(new Object[]{
-    rs.getString("nama"),
-    rs.getString("jabatan"),
-    rs.getString("divisi"),
-    rs.getString("email"),
-    rs.getString("no_telp"),
-    rs.getString("alamat"),
-    rs.getString("password"),
-    null
-});
-        }
-
-        rs.close();
-        ps.close();
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(
-                this,
-                "Gagal mencari data : " + e.getMessage()
-        );
     }
-}
     
     private void loadData() {
-    tabmode = roundedTablePanel1.getModel();
-    tabmode.setRowCount(0);
+            Object[] columns = {
+            "Nama Pengguna",
+            "Jabatan",
+            "Divisi",
+            "Email",
+            "No. Telepon",
+            "Alamat",
+            "Password"
+        };
+        roundedTablePanel1.setTableData(new Object[0][columns.length], columns);
+        tabmode = roundedTablePanel1.getModel();
 
-    tabmode.setColumnIdentifiers(new Object[]{
-    "Nama Pengguna",
-    "Jabatan",
-    "Divisi",
-    "Email",
-    "No. Telepon",
-    "Alamat",
-    "Password",
-    "Aksi"
-});
+        String sql =
+                "SELECT nama, jabatan, divisi, email, no_telp, alamat, password " +
+                "FROM user ORDER BY nama ASC";
 
-    String sql =
-            "SELECT nama, jabatan, divisi, email, no_telp, alamat, password " +
-            "FROM user ORDER BY nama ASC";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
 
-    try {
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                tabmode.addRow(new Object[]{
+                    rs.getString("nama"),
+                    rs.getString("jabatan"),
+                    rs.getString("divisi"),
+                    rs.getString("email"),
+                    rs.getString("no_telp"),
+                    rs.getString("alamat"),
+                    rs.getString("password"),
+                    null
+                });
+            }
 
-        while (rs.next()) {
-            tabmode.addRow(new Object[]{
-                rs.getString("nama"),
-                rs.getString("jabatan"),
-                rs.getString("divisi"),
-                rs.getString("email"),
-                rs.getString("no_telp"),
-                rs.getString("alamat"),
-                rs.getString("password")
-            });
+            rs.close();
+            ps.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Gagal memuat data user : " + e.getMessage()
+            );
         }
-
-        rs.close();
-        ps.close();
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(
-                this,
-                "Gagal memuat data user : " + e.getMessage()
-        );
     }
-}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

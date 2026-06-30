@@ -37,12 +37,6 @@
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="pageTitle1" min="-2" pref="850" max="-2" attributes="0"/>
                   <Component id="heroPanel" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblDesc" min="-2" pref="850" max="-2" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="btnProjectAdmin" min="-2" pref="260" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                      <Component id="btnNonProjectAdmin" min="-2" pref="300" max="-2" attributes="0"/>
-                  </Group>
               </Group>
               <EmptySpace pref="70" max="32767" attributes="0"/>
           </Group>
@@ -59,16 +53,7 @@
               <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="sidebarMenu1" min="-2" pref="620" max="-2" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="heroPanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-                      <Component id="lblDesc" min="-2" pref="60" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnProjectAdmin" alignment="3" min="-2" pref="58" max="-2" attributes="0"/>
-                          <Component id="btnNonProjectAdmin" alignment="3" min="-2" pref="58" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
+                  <Component id="heroPanel" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="42" max="32767" attributes="0"/>
           </Group>
@@ -143,12 +128,6 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="lblDesc">
-      <Properties>
-<<<<<<< HEAD
-        <Property name="text" type="java.lang.String" value="View Report"/>
-      </Properties>
-    </Component>
     <Component class="components.RoundedButton" name="btnNewAdministration">
       <Properties>
         <Property name="text" type="java.lang.String" value="+ New Administration"/>
@@ -157,34 +136,12 @@
     <Component class="components.RoundedButton" name="btnBack">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="0" red="0" type="rgb"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Back"/>
-        <Property name="buttonColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="d9" green="d9" red="d9" type="rgb"/>
-        </Property>
-=======
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="18" style="0"/>
-        </Property>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="56" green="2d" red="29" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Selamat datang di sistem manajemen perusahaan. Silakan pilih menu yang akan dikelola."/>
-      </Properties>
-    </Component>
-    <Component class="components.RoundedButton" name="btnProjectAdmin">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Project Administration"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProjectAdminActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="components.RoundedButton" name="btnNonProjectAdmin">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Non Project Administration"/>
->>>>>>> 81a9aec574ae2dd762908b233968201d38dfa951
+        <Property name="buttonColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="d9" green="d9" red="d9" type="rgb"/>
+        </Property>
       </Properties>
     </Component>
   </SubComponents>
