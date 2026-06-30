@@ -9,12 +9,18 @@ import koneksi.KoneksiDb;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import java.sql.SQLException;
+import javax.swing.Timer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 
 public class BarangList extends javax.swing.JFrame {
-
+private Connection conn = new KoneksiDb().connect() ;
+    private DefaultTableModel tabmode;
+    private Timer searchTimer;
     public BarangList() {
         initComponents();
-        pageTitle1.setText("List Barang");
+        pageTitle1.setText("LIST LOGISTIC");
         getContentPane().setBackground(components.RoundedColors.BACKGROUND);
         setLocationRelativeTo(null);
         
@@ -32,6 +38,71 @@ public class BarangList extends javax.swing.JFrame {
         });
 
         loadData();
+    }
+    
+    private void iniEvent(){
+        searchTimer = new Timer(300, e -> search());
+        searchTimer.setRepeats(false);
+
+        searchBox1.getTextField().getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) { searchTimer.restart(); }
+            public void removeUpdate(DocumentEvent e) { searchTimer.restart(); }
+            public void changedUpdate(DocumentEvent e) { searchTimer.restart(); }
+        });
+    }
+    
+    private void search() {
+        String keyword = searchBox1.getText();
+        tabmode.setRowCount(0);
+
+        String query =
+                    "SELECT * FROM project " +
+                    "WHERE id LIKE ? " +
+                    "OR nama LIKE ? " +
+                    "OR ta LIKE ? " +
+                    "OR sub_perusahaan LIKE ? " +
+                    "OR jenis LIKE ? " +
+                    "OR instansi LIKE ? " +
+                    "OR DATE_FORMAT(tgl_mulai,'%Y-%m-%d') LIKE ? " +
+                    "OR DATE_FORMAT(tgl_selesai,'%Y-%m-%d') LIKE ? " +
+                    "OR CAST(nominal AS CHAR) LIKE ? " +
+                    "OR status LIKE ? " +
+                    "ORDER BY created_at DESC";
+
+        try{
+            PreparedStatement ps = conn.prepareStatement(query);
+            String likeKeyword = "%" + keyword + "%";
+
+            for (int i = 1; i <= 10; i++) {
+                ps.setString(i, likeKeyword);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            int no = 1;
+
+            while (rs.next()) {
+                tabmode.addRow(new Object[]{
+                    no++,
+                    rs.getString("id"),
+                    rs.getString("nama"),
+                    rs.getString("ta"),
+                    rs.getString("sub_perusahaan"),
+                    rs.getString("jenis"),
+                    rs.getString("instansi"),
+                    rs.getString("tgl_mulai"),
+                    rs.getString("tgl_selesai"),
+                    rs.getBigDecimal("nominal"),
+                    rs.getString("status"),
+                    null
+                });
+            }
+
+        } catch (Exception e) {
+    JOptionPane.showMessageDialog(this,
+            e.getMessage(),
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+}
     }
    
 
@@ -92,9 +163,7 @@ public class BarangList extends javax.swing.JFrame {
         setTitle("MUTASI BARANG");
         setMinimumSize(new java.awt.Dimension(1200, 800));
 
-        pageTitle1.setText("MUTASI BARANG");
-
-        searchBox1.setText("Cari...");
+        pageTitle1.setText("LIST LOGISTIC");
 
         btnNew.setText("Tambah Barang");
 
@@ -158,10 +227,11 @@ public class BarangList extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
                         .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
+                        .addGap(18, 18, 18)
                         .addComponent(appTablePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(70, 70, 70)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
