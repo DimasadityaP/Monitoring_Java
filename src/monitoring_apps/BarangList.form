@@ -74,10 +74,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="sidebarMenu1" alignment="0" min="-2" pref="620" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Component id="searchBox1" min="-2" pref="42" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="appTablePanel1" min="-2" pref="360" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnNew" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                           <Component id="btnBack" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
@@ -98,13 +99,10 @@
     </Component>
     <Component class="components.PageTitle" name="pageTitle1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="MUTASI BARANG"/>
+        <Property name="text" type="java.lang.String" value="LIST LOGISTIC"/>
       </Properties>
     </Component>
     <Component class="components.SearchBox" name="searchBox1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Cari..."/>
-      </Properties>
     </Component>
     <Component class="components.RoundedTablePanel" name="appTablePanel1">
     </Component>
