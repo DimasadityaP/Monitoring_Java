@@ -6,7 +6,7 @@ import javax.swing.border.EmptyBorder;
 
 public class SearchBox extends RoundedPanel {
     private JTextField txtSearch;
-    private JButton btnSearch;
+    private final String[] placeholder = {"Search..."};
 
     public SearchBox() {
         super(12);
@@ -19,20 +19,32 @@ public class SearchBox extends RoundedPanel {
         setBorder(new EmptyBorder(0, 8, 0, 0));
         setPreferredSize(new Dimension(360, 42));
 
-        txtSearch = new JTextField();
+        txtSearch = new JTextField() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+
+                if (getText().isEmpty() && !isFocusOwner() && !placeholder[0].isEmpty()) {
+                    Graphics2D g2 = (Graphics2D) g.create();
+                    g2.setColor(new Color(170, 170, 170));
+                    g2.setFont(getFont());
+
+                    Insets insets = getInsets();
+                    FontMetrics fm = g2.getFontMetrics();
+                    int y = (getHeight() - fm.getHeight()) / 2 + fm.getAscent();
+
+                    g2.drawString(placeholder[0], insets.left + 2, y);
+                    g2.dispose();
+                }
+            }
+        };
+
         txtSearch.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         txtSearch.setBorder(null);
         txtSearch.setOpaque(false);
 
-        btnSearch = new JButton("⌕");
-        btnSearch.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        btnSearch.setFocusPainted(false);
-        btnSearch.setBorderPainted(false);
-        btnSearch.setContentAreaFilled(false);
-        btnSearch.setPreferredSize(new Dimension(48, 42));
 
         add(txtSearch, BorderLayout.CENTER);
-        add(btnSearch, BorderLayout.EAST);
     }
 
     public String getText() {
@@ -46,6 +58,16 @@ public class SearchBox extends RoundedPanel {
     public JTextField getTextField() {
         return txtSearch;
     }
+    
+    public void setPlaceholder(String placeholder) {
+        this.placeholder[0] = placeholder;
+        txtSearch.repaint();
+    }
+
+    public String getPlaceholder() {
+        return placeholder[0];
+    }
+    
 
     @Override
     protected void paintComponent(Graphics g) {

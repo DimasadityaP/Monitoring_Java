@@ -393,30 +393,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         model.addElement(new ProjectComboItem(0, "Pilih"));
 
         String[] queries = new String[]{
-            "SELECT id, nama AS project_name FROM project ORDER BY id DESC",
-            "SELECT id, project_name AS project_name FROM project ORDER BY id DESC",
-            "SELECT id, nama_project AS project_name FROM project ORDER BY id DESC",
-            "SELECT id, nama_proyek AS project_name FROM project ORDER BY id DESC",
-            "SELECT id, title AS project_name FROM project ORDER BY id DESC",
-            "SELECT id, name AS project_name FROM project ORDER BY id DESC",
-            "SELECT id, nama AS project_name FROM projects ORDER BY id DESC",
-            "SELECT id, project_name AS project_name FROM projects ORDER BY id DESC",
-            "SELECT id, nama_project AS project_name FROM projects ORDER BY id DESC",
-            "SELECT id, nama_proyek AS project_name FROM projects ORDER BY id DESC",
-            "SELECT id, title AS project_name FROM projects ORDER BY id DESC",
-            "SELECT id, name AS project_name FROM projects ORDER BY id DESC",
-            "SELECT id, nama AS project_name FROM project_administration ORDER BY id DESC",
-            "SELECT id, project_name AS project_name FROM project_administration ORDER BY id DESC",
-            "SELECT id, nama_project AS project_name FROM project_administration ORDER BY id DESC",
-            "SELECT id, nama_proyek AS project_name FROM project_administration ORDER BY id DESC",
-            "SELECT id, title AS project_name FROM project_administration ORDER BY id DESC",
-            "SELECT id, name AS project_name FROM project_administration ORDER BY id DESC",
-            "SELECT id, nama AS project_name FROM project_administrations ORDER BY id DESC",
-            "SELECT id, project_name AS project_name FROM project_administrations ORDER BY id DESC",
-            "SELECT id, nama_project AS project_name FROM project_administrations ORDER BY id DESC",
-            "SELECT id, nama_proyek AS project_name FROM project_administrations ORDER BY id DESC",
-            "SELECT id, title AS project_name FROM project_administrations ORDER BY id DESC",
-            "SELECT id, name AS project_name FROM project_administrations ORDER BY id DESC"
+            "SELECT id, nama AS project_name FROM project ORDER BY id DESC"
         };
 
         for (String sql : queries) {

@@ -83,9 +83,6 @@
     <Component class="components.PageTitle" name="pageTitle1">
     </Component>
     <Component class="components.SearchBox" name="searchBox1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Cari..."/>
-      </Properties>
     </Component>
     <Component class="components.RoundedTablePanel" name="tblProjectList">
     </Component>

@@ -40,14 +40,90 @@ public class ProjectFormFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         Navigation.bind(sidebarMenu1, this);
     }
+    
+    public ProjectFormFrame(String projectId) {
+        conn = new KoneksiDb().connect();
+        initComponents();
+        initUi();
+        setLocationRelativeTo(null);
+        Navigation.bind(sidebarMenu1, this);
+        loadProjectData(projectId);
+    }
+    
+    private void loadProjectData(String projectId) {
+    try {
+        // Load data project
+        String query = "SELECT * FROM project WHERE id = ?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setString(1, projectId);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            txtId.setText(rs.getString("id"));
+            txtNamaPekerjaan.setText(rs.getString("nama"));
+            txtTahunAnggaran.setText(rs.getString("ta"));
+            txtPerusahaan.setText(rs.getString("sub_perusahaan"));
+            txtInstansi.setText(rs.getString("instansi"));
+            txtTglMulai.setText(rs.getString("tgl_mulai"));
+            txtTglSelesai.setText(rs.getString("tgl_selesai"));
+            txtNilaiPekerjaan.setText(rs.getBigDecimal("nominal").toPlainString());
+            txtStatus.setText(rs.getString("status"));
+
+            // Set combobox jenis
+            String jenis = rs.getString("jenis");
+            cmbJenisPekerjaan.setSelectedItem(jenis);
+        }
+
+        // Load items (PIC)
+        String queryItem = "SELECT * FROM project_item WHERE project_id = ? ORDER BY item_id";
+        PreparedStatement psItem = conn.prepareStatement(queryItem);
+        psItem.setString(1, projectId);
+        ResultSet rsItem = psItem.executeQuery();
+
+        Object[] columns = {"No", "PIC"};
+        tblItem.setTableData(new Object[0][2], columns);
+        tblItem.setEditableColumns(1);
+        tblItem.setColumnEditor(1, new components.AppTextFieldEditor());
+
+        while (rsItem.next()) {
+            DefaultTableModel model = (DefaultTableModel) tblItem.getModel();
+            model.addRow(new Object[]{
+                rsItem.getInt("item_id"),
+                rsItem.getString("nama_pic"),
+                null
+            });
+        }
+
+    } catch (Exception e) {
+        showError("Gagal load data: " + e.getMessage());
+    }
+}
+    
+    
     private void initUi() {
         String [] jenisProject = {"Pilih Jenis Projek", "Konstruksi", "Pengadaan"};
         cmbJenisPekerjaan.setModel(new javax.swing.DefaultComboBoxModel<>(jenisProject));
         txtTahunAnggaran.setText(Year.now().toString());
         txtTahunAnggaran.setEnabled(false);
         txtStatus.setText("New");
+        
+        tblItem.setDeleteOnlyColumn("/image/delete.png", new components.RoundedTablePanel.ActionClickListener() {
+            public void onActionClick(int row) {
+                int confirm = JOptionPane.showConfirmDialog(
+                    ProjectFormFrame.this,
+                    "Hapus item ini?",
+                    "Konfirmasi",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE
+                );
+                if (confirm == JOptionPane.YES_OPTION) {
+                    DefaultTableModel m = (DefaultTableModel) tblItem.getModel();
+                    m.removeRow(row);
+                }
+            }
+        });
         tblItem.setEditableColumns(1);
-        // show date picker on click for start/end date fields
+        
         txtTglMulai.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -564,8 +640,8 @@ public class ProjectFormFrame extends javax.swing.JFrame {
 
     private void btnAddItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddItemActionPerformed
         if (tblItem.getModel().getRowCount() == 0) {
-            Object[] columns = {"No", "PIC", "Aksi"};
-            tblItem.setTableData(new Object[0][3], columns);
+            Object[] columns = {"No", "PIC"};
+            tblItem.setTableData(new Object[0][2], columns);
             tblItem.setEditableColumns(1);  // Hanya PIC yang bisa di-edit
             tblItem.setColumnEditor(1, new AppTextFieldEditor());
         }

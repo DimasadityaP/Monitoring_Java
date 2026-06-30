@@ -1,37 +1,109 @@
 package monitoring_apps;
 
+import java.awt.Component;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.Timer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import koneksi.KoneksiDb;
 
 public class ProjectList extends javax.swing.JFrame {
     private Connection conn = new KoneksiDb().connect() ;
     private DefaultTableModel tabmode;
-    
+    private Timer searchTimer;
+
     public ProjectList() {
         initComponents();
         setLocationRelativeTo(null);
+        initUi();
         dataTable();
+        setColumnWidths();
+        iniEvent();
+        Navigation.bind(sidebarMenu1, this);
     }
     
-    private void dataTable(){
-        Object[] columns = {"No","ID","Nama","TA","Sub Perusahaan","Jenis","Instansi","Tgl Mulai","Tgl Selesai","Nominal","Status"};
-        // initialize empty table model in the rounded panel
-        tblProjectList.setTableData(new Object[0][columns.length], columns);
-        DefaultTableModel model = (DefaultTableModel) tblProjectList.getModel();
+    private void initUi(){
+        tblProjectList.setActionColumn("/image/edit.png", new components.RoundedTablePanel.ActionClickListener() {
+                public void onActionClick(int row) {
+                    String projectId = tabmode.getValueAt(row, 1).toString();
+                    openEditForm(projectId);
+                }
+            });
+    }
+    
+    private void iniEvent(){
+        searchTimer = new Timer(300, e -> search());
+        searchTimer.setRepeats(false);
 
-        String query = "SELECT id,nama,ta,sub_perusahaan,jenis,instansi,tgl_mulai,tgl_selesai,nominal,status FROM project ORDER BY created_at DESC";
+        searchBox1.getTextField().getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) { searchTimer.restart(); }
+            public void removeUpdate(DocumentEvent e) { searchTimer.restart(); }
+            public void changedUpdate(DocumentEvent e) { searchTimer.restart(); }
+        });
+        
+//         tblProjectList.getTable().addMouseListener(new java.awt.event.MouseAdapter() {
+//            @Override
+//            public void mouseClicked(java.awt.event.MouseEvent e) {
+//                int row = tblProjectList.getTable().rowAtPoint(e.getPoint());
+//                int col = tblProjectList.getTable().columnAtPoint(e.getPoint());
+//
+//                // kolom "Aksi" adalah kolom terakhir (index 11)
+//                if (row >= 0 && col == 11) {
+//                    String projectId = tabmode.getValueAt(row, 1).toString(); // kolom ID
+//                    openEditForm(projectId);
+//                }
+//            }
+//        });
+    }
+    
+    private void openEditForm(String projectId) {
+        JFrame next = new ProjectFormFrame(projectId);
+        next.pack();
+        next.setLocationRelativeTo(this);
+        next.setVisible(true);
+        dispose();
+    }
+    
+    private void search() {
+        String keyword = searchBox1.getText();
+        tabmode.setRowCount(0);
+
+        String query =
+                    "SELECT * FROM project " +
+                    "WHERE id LIKE ? " +
+                    "OR nama LIKE ? " +
+                    "OR ta LIKE ? " +
+                    "OR sub_perusahaan LIKE ? " +
+                    "OR jenis LIKE ? " +
+                    "OR instansi LIKE ? " +
+                    "OR DATE_FORMAT(tgl_mulai,'%Y-%m-%d') LIKE ? " +
+                    "OR DATE_FORMAT(tgl_selesai,'%Y-%m-%d') LIKE ? " +
+                    "OR CAST(nominal AS CHAR) LIKE ? " +
+                    "OR status LIKE ? " +
+                    "ORDER BY created_at DESC";
+
         try{
             PreparedStatement ps = conn.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
+            String likeKeyword = "%" + keyword + "%";
 
+            for (int i = 1; i <= 10; i++) {
+                ps.setString(i, likeKeyword);
+            }
+
+            ResultSet rs = ps.executeQuery();
             int no = 1;
+
             while (rs.next()) {
-                model.addRow(new Object[]{
+                tabmode.addRow(new Object[]{
                     no++,
                     rs.getString("id"),
                     rs.getString("nama"),
@@ -42,7 +114,41 @@ public class ProjectList extends javax.swing.JFrame {
                     rs.getString("tgl_mulai"),
                     rs.getString("tgl_selesai"),
                     rs.getBigDecimal("nominal"),
-                    rs.getString("status")
+                    rs.getString("status"),
+                    null
+                });
+            }
+
+        } catch (Exception e) {
+            showError(e.getMessage());
+        }
+    }
+    
+    private void dataTable(){
+        Object[] columns = {"No","ID","Nama","TA","Sub Perusahaan","Jenis","Instansi","Tgl Mulai","Tgl Selesai","Nominal","Status"};
+        tblProjectList.setTableData(new Object[0][columns.length], columns);
+        tabmode = (DefaultTableModel) tblProjectList.getModel();
+
+        String query = "SELECT id,nama,ta,sub_perusahaan,jenis,instansi,tgl_mulai,tgl_selesai,nominal,status FROM project ORDER BY created_at DESC";
+        try{
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+
+            int no = 1;
+            while (rs.next()) {
+                tabmode.addRow(new Object[]{
+                    no++,
+                    rs.getString("id"),
+                    rs.getString("nama"),
+                    rs.getString("ta"),
+                    rs.getString("sub_perusahaan"),
+                    rs.getString("jenis"),
+                    rs.getString("instansi"),
+                    rs.getString("tgl_mulai"),
+                    rs.getString("tgl_selesai"),
+                    rs.getBigDecimal("nominal"),
+                    rs.getString("status"),
+                    null
                 });
             }
 
@@ -53,6 +159,37 @@ public class ProjectList extends javax.swing.JFrame {
     
     private void showError(String message) {
         JOptionPane.showMessageDialog(null, message, "Gagal", JOptionPane.WARNING_MESSAGE) ;
+    }
+    
+    private void setColumnWidths() {
+        JTable table = tblProjectList.getTable();
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+        for (Component comp : tblProjectList.getComponents()) {
+            if (comp instanceof JScrollPane) {
+                JScrollPane scroll = (JScrollPane) comp;
+                scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                break;
+            }
+        }
+
+        int[] widths = {
+            40, 130, 210, 55, 150, 100, 170, 100, 100, 140, 90, 70
+        };
+
+        for (int i = 0; i < widths.length && i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setPreferredWidth(widths[i]);
+            table.getColumnModel().getColumn(i).setMinWidth(widths[i]);
+            table.getColumnModel().getColumn(i).setMaxWidth(widths[i]);
+        }
+
+        DefaultTableCellRenderer center = new DefaultTableCellRenderer();
+        center.setHorizontalAlignment(SwingConstants.CENTER);
+        int aksiCol = table.getColumnCount() - 1;
+        for (int i = 0; i < aksiCol; i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(center);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -70,8 +207,6 @@ public class ProjectList extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Monitoring Apps");
         setMinimumSize(new java.awt.Dimension(1200, 800));
-
-        searchBox1.setText("Cari...");
 
         btnViewReport.setText("View Report");
 
