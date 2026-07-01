@@ -122,7 +122,7 @@ public class LoginFrame extends javax.swing.JFrame {
         leftPanel.setBackground(new java.awt.Color(235, 235, 235));
         leftPanel.setRadius(42);
 
-        lblLogo.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 36));
+        lblLogo.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 30));
         lblLogo.setForeground(components.RoundedColors.PRIMARY);
         lblLogo.setText("MK | MEUHASE KUMITA");
         lblWelcome.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 28));
@@ -130,7 +130,7 @@ public class LoginFrame extends javax.swing.JFrame {
         lblWelcome.setText("Selamat Datang!");
         lblDesc.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
         lblDesc.setForeground(components.RoundedColors.TEXT_DARK);
-        lblDesc.setText("pengelola proyek dan sumber daya PT. Meuhase Kumita Indonesia");
+        lblDesc.setText("<html>pengelola proyek dan sumber daya PT. Meuhase Kumita Indonesia</html>");
         lblTitle.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 30));
         lblTitle.setForeground(components.RoundedColors.TEXT_DARK);
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -168,12 +168,12 @@ public class LoginFrame extends javax.swing.JFrame {
         leftLayout.setHorizontalGroup(
             leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(leftLayout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addGap(20, 20, 20)
                 .addGroup(leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(45, Short.MAX_VALUE))
+                    .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         leftLayout.setVerticalGroup(
             leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

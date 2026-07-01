@@ -33,17 +33,10 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
             }
         });
 
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                int selectedRow = appTablePanel1.getTable().getSelectedRow();
-                if (selectedRow == -1) {
-                    javax.swing.JOptionPane.showMessageDialog(MutasiBarangListFrame.this, 
-                        "Silakan pilih baris data mutasi yang ingin diubah terlebih dahulu!", 
-                        "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-                
-                int selectedId = mutasiIds.get(selectedRow);
+        appTablePanel1.setActionColumn("/image/edit.png", new components.RoundedTablePanel.ActionClickListener() {
+            @Override
+            public void onActionClick(int row) {
+                int selectedId = mutasiIds.get(row);
                 Navigation.go(MutasiBarangListFrame.this, new MutasiBarangFormFrame(selectedId));
             }
         });
@@ -75,9 +68,9 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
 
     private void loadData() {
         mutasiIds.clear();
+        Object[] columns = {"Barang", "Project/Tujuan", "Qty", "Tipe", "Keterangan", "Tanggal"};
+        appTablePanel1.setTableData(new Object[0][columns.length], columns);
         javax.swing.table.DefaultTableModel model = appTablePanel1.getModel();
-        model.setRowCount(0);
-        model.setColumnIdentifiers(new Object[]{"Barang", "Project/Tujuan", "Qty", "Tipe", "Keterangan", "Tanggal"});
 
         String sql = "SELECT m.id, b.nama AS barang_nama, p.nama AS project_nama, m.qty, m.tipe, m.keterangan, m.created_at " +
                      "FROM mutasi_stok m " +
@@ -105,7 +98,8 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
                     qty,
                     tipe != null ? tipe : "-",
                     keterangan != null ? keterangan : "-",
-                    tgl != null ? tgl.toString() : "-"
+                    tgl != null ? tgl.toString() : "-",
+                    null
                 });
             }
         } catch (Exception e) {
@@ -205,8 +199,9 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
         }
 
         mutasiIds.clear();
+        Object[] columns = {"Barang", "Project/Tujuan", "Qty", "Tipe", "Keterangan", "Tanggal"};
+        appTablePanel1.setTableData(new Object[0][columns.length], columns);
         javax.swing.table.DefaultTableModel model = appTablePanel1.getModel();
-        model.setRowCount(0);
 
         String sql = "SELECT m.id, b.nama AS barang_nama, p.nama AS project_nama, m.qty, m.tipe, m.keterangan, m.created_at " +
                      "FROM mutasi_stok m " +
@@ -244,7 +239,8 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
                         qty,
                         tipe != null ? tipe : "-",
                         keterangan != null ? keterangan : "-",
-                        tgl != null ? tgl.toString() : "-"
+                        tgl != null ? tgl.toString() : "-",
+                        null
                     });
                 }
             }
@@ -264,7 +260,6 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
         appTablePanel1 = new components.RoundedTablePanel();
         btnViewReport = new components.RoundedButton();
         btnNew = new components.RoundedButton();
-        btnUpdate = new components.RoundedButton();
         btnDelete = new components.RoundedButton();
         btnBack = new components.RoundedButton();
 
@@ -277,8 +272,6 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
         btnViewReport.setText("View Report");
 
         btnNew.setText("+ New Mutasi ");
-
-        btnUpdate.setText("Update");
 
         btnDelete.setText("Delete");
         btnDelete.setButtonColor(new java.awt.Color(154, 61, 120));
@@ -306,8 +299,6 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
                         .addGap(15, 15, 15)
                         .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(15, 15, 15)
-                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15)
                         .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(15, 15, 15)
                         .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -331,7 +322,6 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(42, Short.MAX_VALUE))
@@ -353,7 +343,6 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
     private components.RoundedButton btnBack;
     private components.RoundedButton btnDelete;
     private components.RoundedButton btnNew;
-    private components.RoundedButton btnUpdate;
     private components.RoundedButton btnViewReport;
     private components.PageTitle pageTitle1;
     private components.SearchBox searchBox1;
