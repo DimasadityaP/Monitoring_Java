@@ -165,16 +165,7 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
             dispose();
         });
         
-        tblReimbursement.setActionColumn(
-            "/image/edit.png",
-            new components.RoundedTablePanel.ActionClickListener() {
-                @Override
-                public void onActionClick(int row) {
-                  openSelectedReimbursement(row);
-
-                }
-            }
-        );
+        // Edit & Delete action diatur di setupReimbursementTable()
     }
 
     private void setupSearchAction() {
@@ -223,6 +214,37 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
     }
 
     private void setupReimbursementTable() {
+        tblReimbursement.setEditAction(
+            "/image/edit.png",
+            new components.RoundedTablePanel.ActionClickListener() {
+                @Override
+                public void onActionClick(int row) {
+                    openSelectedReimbursement(row);
+                }
+            }
+        );
+
+        tblReimbursement.setDeleteAction(
+            "/image/delete.png",
+            new components.RoundedTablePanel.ActionClickListener() {
+                @Override
+                public void onActionClick(int row) {
+                    Integer id = getSelectedReimbursementId(row);
+                    if (id == null) return;
+                    int confirm = JOptionPane.showConfirmDialog(
+                        ReimbursementListFrame.this,
+                        "Yakin ingin menghapus reimbursement ini?\nData yang dihapus tidak dapat dikembalikan.",
+                        "Konfirmasi Hapus",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE
+                    );
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        deleteReimbursement(id, row);
+                    }
+                }
+            }
+        );
+
         Object[] columns = {
                 "ID",
                 "No Reimbursement",
@@ -237,6 +259,30 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
             };
         tblReimbursement.setTableData(new Object[0][columns.length], columns);
         reimbursementTableModel = tblReimbursement.getModel();
+    }
+
+    private void deleteReimbursement(int id, int row) {
+        try {
+            java.sql.Connection c = new koneksi.KoneksiDb().connect();
+            java.sql.PreparedStatement ps = c.prepareStatement(
+                "DELETE FROM reimbursement WHERE id = ?");
+            ps.setInt(1, id);
+            int result = ps.executeUpdate();
+            if (result > 0) {
+                reimbursementTableModel.removeRow(row);
+                JOptionPane.showMessageDialog(ReimbursementListFrame.this,
+                    "Reimbursement berhasil dihapus.", "Sukses",
+                    JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(ReimbursementListFrame.this,
+                    "Data tidak ditemukan.", "Gagal",
+                    JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(ReimbursementListFrame.this,
+                "Gagal menghapus: " + e.getMessage(), "Error",
+                JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     private void setColumnWidths() {

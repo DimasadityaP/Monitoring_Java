@@ -33,13 +33,39 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
             }
         });
 
-        appTablePanel1.setActionColumn("/image/edit.png", new components.RoundedTablePanel.ActionClickListener() {
-            @Override
-            public void onActionClick(int row) {
-                int selectedId = mutasiIds.get(row);
-                Navigation.go(MutasiBarangListFrame.this, new MutasiBarangFormFrame(selectedId));
+        appTablePanel1.setEditAction(
+            "/image/edit.png",
+            new components.RoundedTablePanel.ActionClickListener() {
+                @Override
+                public void onActionClick(int row) {
+                    if (row < mutasiIds.size()) {
+                        int id = mutasiIds.get(row);
+                        Navigation.go(MutasiBarangListFrame.this, new MutasiBarangFormFrame(id));
+                    }
+                }
             }
-        });
+        );
+ 
+        appTablePanel1.setDeleteAction(
+            "/image/delete.png",
+            new components.RoundedTablePanel.ActionClickListener() {
+                @Override
+                public void onActionClick(int row) {
+                    if (row >= mutasiIds.size()) return;
+                    int confirm = javax.swing.JOptionPane.showConfirmDialog(
+                        MutasiBarangListFrame.this,
+                        "Yakin ingin menghapus data mutasi ini?\nStok barang akan dikembalikan ke kondisi semula.",
+                        "Konfirmasi Hapus",
+                        javax.swing.JOptionPane.YES_NO_OPTION,
+                        javax.swing.JOptionPane.WARNING_MESSAGE
+                    );
+                    if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+                        deleteMutasi(mutasiIds.get(row));
+                    }
+                }
+            }
+        );
+
 
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

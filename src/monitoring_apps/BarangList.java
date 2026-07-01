@@ -43,7 +43,7 @@ private Connection conn = new KoneksiDb().connect() ;
     }
 
     private void initUi() {
-        appTablePanel1.setActionColumn(
+        appTablePanel1.setEditAction(
             "/image/edit.png",
             new components.RoundedTablePanel.ActionClickListener() {
                 public void onActionClick(int row) {
@@ -51,7 +51,51 @@ private Connection conn = new KoneksiDb().connect() ;
                 }
             }
         );
+ 
+        appTablePanel1.setDeleteAction(
+            "/image/delete.png",
+            new components.RoundedTablePanel.ActionClickListener() {
+                public void onActionClick(int row) {
+                    String kode = tabmode.getValueAt(row, 0).toString();
+                    String nama = tabmode.getValueAt(row, 1).toString();
+                    int confirm = javax.swing.JOptionPane.showConfirmDialog(
+                        BarangList.this,
+                        "Yakin ingin menghapus barang \"" + nama + "\" (" + kode + ")?",
+                        "Konfirmasi Hapus",
+                        javax.swing.JOptionPane.YES_NO_OPTION,
+                        javax.swing.JOptionPane.WARNING_MESSAGE
+                    );
+                    if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+                        deleteBarang(kode, row);
+                    }
+                }
+            }
+        );
     }
+ 
+    private void deleteBarang(String kode, int row) {
+        try {
+            java.sql.Connection c = new KoneksiDb().connect();
+            java.sql.PreparedStatement ps = c.prepareStatement("DELETE FROM barang WHERE kode = ?");
+            ps.setString(1, kode);
+            int result = ps.executeUpdate();
+            if (result > 0) {
+                tabmode.removeRow(row);
+                javax.swing.JOptionPane.showMessageDialog(BarangList.this,
+                    "Barang berhasil dihapus.", "Sukses",
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(BarangList.this,
+                    "Barang tidak ditemukan.", "Gagal",
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(BarangList.this,
+                "Gagal menghapus: " + e.getMessage(), "Error",
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 
     private void openEditForm(int row) {
         String kode    = tabmode.getValueAt(row, 0).toString();

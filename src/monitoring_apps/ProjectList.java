@@ -32,12 +32,47 @@ public class ProjectList extends javax.swing.JFrame {
     }
     
     private void initUi(){
-        tblProjectList.setActionColumn("/image/edit.png", new components.RoundedTablePanel.ActionClickListener() {
+        tblProjectList.setEditAction("/image/edit.png", new components.RoundedTablePanel.ActionClickListener() {
                 public void onActionClick(int row) {
                     String projectId = tabmode.getValueAt(row, 1).toString();
                     openEditForm(projectId);
                 }
             });
+ 
+        tblProjectList.setDeleteAction("/image/delete.png", new components.RoundedTablePanel.ActionClickListener() {
+                public void onActionClick(int row) {
+                    String projectId = tabmode.getValueAt(row, 1).toString();
+                    String nama      = tabmode.getValueAt(row, 2).toString();
+                    int confirm = JOptionPane.showConfirmDialog(
+                        ProjectList.this,
+                        "Yakin ingin menghapus project \"" + nama + "\"?",
+                        "Konfirmasi Hapus",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE
+                    );
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        deleteProject(projectId, row);
+                    }
+                }
+            });
+    }
+ 
+    private void deleteProject(String projectId, int row) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM project WHERE id = ?");
+            ps.setString(1, projectId);
+            int result = ps.executeUpdate();
+            if (result > 0) {
+                tabmode.removeRow(row);
+                JOptionPane.showMessageDialog(ProjectList.this,
+                    "Project berhasil dihapus.", "Sukses",
+                    JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                showError("Project tidak ditemukan.");
+            }
+        } catch (Exception e) {
+            showError(e.getMessage());
+        }
     }
     
     private void iniEvent(){

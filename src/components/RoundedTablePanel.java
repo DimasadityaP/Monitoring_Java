@@ -192,8 +192,44 @@ public class RoundedTablePanel extends RoundedPanel {
      */
     public void setActionColumn(String iconPath, ActionClickListener listener) {
         this.showActionColumn = true;
+        this.deleteOnlyMode = false;
         this.actionIconPath   = iconPath;
         this.actionClickListener = listener;
+    }
+
+    /**
+     * Aktifkan icon Edit saja di kolom Aksi.
+     * Bisa dikombinasi dengan setDeleteAction().
+     */
+    public void setEditAction(String iconPath, ActionClickListener listener) {
+        this.showActionColumn = true;
+        this.deleteOnlyMode = false;
+        this.actionIconPath = iconPath;
+        this.actionClickListener = listener;
+    }
+
+    /**
+     * Aktifkan icon Delete di kolom Aksi.
+     * Bisa dikombinasi dengan setEditAction() — kalau keduanya dipanggil,
+     * kolom Aksi akan menampilkan dua icon (edit kiri, delete kanan).
+     */
+    public void setDeleteAction(String iconPath, ActionClickListener listener) {
+        this.showActionColumn = true;
+        this.deleteOnlyMode = false;
+        this.deleteIconPath = iconPath;
+        this.deleteClickListener = listener;
+    }
+
+    /**
+     * Aktifkan kolom Aksi dengan icon Delete SAJA (tanpa Edit).
+     * Cocok untuk tabel item di dalam form.
+     */
+    public void setDeleteOnlyColumn(String iconPath, ActionClickListener listener) {
+        this.showActionColumn = true;
+        this.deleteOnlyMode = true;
+        this.deleteIconPath = iconPath;
+        this.deleteClickListener = listener;
+        this.actionClickListener = null;
     }
 
     public void hideActionColumn() {
@@ -224,14 +260,6 @@ public class RoundedTablePanel extends RoundedPanel {
         };
     }
     
-    public void setDeleteOnlyColumn(String deleteIconPath, ActionClickListener deleteListener) {
-        this.showActionColumn = true;
-        this.deleteOnlyMode = true;
-        this.deleteIconPath = deleteIconPath;
-        this.deleteClickListener = deleteListener;
-        this.actionClickListener = null; // pastikan edit listener kosong
-    }
-
     private JTable buildTable() {
         JTable t = new JTable(model) {
             // Warna baris selang-seling

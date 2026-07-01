@@ -58,32 +58,64 @@ public class UserListFrame1 extends javax.swing.JFrame {
     }
     
     private void initUi() {
-        roundedTablePanel1.setActionColumn(
+        roundedTablePanel1.setEditAction(
             "/image/edit.png",
             new components.RoundedTablePanel.ActionClickListener() {
                 @Override
                 public void onActionClick(int row) {
-                    String nama = tabmode.getValueAt(row, 0).toString();
-                    String jabatan = tabmode.getValueAt(row, 1).toString();
-                    String divisi = tabmode.getValueAt(row, 2).toString();
-                    String email = tabmode.getValueAt(row, 3).toString();
-                    String telepon = tabmode.getValueAt(row, 4).toString();
-                    String alamat = tabmode.getValueAt(row, 5).toString();
+                    String nama     = tabmode.getValueAt(row, 0).toString();
+                    String jabatan  = tabmode.getValueAt(row, 1).toString();
+                    String divisi   = tabmode.getValueAt(row, 2).toString();
+                    String email    = tabmode.getValueAt(row, 3).toString();
+                    String telepon  = tabmode.getValueAt(row, 4).toString();
+                    String alamat   = tabmode.getValueAt(row, 5).toString();
                     String password = tabmode.getValueAt(row, 6).toString();
-
-                    openEditForm(
-                        nama,
-                        jabatan,
-                        divisi,
-                        telepon,
-                        alamat,
-                        email,
-                        password
+                    openEditForm(nama, jabatan, divisi, telepon, alamat, email, password);
+                }
+            }
+        );
+ 
+        roundedTablePanel1.setDeleteAction(
+            "/image/delete.png",
+            new components.RoundedTablePanel.ActionClickListener() {
+                @Override
+                public void onActionClick(int row) {
+                    String nama = tabmode.getValueAt(row, 0).toString();
+                    int confirm = javax.swing.JOptionPane.showConfirmDialog(
+                        UserListFrame1.this,
+                        "Yakin ingin menghapus user \"" + nama + "\"?",
+                        "Konfirmasi Hapus",
+                        javax.swing.JOptionPane.YES_NO_OPTION,
+                        javax.swing.JOptionPane.WARNING_MESSAGE
                     );
+                    if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+                        deleteUser(nama, row);
+                    }
                 }
             }
         );
     }
+ 
+    private void deleteUser(String nama, int row) {
+        try {
+            java.sql.Connection c = new koneksi.KoneksiDb().connect();
+            java.sql.PreparedStatement ps = c.prepareStatement("DELETE FROM user WHERE nama = ?");
+            ps.setString(1, nama);
+            int result = ps.executeUpdate();
+            if (result > 0) {
+                tabmode.removeRow(row);
+                javax.swing.JOptionPane.showMessageDialog(UserListFrame1.this,
+                    "User berhasil dihapus.", "Sukses", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(UserListFrame1.this,
+                    "User tidak ditemukan.", "Gagal", javax.swing.JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(UserListFrame1.this,
+                "Gagal menghapus: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     
     private void setColumnWidths() {
         JTable table = roundedTablePanel1.getTable();
