@@ -65,7 +65,6 @@
                       <Component id="txtPassword" min="-2" pref="360" max="-2" attributes="0"/>
                       <Component id="chkShowPassword" min="-2" max="-2" attributes="0"/>
                       <Component id="btnLogin" min="-2" pref="360" max="-2" attributes="0"/>
-                      <Component id="btnUserBaru" min="-2" pref="360" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="58" max="32767" attributes="0"/>
               </Group>
@@ -92,8 +91,6 @@
                           <Component id="chkShowPassword" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                           <Component id="btnLogin" min="-2" pref="54" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                          <Component id="btnUserBaru" min="-2" pref="54" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace pref="43" max="32767" attributes="0"/>
@@ -188,11 +185,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLoginActionPerformed"/>
           </Events>
         </Component>
-        <Component class="components.RoundedButton" name="btnUserBaru">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="User Baru"/>
-          </Properties>
-        </Component>
+
       </SubComponents>
     </Container>
   </SubComponents>

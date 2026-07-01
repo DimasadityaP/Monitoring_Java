@@ -4,6 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.Cursor;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.SwingConstants;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -542,25 +547,25 @@ public class MutasiBarangFormFrame extends javax.swing.JFrame {
         loadComboBoxData();
 
         JDialog dialog = new JDialog(this, "Pilih Barang", true);
-        dialog.setSize(600, 400);
-        dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout(10, 10));
-        dialog.getContentPane().setBackground(Color.WHITE);
 
-        JPanel searchPanel = new JPanel(new BorderLayout(5, 5));
+        JPanel rootPanel = new JPanel(new BorderLayout(12, 12));
+        rootPanel.setBackground(new Color(245, 246, 250));
+        rootPanel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
+
+        JPanel searchPanel = new JPanel(new BorderLayout(10, 0));
         searchPanel.setOpaque(false);
-        searchPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 5, 10));
-        
-        JLabel lblSearch = new JLabel("Cari Barang: ");
-        lblSearch.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblSearch.setForeground(components.RoundedColors.TEXT_DARK);
-        
+        JLabel searchLabel = new JLabel("Cari Barang");
+        searchLabel.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        searchLabel.setPreferredSize(new Dimension(90, 40));
+
         JTextField txtSearch = new JTextField();
+        txtSearch.setPreferredSize(new Dimension(420, 40));
         txtSearch.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        searchPanel.add(lblSearch, BorderLayout.WEST);
+        txtSearch.setMargin(new Insets(0, 12, 0, 12));
+
+        searchPanel.add(searchLabel, BorderLayout.WEST);
         searchPanel.add(txtSearch, BorderLayout.CENTER);
-        
-        dialog.add(searchPanel, BorderLayout.NORTH);
 
         Object[] columns = {"Kode", "Nama Barang", "Stok"};
         DefaultTableModel dialogModel = new DefaultTableModel(null, columns) {
@@ -573,8 +578,7 @@ public class MutasiBarangFormFrame extends javax.swing.JFrame {
         }
         
         JTable table = new JTable(dialogModel);
-        table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        table.setRowHeight(28);
+        stylePopupTable(table);
         
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(dialogModel);
         table.setRowSorter(sorter);
@@ -594,21 +598,23 @@ public class MutasiBarangFormFrame extends javax.swing.JFrame {
         });
 
         JScrollPane scroll = new JScrollPane(table);
-        scroll.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
-        dialog.add(scroll, BorderLayout.CENTER);
+        scroll.setBorder(BorderFactory.createLineBorder(new Color(210, 210, 210), 1));
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         buttonPanel.setOpaque(false);
         
         JButton btnSelect = new JButton("Pilih");
-        btnSelect.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        
         JButton btnCancel = new JButton("Batal");
-        btnCancel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        styleDialogButton(btnSelect, true);
+        styleDialogButton(btnCancel, false);
         
         buttonPanel.add(btnSelect);
         buttonPanel.add(btnCancel);
-        dialog.add(buttonPanel, BorderLayout.SOUTH);
+
+        rootPanel.add(searchPanel, BorderLayout.NORTH);
+        rootPanel.add(scroll, BorderLayout.CENTER);
+        rootPanel.add(buttonPanel, BorderLayout.SOUTH);
+        dialog.add(rootPanel, BorderLayout.CENTER);
 
         java.awt.event.ActionListener selectAction = e -> {
             int selectedRow = table.getSelectedRow();
@@ -634,6 +640,8 @@ public class MutasiBarangFormFrame extends javax.swing.JFrame {
             }
         });
 
+        dialog.setSize(950, 540);
+        dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }
 
@@ -641,25 +649,25 @@ public class MutasiBarangFormFrame extends javax.swing.JFrame {
         loadComboBoxData();
 
         JDialog dialog = new JDialog(this, "Pilih Project", true);
-        dialog.setSize(600, 400);
-        dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout(10, 10));
-        dialog.getContentPane().setBackground(Color.WHITE);
 
-        JPanel searchPanel = new JPanel(new BorderLayout(5, 5));
+        JPanel rootPanel = new JPanel(new BorderLayout(12, 12));
+        rootPanel.setBackground(new Color(245, 246, 250));
+        rootPanel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
+
+        JPanel searchPanel = new JPanel(new BorderLayout(10, 0));
         searchPanel.setOpaque(false);
-        searchPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 5, 10));
-        
-        JLabel lblSearch = new JLabel("Cari Project: ");
-        lblSearch.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblSearch.setForeground(components.RoundedColors.TEXT_DARK);
-        
+        JLabel searchLabel = new JLabel("Cari Project");
+        searchLabel.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        searchLabel.setPreferredSize(new Dimension(90, 40));
+
         JTextField txtSearch = new JTextField();
+        txtSearch.setPreferredSize(new Dimension(420, 40));
         txtSearch.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        searchPanel.add(lblSearch, BorderLayout.WEST);
+        txtSearch.setMargin(new Insets(0, 12, 0, 12));
+
+        searchPanel.add(searchLabel, BorderLayout.WEST);
         searchPanel.add(txtSearch, BorderLayout.CENTER);
-        
-        dialog.add(searchPanel, BorderLayout.NORTH);
 
         Object[] columns = {"ID Project", "Nama Project"};
         DefaultTableModel dialogModel = new DefaultTableModel(null, columns) {
@@ -672,8 +680,7 @@ public class MutasiBarangFormFrame extends javax.swing.JFrame {
         }
         
         JTable table = new JTable(dialogModel);
-        table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        table.setRowHeight(28);
+        stylePopupTable(table);
         
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(dialogModel);
         table.setRowSorter(sorter);
@@ -693,21 +700,23 @@ public class MutasiBarangFormFrame extends javax.swing.JFrame {
         });
 
         JScrollPane scroll = new JScrollPane(table);
-        scroll.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
-        dialog.add(scroll, BorderLayout.CENTER);
+        scroll.setBorder(BorderFactory.createLineBorder(new Color(210, 210, 210), 1));
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         buttonPanel.setOpaque(false);
         
         JButton btnSelect = new JButton("Pilih");
-        btnSelect.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        
         JButton btnCancel = new JButton("Batal");
-        btnCancel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        styleDialogButton(btnSelect, true);
+        styleDialogButton(btnCancel, false);
         
         buttonPanel.add(btnSelect);
         buttonPanel.add(btnCancel);
-        dialog.add(buttonPanel, BorderLayout.SOUTH);
+
+        rootPanel.add(searchPanel, BorderLayout.NORTH);
+        rootPanel.add(scroll, BorderLayout.CENTER);
+        rootPanel.add(buttonPanel, BorderLayout.SOUTH);
+        dialog.add(rootPanel, BorderLayout.CENTER);
 
         java.awt.event.ActionListener selectAction = e -> {
             int selectedRow = table.getSelectedRow();
@@ -733,7 +742,50 @@ public class MutasiBarangFormFrame extends javax.swing.JFrame {
             }
         });
 
+        dialog.setSize(950, 540);
+        dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
+    }
+
+    private void stylePopupTable(javax.swing.JTable table) {
+        table.setRowHeight(34);
+        table.setShowGrid(true);
+        table.setGridColor(new Color(225, 225, 225));
+        table.setFillsViewportHeight(true);
+        table.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        table.getTableHeader().setReorderingAllowed(false);
+        table.getTableHeader().setPreferredSize(new Dimension(0, 42));
+        table.getTableHeader().setBackground(new Color(70, 64, 150));
+        table.getTableHeader().setForeground(Color.WHITE);
+        table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 13));
+
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        headerRenderer.setBackground(new Color(70, 64, 150));
+        headerRenderer.setForeground(Color.WHITE);
+        headerRenderer.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        table.getTableHeader().setDefaultRenderer(headerRenderer);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+    }
+
+    private void styleDialogButton(javax.swing.JButton button, boolean primary) {
+        button.setPreferredSize(new Dimension(120, 40));
+        button.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        button.setFocusable(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.setBorder(BorderFactory.createEmptyBorder(8, 18, 8, 18));
+        if (primary) {
+            button.setBackground(new Color(70, 74, 160));
+            button.setForeground(Color.WHITE);
+        } else {
+            button.setBackground(new Color(217, 217, 217));
+            button.setForeground(Color.BLACK);
+        }
     }
 
     @SuppressWarnings("unchecked")

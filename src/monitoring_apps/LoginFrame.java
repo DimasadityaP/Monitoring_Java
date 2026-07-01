@@ -9,6 +9,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
     public LoginFrame() {
         initComponents();
+        getRootPane().setDefaultButton(btnLogin);
         setLocationRelativeTo(null);
     }
 
@@ -110,7 +111,6 @@ public class LoginFrame extends javax.swing.JFrame {
         txtPassword = new components.RoundedPasswordField();
         chkShowPassword = new javax.swing.JCheckBox();
         btnLogin = new components.RoundedButton();
-        btnUserBaru = new components.RoundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
@@ -153,9 +153,6 @@ public class LoginFrame extends javax.swing.JFrame {
         });
 
         btnLogin.setText("Login");
-        btnUserBaru.setText("User Baru");
-        btnUserBaru.setButtonColor(components.RoundedColors.SOFT_GRAY);
-        btnUserBaru.setForeground(components.RoundedColors.TEXT_DARK);
 
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -202,8 +199,7 @@ public class LoginFrame extends javax.swing.JFrame {
                     .addComponent(lblPassword)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(chkShowPassword)
-                    .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnUserBaru, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         cardLayout.setVerticalGroup(
@@ -226,9 +222,7 @@ public class LoginFrame extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addComponent(chkShowPassword)
                         .addGap(28, 28, 28)
-                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)
-                        .addComponent(btnUserBaru, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
@@ -284,6 +278,5 @@ public class LoginFrame extends javax.swing.JFrame {
     private components.RoundedPasswordField txtPassword;
     private javax.swing.JCheckBox chkShowPassword;
     private components.RoundedButton btnLogin;
-    private components.RoundedButton btnUserBaru;
     // End of variables declaration//GEN-END:variables
 }

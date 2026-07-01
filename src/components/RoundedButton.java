@@ -14,7 +14,7 @@ public class RoundedButton extends JButton {
 
     public RoundedButton(String text) {
         super(text);
-        setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        setFont(new Font("Segoe UI", Font.PLAIN, 14));
         setForeground(Color.WHITE);
         setFocusPainted(false);
         setContentAreaFilled(false);

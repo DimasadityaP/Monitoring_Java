@@ -8,24 +8,27 @@ import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import koneksi.KoneksiDb;
+import components.PlusIcon;
 
 public class MutasiBarangListFrame extends javax.swing.JFrame {
 
     private final java.util.List<Integer> mutasiIds = new java.util.ArrayList<>();
     private Timer searchTimer;
 
+
+
     public MutasiBarangListFrame() {
         initComponents();
+        btnNew.setText("Tambah");
+        btnNew.setIcon(new PlusIcon(16));
+        btnNew.setButtonColor(components.RoundedColors.PRIMARY);
+        btnNew.setForeground(java.awt.Color.WHITE);
         pageTitle1.setText("MUTASI BARANG");
         getContentPane().setBackground(components.RoundedColors.BACKGROUND);
         setLocationRelativeTo(null);
         Navigation.bind(sidebarMenu1, this);
         
-        btnBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Navigation.go(MutasiBarangListFrame.this, new Dashboard());
-            }
-        });
+
 
         btnNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -67,26 +70,7 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
         );
 
 
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                int selectedRow = appTablePanel1.getTable().getSelectedRow();
-                if (selectedRow == -1) {
-                    javax.swing.JOptionPane.showMessageDialog(MutasiBarangListFrame.this, 
-                        "Silakan pilih baris data mutasi yang ingin dihapus terlebih dahulu!", 
-                        "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-                
-                int confirm = javax.swing.JOptionPane.showConfirmDialog(MutasiBarangListFrame.this, 
-                    "Apakah Anda yakin ingin menghapus data mutasi barang ini? Tindakan ini akan mengembalikan stok barang.", 
-                    "Konfirmasi Hapus", javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE);
-                
-                if (confirm == javax.swing.JOptionPane.YES_OPTION) {
-                    int selectedId = mutasiIds.get(selectedRow);
-                    deleteMutasi(selectedId);
-                }
-            }
-        });
+
 
         loadData();
         iniEvent();
@@ -286,25 +270,16 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
         appTablePanel1 = new components.RoundedTablePanel();
         btnViewReport = new components.RoundedButton();
         btnNew = new components.RoundedButton();
-        btnDelete = new components.RoundedButton();
-        btnBack = new components.RoundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MUTASI BARANG");
         setMinimumSize(new java.awt.Dimension(1200, 800));
 
-        searchBox1.setText("Cari...");
+        searchBox1.setText("");
 
         btnViewReport.setText("View Report");
 
         btnNew.setText("+ New Mutasi ");
-
-        btnDelete.setText("Delete");
-        btnDelete.setButtonColor(new java.awt.Color(154, 61, 120));
-
-        btnBack.setText("Back");
-        btnBack.setButtonColor(new java.awt.Color(217, 217, 217));
-        btnBack.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -318,16 +293,13 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(appTablePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(15, 15, 15)
-                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15)
-                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15)
-                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(appTablePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -341,15 +313,12 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(appTablePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(70, 70, 70)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30)
+                        .addComponent(appTablePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
@@ -366,8 +335,6 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private components.RoundedTablePanel appTablePanel1;
-    private components.RoundedButton btnBack;
-    private components.RoundedButton btnDelete;
     private components.RoundedButton btnNew;
     private components.RoundedButton btnViewReport;
     private components.PageTitle pageTitle1;
