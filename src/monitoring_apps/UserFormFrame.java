@@ -319,11 +319,7 @@ public class UserFormFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
-    Dashboard dashboard = new Dashboard();
-    dashboard.setVisible(true);
-
-    this.dispose();
+        Navigation.go(this, new UserListFrame1());
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
