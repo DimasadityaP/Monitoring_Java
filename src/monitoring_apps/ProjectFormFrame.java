@@ -147,12 +147,12 @@ public class ProjectFormFrame extends javax.swing.JFrame {
     }
     
     public static void main(String args[]) {
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            new ProjectFormFrame().setVisible(true);
-        }
-    });
-}
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new ProjectFormFrame().setVisible(true);
+            }
+        });
+    }
 
     private void p_ResetField(){
         cmbJenisPekerjaan.setSelectedIndex(0);

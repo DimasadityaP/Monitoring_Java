@@ -64,7 +64,8 @@ public class SidebarMenu extends RoundedPanel {
         masterSub.add(createSubMenu("master.barang", "Barang"));
         masterSub.add(createSubMenu("master.administrasi", "Administrasi"));
         masterSub.add(createSubMenu("master.user", "User"));
-        masterSub.add(createSubMenu("master.reimbursement", "Reimbursement"));
+        masterSub.add(createSubMenu("master.mutasi_barang", "Mutasi Barang"));
+
 
         addSubMenus(masterSub);
         menuMap.put(masterdata, masterSub);
@@ -82,7 +83,8 @@ public class SidebarMenu extends RoundedPanel {
 
         java.util.List<JLabel> transaksiSub = new ArrayList<JLabel>();
         transaksiSub.add(createSubMenu("transaksi.project", "Project"));
-        transaksiSub.add(createSubMenu("transaksi.mutasi_barang", "Mutasi Barang"));
+        transaksiSub.add(createSubMenu("transaksi.reimbursement", "Reimbursement"));
+
 
         addSubMenus(transaksiSub);
         menuMap.put(transaksi, transaksiSub);

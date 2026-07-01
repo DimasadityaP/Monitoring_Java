@@ -1,5 +1,7 @@
 package monitoring_apps;
 
+import Utills.UserSession;
+
 public class Dashboard extends javax.swing.JFrame {
 
     public Dashboard() {

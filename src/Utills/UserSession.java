@@ -1,4 +1,4 @@
-package monitoring_apps;
+package Utills;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

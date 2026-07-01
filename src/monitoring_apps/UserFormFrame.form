@@ -46,15 +46,15 @@
                       <Component id="btnBack" min="-2" pref="110" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="lblJabatan" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtJabatan" min="-2" pref="420" max="-2" attributes="0"/>
                           <Component id="lblNomorTelepon" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtTelepon" min="-2" pref="420" max="-2" attributes="0"/>
+                          <Component id="txtTelepon" pref="420" max="32767" attributes="0"/>
                           <Component id="lblAlamat" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtAlamat" alignment="0" min="-2" pref="420" max="-2" attributes="0"/>
+                          <Component id="txtAlamat" alignment="0" pref="420" max="32767" attributes="0"/>
                           <Component id="lblNamaPengguna" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtNama" alignment="0" min="-2" pref="420" max="-2" attributes="0"/>
+                          <Component id="txtNama" alignment="0" pref="420" max="32767" attributes="0"/>
+                          <Component id="cmbJabatan" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -92,7 +92,7 @@
                               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                               <Component id="lblJabatan" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txtJabatan" min="-2" pref="42" max="-2" attributes="0"/>
+                              <Component id="cmbJabatan" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                               <Component id="lblNomorTelepon" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -162,8 +162,6 @@
         <Property name="text" type="java.lang.String" value="Jabatan"/>
       </Properties>
     </Component>
-    <Component class="components.RoundedTextField" name="txtJabatan">
-    </Component>
     <Component class="javax.swing.JLabel" name="lblPassword">
       <Properties>
         <Property name="text" type="java.lang.String" value="Masukkan Password Baru"/>
@@ -229,6 +227,8 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBackActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="components.AppComboBox" name="cmbJabatan">
     </Component>
   </SubComponents>
 </Form>

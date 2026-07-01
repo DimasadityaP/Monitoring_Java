@@ -31,20 +31,7 @@
               </Group>
               <EmptySpace min="70" pref="70" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblProyekTujuan" min="-2" max="-2" attributes="0"/>
-                          <Component id="cmbproyek" min="-2" pref="420" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblHari" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="cmbHari" alignment="0" min="-2" pref="420" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
                   <Component id="lblTanggal" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblPerihal" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtPerihal" alignment="0" min="-2" pref="420" max="-2" attributes="0"/>
                   <Component id="jDateChooser1" min="-2" pref="420" max="-2" attributes="0"/>
                   <Component id="pageTitle1" min="-2" pref="900" max="-2" attributes="0"/>
                   <Group type="103" alignment="0" groupAlignment="1" attributes="0">
@@ -71,12 +58,12 @@
                                   <Component id="txtKuantitas" min="-2" pref="134" max="-2" attributes="0"/>
                                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="txtSatuan" alignment="0" min="-2" pref="134" max="-2" attributes="0"/>
-                                  <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cmbSatuan" min="-2" pref="106" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="Nominal" alignment="0" min="-2" pref="134" max="-2" attributes="0"/>
                                   <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -91,6 +78,19 @@
                                   </Group>
                               </Group>
                           </Group>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblProyekTujuan" min="-2" max="-2" attributes="0"/>
+                          <Component id="cmbproyek" min="-2" pref="420" max="-2" attributes="0"/>
+                          <Component id="lblPerihal" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtPerihal" alignment="0" min="-2" pref="420" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblHari" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="cmbHari" alignment="0" min="-2" pref="420" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -130,31 +130,39 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtPerihal" min="-2" pref="80" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblUraian" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtUraian1" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
-                          <Component id="txtKuantitas" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
-                          <Component id="txtSatuan" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
-                          <Component id="Nominal" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
-                          <Component id="txtTotal" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
-                          <Component id="jbtambah" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnSave" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
-                          <Component id="btnUpdate" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
-                          <Component id="btnClear" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
-                          <Component id="btnDelete" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
-                          <Component id="btnBack" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lblUraian" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="txtUraian1" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
+                                  <Component id="txtKuantitas" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
+                                  <Component id="Nominal" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
+                                  <Component id="txtTotal" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
+                                  <Component id="jbtambah" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="btnSave" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                                  <Component id="btnUpdate" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                                  <Component id="btnClear" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                                  <Component id="btnDelete" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                                  <Component id="btnBack" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="cmbSatuan" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
               </Group>
@@ -251,8 +259,6 @@
         <Property name="text" type="java.lang.String" value="Satuan"/>
       </Properties>
     </Component>
-    <Component class="components.RoundedTextField" name="txtSatuan">
-    </Component>
     <Component class="components.RoundedTextField" name="txtKuantitas">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
@@ -307,6 +313,8 @@
       </SubComponents>
     </Container>
     <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
+    </Component>
+    <Component class="components.AppComboBox" name="cmbSatuan">
     </Component>
   </SubComponents>
 </Form>

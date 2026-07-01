@@ -35,7 +35,7 @@ public class BarangFormFrame extends javax.swing.JFrame {
     txtSpesifikasi.setText(spek);
     cmbJenis.setSelectedItem(jenis);
     txtKuantitas.setText(String.valueOf(qty));
-    txtSatuan.setText(satuan);
+    cmbSatuan.setSelectedItem(satuan);
     txtKondisi.setText(kondisi);
 
     txtKode.setEditable(true);
@@ -50,7 +50,7 @@ public class BarangFormFrame extends javax.swing.JFrame {
     txtKondisi.setText("");
     txtKuantitas.setText("");
     txtJenisSub.setText("");
-    txtSatuan.setText("");
+    cmbSatuan.setSelectedIndex(0);
     cmbJenis.setSelectedIndex(0);
     txtKode.setEditable(true);
 }
@@ -80,12 +80,11 @@ public class BarangFormFrame extends javax.swing.JFrame {
         lblKuantitas = new javax.swing.JLabel();
         txtKuantitas = new components.RoundedTextField();
         lblSatuan = new javax.swing.JLabel();
-        txtSatuan = new components.RoundedTextField();
         btnSave = new components.RoundedButton();
         btnUpdate = new components.RoundedButton();
         btnClear = new components.RoundedButton();
-        btnDelete = new components.RoundedButton();
         btnBack = new components.RoundedButton();
+        cmbSatuan = new components.AppComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FORMULIR LOGISTIK");
@@ -114,6 +113,7 @@ public class BarangFormFrame extends javax.swing.JFrame {
         lblKuantitas.setText("Kuantitas");
 
         lblSatuan.setText("Satuan");
+        cmbSatuan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"Pilih Satuan", "Unit", "Pcs", "Box", "Meter", "Set"}));
 
         btnSave.setText("Save");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -136,14 +136,6 @@ public class BarangFormFrame extends javax.swing.JFrame {
             }
         });
 
-        btnDelete.setText("Delete");
-        btnDelete.setButtonColor(new java.awt.Color(154, 61, 120));
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
-
         btnBack.setForeground(new java.awt.Color(0, 0, 0));
         btnBack.setText("Back");
         btnBack.setButtonColor(new java.awt.Color(217, 217, 217));
@@ -158,62 +150,58 @@ public class BarangFormFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(userProfileCard1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(sidebarMenu1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(userProfileCard1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(sidebarMenu1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtSpesifikasi, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblSpesifikasi)
-                            .addComponent(txtNamaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtKode, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblNamaBarang)
-                            .addComponent(lblKode)
-                            .addComponent(lblKondisi)
-                            .addComponent(txtKondisi, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
+                                .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtKuantitas, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblKuantitas))
-                                .addGap(34, 34, 34)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblSatuan)
-                                    .addComponent(txtSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(54, 54, 54)
-                                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 115, Short.MAX_VALUE)
+                                .addGap(30, 30, 30)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lblJenis)
-                                    .addComponent(cmbJenis, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtJenisSub, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblJenisSub)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(48, 48, 48)
-                                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtSpesifikasi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblSpesifikasi)
+                                    .addComponent(txtNamaBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtKode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblNamaBarang)
+                                    .addComponent(lblKode)
+                                    .addComponent(lblKuantitas)
+                                    .addComponent(txtKuantitas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(lblJenis)
+                                        .addComponent(cmbJenis, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtJenisSub, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblJenisSub))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lblKondisi)
+                                        .addComponent(txtKondisi, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblSatuan)
+                                    .addComponent(cmbSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(77, 77, 77)
+                        .addGap(70, 70, 70)
                         .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblKode)
@@ -228,17 +216,9 @@ public class BarangFormFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtSpesifikasi, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(lblKondisi)
+                                .addComponent(lblKuantitas)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtKondisi, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblKuantitas)
-                                    .addComponent(lblSatuan))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtKuantitas, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtKuantitas, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblJenis)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -246,21 +226,27 @@ public class BarangFormFrame extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(lblJenisSub)
                                 .addGap(1, 1, 1)
-                                .addComponent(txtJenisSub, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(txtJenisSub, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(32, 32, 32)
+                                .addComponent(lblKondisi)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtKondisi, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblSatuan)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(122, 122, 122))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(userProfileCard1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(213, Short.MAX_VALUE))
+                        .addComponent(userProfileCard1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(165, Short.MAX_VALUE))
         );
 
         pack();
@@ -270,22 +256,21 @@ public class BarangFormFrame extends javax.swing.JFrame {
 
     String kode = txtKode.getText().trim();
     String namabarang = txtNamaBarang.getText().trim();
-    String spesifikasi =  txtSpesifikasi.getText().trim();
+    String spesifikasi = txtSpesifikasi.getText().trim();
     String kondisi = txtKondisi.getText().trim();
     String kuantitas = txtKuantitas.getText().trim();
     String jenissub = txtJenisSub.getText().trim();
-    String satuan = txtSatuan.getText().trim();
+    String satuan = cmbSatuan.getSelectedItem().toString();
     String jenis = cmbJenis.getSelectedItem().toString();
 
-    // Validasi form
     if (kode.isEmpty() ||
         namabarang.isEmpty() ||
         spesifikasi.isEmpty() ||
         kondisi.isEmpty() ||
         kuantitas.isEmpty() ||
         jenissub.isEmpty() ||
-        satuan.isEmpty() ||
-        jenis.equals("Pilih")) {
+        satuan.equals("Pilih Satuan") ||
+        jenis.equals("Pilih") ) {
 
         JOptionPane.showMessageDialog(
                 this,
@@ -296,40 +281,40 @@ public class BarangFormFrame extends javax.swing.JFrame {
         return;
     }
 
-        String sql =
+    String sql =
     "INSERT INTO barang (kode, nama, spek, kondisi, qty, satuan, jenis) " +
     "VALUES (?,?,?,?,?,?,?)";
 
     try {
-    Connection conn = new KoneksiDb().connect();
-    PreparedStatement stat = conn.prepareStatement(sql);
+        Connection conn = new KoneksiDb().connect();
+        PreparedStatement stat = conn.prepareStatement(sql);
 
-    stat.setString(1, kode);
-    stat.setString(2, namabarang);
-    stat.setString(3, spesifikasi);
-    stat.setString(4, kondisi);
-    stat.setInt(5, Integer.parseInt(kuantitas));
-    stat.setString(6, satuan);
-    stat.setString(7, jenis);
+        stat.setString(1, kode);
+        stat.setString(2, namabarang);
+        stat.setString(3, spesifikasi);
+        stat.setString(4, kondisi);
+        stat.setInt(5, Integer.parseInt(kuantitas));
+        stat.setString(6, satuan);
+        stat.setString(7, jenis);
 
-    stat.executeUpdate()    ;
+        stat.executeUpdate();
 
-    JOptionPane.showMessageDialog(this,
-            "Data berhasil disimpan!");
+        JOptionPane.showMessageDialog(this,
+                "Data berhasil disimpan!");
 
-    Navigation.go(this, new BarangList());
+        Navigation.go(this, new BarangList());
 
-} catch (NumberFormatException e) {
-    JOptionPane.showMessageDialog(this,
-            "Kuantitas harus berupa angka!");
-} catch (Exception e) {
-    e.printStackTrace();
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this,
+                "Kuantitas harus berupa angka!");
+    } catch (Exception e) {
+        e.printStackTrace();
 
-    JOptionPane.showMessageDialog(
-        this,
-        "ERROR:\n" + e.getMessage()
-    );
-}      
+        JOptionPane.showMessageDialog(
+            this,
+            "ERROR:\n" + e.getMessage()
+        );
+    }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -347,7 +332,7 @@ public class BarangFormFrame extends javax.swing.JFrame {
         String spesifikasi = txtSpesifikasi.getText().trim();
         String kondisi = txtKondisi.getText().trim();
         String kuantitas = txtKuantitas.getText().trim();
-        String satuan = txtSatuan.getText().trim();
+        String satuan = cmbSatuan.getSelectedItem().toString();
         String jenis = cmbJenis.getSelectedItem().toString();
         if (kode.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Masukkan 'Kode' barang yang ingin diubah!", "Peringatan", JOptionPane.WARNING_MESSAGE);
@@ -384,47 +369,6 @@ public class BarangFormFrame extends javax.swing.JFrame {
     kosong();
     }//GEN-LAST:event_btnClearActionPerformed
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-
-    String kode = txtKode.getText().trim();
-    if(kode.isEmpty()){
-        JOptionPane.showMessageDialog(this,
-                "Masukkan kode barang terlebih dahulu");
-        return;
-    }
-    int jawab = JOptionPane.showConfirmDialog(
-            this,
-            "Yakin ingin menghapus data?",
-            "Konfirmasi",
-            JOptionPane.YES_NO_OPTION);
-    if(jawab == JOptionPane.YES_OPTION){
-        try{
-            Connection conn = new KoneksiDb().connect();
-            String sql =
-                    "DELETE FROM barang WHERE kode=?";
-            PreparedStatement stat =
-                    conn.prepareStatement(sql);
-            stat.setString(1, kode);
-            int hasil = stat.executeUpdate();
-            if(hasil > 0){
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Data berhasil dihapus");
-
-            Navigation.go(this, new BarangList());
-            }else{
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Kode tidak ditemukan");
-            }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(
-                    this,
-                    e.getMessage());
-        }
-    }   
-    }//GEN-LAST:event_btnDeleteActionPerformed
-
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
       Navigation.go(this, new BarangList());
     }//GEN-LAST:event_btnBackActionPerformed
@@ -442,10 +386,10 @@ public class BarangFormFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private components.RoundedButton btnBack;
     private components.RoundedButton btnClear;
-    private components.RoundedButton btnDelete;
     private components.RoundedButton btnSave;
     private components.RoundedButton btnUpdate;
     private components.RoundedComboBox cmbJenis;
+    private components.AppComboBox cmbSatuan;
     private javax.swing.JLabel lblJenis;
     private javax.swing.JLabel lblJenisSub;
     private javax.swing.JLabel lblKode;
@@ -461,7 +405,6 @@ public class BarangFormFrame extends javax.swing.JFrame {
     private components.RoundedTextField txtKondisi;
     private components.RoundedTextField txtKuantitas;
     private components.RoundedTextField txtNamaBarang;
-    private components.RoundedTextField txtSatuan;
     private components.RoundedTextArea txtSpesifikasi;
     private components.UserProfileCard userProfileCard1;
     // End of variables declaration//GEN-END:variables

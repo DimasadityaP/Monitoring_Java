@@ -27,8 +27,8 @@ public final class Navigation {
                     next = new UserListFrame1();
                 }
 
-                else if ("master.reimbursement".equals(menu)) {
-                        next = new ReimbursementListFrame();
+                else if ("master.mutasi_barang".equals(menu)) {
+                        next = new MutasiBarangListFrame();
                     }
                
                 else if ("Mutasi Barang".equals(menu)) {
@@ -39,8 +39,8 @@ public final class Navigation {
                     next = new ProjectList();
                 }
 
-                else if ("transaksi.mutasi_barang".equals(menu)) {
-                    next = new MutasiBarangListFrame();
+                else if ("transaksi.reimbursement".equals(menu)) {
+                    next = new ReimbursementListFrame();
                 }
 
                 else if ("report.project".equals(menu)) {

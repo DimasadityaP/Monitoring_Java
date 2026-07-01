@@ -34,7 +34,7 @@ public class UserFormFrame extends javax.swing.JFrame {
         this.oldEmail = email;
 
         txtNama.setText(nama);
-        txtJabatan.setText(jabatan);
+        cmbJabatan.setSelectedItem(jabatan);
         cmbDivisi.setSelectedItem(divisi);
         txtTelepon.setText(telepon);
         txtAlamat.setText(alamat);
@@ -48,7 +48,7 @@ public class UserFormFrame extends javax.swing.JFrame {
     public static void main(String args[]) {
     java.awt.EventQueue.invokeLater(new Runnable() {
         public void run() {
-
+            new UserFormFrame().setVisible(true);
         }
     });
 }
@@ -58,7 +58,7 @@ public class UserFormFrame extends javax.swing.JFrame {
     }
     protected void kosong(){
     txtNama.setText("");
-    txtJabatan.setText("");
+    cmbJabatan.setSelectedIndex(0);
     txtTelepon.setText("");
     txtAlamat.setText("");
     txtEmail.setText("");
@@ -78,7 +78,6 @@ public class UserFormFrame extends javax.swing.JFrame {
         lblDivisi = new javax.swing.JLabel();
         cmbDivisi = new components.RoundedComboBox();
         lblJabatan = new javax.swing.JLabel();
-        txtJabatan = new components.RoundedTextField();
         lblPassword = new javax.swing.JLabel();
         txtPassword = new components.RoundedTextField();
         lblNomorTelepon = new javax.swing.JLabel();
@@ -91,6 +90,7 @@ public class UserFormFrame extends javax.swing.JFrame {
         btnClear = new components.RoundedButton();
         btnUpdate = new components.RoundedButton();
         btnBack = new components.RoundedButton();
+        cmbJabatan = new components.AppComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FORM USER");
@@ -102,7 +102,6 @@ public class UserFormFrame extends javax.swing.JFrame {
 
         txtNama.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Navigation.go(UserFormFrame.this, new Dashboard());
                 txtNamaActionPerformed(evt);
             }
         });
@@ -170,15 +169,15 @@ public class UserFormFrame extends javax.swing.JFrame {
                         .addGap(20, 20, 20)
                         .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblJabatan)
-                            .addComponent(txtJabatan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblNomorTelepon)
-                            .addComponent(txtTelepon, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTelepon, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
                             .addComponent(lblAlamat)
-                            .addComponent(txtAlamat, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtAlamat, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
                             .addComponent(lblNamaPengguna)
-                            .addComponent(txtNama, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtNama, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+                            .addComponent(cmbJabatan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblDivisi)
@@ -209,7 +208,7 @@ public class UserFormFrame extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(lblJabatan)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtJabatan, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cmbJabatan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(lblNomorTelepon)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -249,7 +248,7 @@ public class UserFormFrame extends javax.swing.JFrame {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
         String nama = txtNama.getText().trim();
-    String jabatan = txtJabatan.getText().trim();
+    String jabatan = cmbJabatan.getSelectedItem().toString();
     String divisi = cmbDivisi.getSelectedItem().toString();
     String telepon = txtTelepon.getText().trim();
     String alamat = txtAlamat.getText().trim();
@@ -307,7 +306,7 @@ public class UserFormFrame extends javax.swing.JFrame {
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         // TODO add your handling code here:
     txtNama.setText("");
-    txtJabatan.setText("");
+    cmbJabatan.setSelectedIndex(0);
     txtTelepon.setText("");
     txtAlamat.setText("");
     txtEmail.setText("");
@@ -334,7 +333,7 @@ public class UserFormFrame extends javax.swing.JFrame {
            + "password=? "
            + "WHERE email=?";
     String nama = txtNama.getText();
-    String jabatan = txtJabatan.getText();
+    String jabatan = cmbJabatan.getSelectedItem().toString();
     String divisi = cmbDivisi.getSelectedItem().toString();
     String telepon = txtTelepon.getText();
     String alamat = txtAlamat.getText();
@@ -381,6 +380,7 @@ public class UserFormFrame extends javax.swing.JFrame {
     private components.RoundedButton btnSave;
     private components.RoundedButton btnUpdate;
     private components.RoundedComboBox cmbDivisi;
+    private components.AppComboBox cmbJabatan;
     private javax.swing.JLabel lblAlamat;
     private javax.swing.JLabel lblDivisi;
     private javax.swing.JLabel lblEmail;
@@ -392,7 +392,6 @@ public class UserFormFrame extends javax.swing.JFrame {
     private components.SidebarMenu sidebarMenu1;
     private components.RoundedTextField txtAlamat;
     private components.RoundedTextField txtEmail;
-    private components.RoundedTextField txtJabatan;
     private components.RoundedTextField txtNama;
     private components.RoundedTextField txtPassword;
     private components.RoundedTextField txtTelepon;

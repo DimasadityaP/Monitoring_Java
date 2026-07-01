@@ -74,8 +74,8 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         lblHari = new javax.swing.JLabel();
         cmbHari = new components.RoundedComboBox();
         lblTanggal = new javax.swing.JLabel();
+        cmbproyek = new components.RoundedComboBox();
         jLabel1 = new javax.swing.JLabel();
-        txtSatuan = new components.RoundedTextField();
         txtKuantitas = new components.RoundedTextField();
         jLabel2 = new javax.swing.JLabel();
         Nominal = new components.RoundedTextField();
@@ -86,8 +86,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        cmbSatuan = new components.AppComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -126,6 +125,12 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
 
         lblTanggal.setText("Tanggal");
 
+        cmbproyek.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbproyekActionPerformed(evt);
+            }
+        });
+
         jLabel1.setText("Satuan");
 
         jLabel2.setText("Kuantitas");
@@ -161,11 +166,6 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jTextField1.setText("");
-        jTextField1.setEditable(false);
-
-        jButton1.setText("");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -177,20 +177,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
                     .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(70, 70, 70)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblProyekTujuan)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(54, 54, 54)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblHari)
-                            .addComponent(cmbHari, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(lblTanggal)
-                    .addComponent(lblPerihal)
-                    .addComponent(txtPerihal, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -214,11 +201,11 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtKuantitas, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(32, 32, 32)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel1)
+                                    .addComponent(cmbSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(26, 26, 26)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(Nominal, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel3))
@@ -228,8 +215,18 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jbtambah, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                .addContainerGap(80, Short.MAX_VALUE))
+                                        .addComponent(jbtambah, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblProyekTujuan)
+                            .addComponent(cmbproyek, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblPerihal)
+                            .addComponent(txtPerihal, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(60, 60, 60)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblHari)
+                            .addComponent(cmbHari, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -244,16 +241,13 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblProyekTujuan)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblHari)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbHari, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(16, 16, 16)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cmbproyek, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cmbHari, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblProyekTujuan))
+                        .addGap(18, 18, 18)
                         .addComponent(lblTanggal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -262,29 +256,34 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtPerihal, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblUraian)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtUraian1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtKuantitas, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Nominal, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbtambah, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblUraian)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtUraian1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtKuantitas, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Nominal, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jbtambah, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap(61, Short.MAX_VALUE))
         );
 
@@ -358,6 +357,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         setupMainInputSizing();
 
         setupHariCombo();
+        setupSatuanCombo();
         setupDateChooser();
         setupProjectChooser();
         setupItemTable();
@@ -415,7 +415,8 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         txtPerihal.setPreferredSize(new Dimension(420, 80));
         txtUraian1.setPreferredSize(new Dimension(240, 44));
         txtKuantitas.setPreferredSize(new Dimension(135, 44));
-        txtSatuan.setPreferredSize(new Dimension(135, 44));
+        cmbSatuan.setPreferredSize(new Dimension(135, 44));
+        cmbSatuan.setMinimumSize(new Dimension(135, 44));
         Nominal.setPreferredSize(new Dimension(135, 44));
         txtTotal.setPreferredSize(new Dimension(135, 44));
         jbtambah.setPreferredSize(new Dimension(56, 44));
@@ -616,7 +617,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     model.addRow(new Object[]{
-                        rs.getInt("id"),
+                        rs.getString("id"),
                         nullToEmpty(rs.getString("nama")),
                         nullToEmpty(rs.getString("ta")),
                         nullToEmpty(rs.getString("sub_perusahaan")),
@@ -739,7 +740,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
     private void addItemToTable() {
         String uraian = txtUraian1.getText().trim();
         String qtyText = txtKuantitas.getText().trim();
-        String satuan = txtSatuan.getText().trim();
+        String satuan = getSelectedSatuan();
         String nominalText = Nominal.getText().trim();
 
         if (uraian.isEmpty()) {
@@ -755,8 +756,8 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         }
 
         if (satuan.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Satuan wajib diisi.");
-            txtSatuan.requestFocus();
+            JOptionPane.showMessageDialog(this, "Satuan wajib dipilih.");
+            cmbSatuan.requestFocus();
             return;
         }
 
@@ -800,7 +801,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
     private void clearItemInput() {
         txtUraian1.setText("");
         txtKuantitas.setText("");
-        txtSatuan.setText("");
+        cmbSatuan.setSelectedIndex(0);
         Nominal.setText("");
         txtTotal.setText("");
         txtUraian1.requestFocus();
@@ -853,8 +854,8 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         String insertItemSql = "INSERT INTO reimbursement_items "
-                + "(reimbursement_id, uraian, qty, satuan, harga_satuan, jumlah) "
-                + "VALUES (?, ?, ?, ?, ?, ?)";
+                + "(id, reimbursement_id, uraian, qty, satuan, harga_satuan, jumlah) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try {
             conn.setAutoCommit(false);
@@ -911,8 +912,8 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         String deleteItemsSql = "DELETE FROM reimbursement_items WHERE reimbursement_id = ?";
 
         String insertItemSql = "INSERT INTO reimbursement_items "
-                + "(reimbursement_id, uraian, qty, satuan, harga_satuan, jumlah) "
-                + "VALUES (?, ?, ?, ?, ?, ?)";
+                + "(id, reimbursement_id, uraian, qty, satuan, harga_satuan, jumlah) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try {
             conn.setAutoCommit(false);
@@ -950,12 +951,13 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
     private void saveItems(int reimbursementId, String insertItemSql) throws SQLException {
         try (PreparedStatement psItem = conn.prepareStatement(insertItemSql)) {
             for (int i = 0; i < itemTableModel.getRowCount(); i++) {
-                psItem.setInt(1, reimbursementId);
-                psItem.setString(2, String.valueOf(itemTableModel.getValueAt(i, 0)));
-                psItem.setInt(3, parseInteger(String.valueOf(itemTableModel.getValueAt(i, 1))));
-                psItem.setString(4, String.valueOf(itemTableModel.getValueAt(i, 2)));
-                psItem.setBigDecimal(5, parseDecimal(String.valueOf(itemTableModel.getValueAt(i, 3))));
-                psItem.setBigDecimal(6, parseDecimal(String.valueOf(itemTableModel.getValueAt(i, 4))));
+                psItem.setInt(1, i + 1);
+                psItem.setInt(2, reimbursementId);
+                psItem.setString(3, String.valueOf(itemTableModel.getValueAt(i, 0)));
+                psItem.setInt(4, parseInteger(String.valueOf(itemTableModel.getValueAt(i, 1))));
+                psItem.setString(5, String.valueOf(itemTableModel.getValueAt(i, 2)));
+                psItem.setBigDecimal(6, parseDecimal(String.valueOf(itemTableModel.getValueAt(i, 3))));
+                psItem.setBigDecimal(7, parseDecimal(String.valueOf(itemTableModel.getValueAt(i, 4))));
                 psItem.addBatch();
             }
 
@@ -1142,6 +1144,17 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         cmbHari.setSelectedIndex(0);
     }
 
+    private void setupSatuanCombo() {
+        cmbSatuan.removeAllItems();
+        cmbSatuan.addItem("Pilih");
+        cmbSatuan.addItem("Pcs");
+        cmbSatuan.addItem("Unit");
+        cmbSatuan.addItem("Box");
+        cmbSatuan.addItem("Lembar");
+        cmbSatuan.addItem("Hari");
+        cmbSatuan.setSelectedIndex(0);
+    }
+
     private String getSelectedHari() {
         Object item = cmbHari.getSelectedItem();
 
@@ -1176,6 +1189,22 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         }
 
         cmbHari.setSelectedIndex(0);
+    }
+
+    private String getSelectedSatuan() {
+        Object item = cmbSatuan.getSelectedItem();
+
+        if (item == null) {
+            return "";
+        }
+
+        String satuan = item.toString().trim();
+
+        if (satuan.equalsIgnoreCase("Pilih")) {
+            return "";
+        }
+
+        return satuan;
     }
 
     private String generateReimbursementNo() {
@@ -1307,7 +1336,8 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
     private components.RoundedButton btnSave;
     private components.RoundedButton btnUpdate;
     private components.RoundedComboBox cmbHari;
-    private javax.swing.JButton jButton1;
+    private components.AppComboBox cmbSatuan;
+    private components.RoundedComboBox cmbproyek;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -1315,7 +1345,6 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton jbtambah;
     private javax.swing.JLabel lblHari;
     private javax.swing.JLabel lblPerihal;
@@ -1326,7 +1355,6 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
     private components.SidebarMenu sidebarMenu1;
     private components.RoundedTextField txtKuantitas;
     private components.RoundedTextArea txtPerihal;
-    private components.RoundedTextField txtSatuan;
     private components.RoundedTextField txtTotal;
     private components.RoundedTextField txtUraian1;
     private components.UserProfileCard userProfileCard1;
