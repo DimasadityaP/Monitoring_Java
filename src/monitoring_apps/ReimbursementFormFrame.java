@@ -74,7 +74,8 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         lblHari = new javax.swing.JLabel();
         cmbHari = new components.RoundedComboBox();
         lblTanggal = new javax.swing.JLabel();
-        cmbproyek = new components.RoundedComboBox();
+        jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtKuantitas = new components.RoundedTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -125,11 +126,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
 
         lblTanggal.setText("Tanggal");
 
-        cmbproyek.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbproyekActionPerformed(evt);
-            }
-        });
+
 
         jLabel1.setText("Satuan");
 
@@ -219,7 +216,10 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblProyekTujuan)
-                            .addComponent(cmbproyek, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(lblPerihal)
                             .addComponent(txtPerihal, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(60, 60, 60)
@@ -244,8 +244,11 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
                                 .addComponent(lblHari)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cmbproyek, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cmbHari, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(cmbHari, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                             .addComponent(lblProyekTujuan))
                         .addGap(18, 18, 18)
                         .addComponent(lblTanggal)
@@ -489,8 +492,8 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
 
         javax.swing.JPanel buttonPanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 10, 0));
         buttonPanel.setOpaque(false);
-        javax.swing.JButton btnChoose = new javax.swing.JButton("Pilih");
-        javax.swing.JButton btnCancel = new javax.swing.JButton("Batal");
+        components.RoundedButton btnChoose = new components.RoundedButton("Pilih");
+        components.RoundedButton btnCancel = new components.RoundedButton("Batal");
         styleDialogButton(btnChoose, true);
         styleDialogButton(btnCancel, false);
         buttonPanel.add(btnChoose);
@@ -579,13 +582,18 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         button.setFocusable(false);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         button.setBorder(BorderFactory.createEmptyBorder(8, 18, 8, 18));
-        if (primary) {
-            button.setBackground(new Color(70, 74, 160));
-            button.setForeground(Color.WHITE);
+        
+        Color bg = primary ? new Color(70, 74, 160) : new Color(217, 217, 217);
+        Color fg = primary ? Color.WHITE : Color.BLACK;
+        
+        if (button instanceof components.RoundedButton) {
+            components.RoundedButton rb = (components.RoundedButton) button;
+            rb.setButtonColor(bg);
+            rb.setRadius(15);
         } else {
-            button.setBackground(new Color(217, 217, 217));
-            button.setForeground(Color.BLACK);
+            button.setBackground(bg);
         }
+        button.setForeground(fg);
     }
 
     private void loadProjectPopupData(DefaultTableModel model, String keyword) {
@@ -1337,7 +1345,8 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
     private components.RoundedButton btnUpdate;
     private components.RoundedComboBox cmbHari;
     private components.AppComboBox cmbSatuan;
-    private components.RoundedComboBox cmbproyek;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JTextField jTextField1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

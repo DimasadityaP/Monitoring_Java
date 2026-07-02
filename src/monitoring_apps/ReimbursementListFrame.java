@@ -34,6 +34,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import koneksi.KoneksiDb;
+import components.PlusIcon;
 
 /**
  *
@@ -48,6 +49,8 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
     private DefaultTableModel reimbursementTableModel;
     private Timer searchTimer;
     private String lastSearchKeyword = "";
+
+
 
     /**
      * Creates new form ReimbursementListFrame
@@ -75,7 +78,6 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
         searchBox1 = new components.SearchBox();
         btnViewReport = new components.RoundedButton();
         btnNew = new components.RoundedButton();
-        btnBack = new components.RoundedButton();
         tblReimbursement = new components.RoundedTablePanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -88,9 +90,7 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
 
         btnNew.setText("+ New Administration");
 
-        btnBack.setForeground(new java.awt.Color(0, 0, 0));
-        btnBack.setText("Back");
-        btnBack.setButtonColor(new java.awt.Color(217, 217, 217));
+
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -105,13 +105,12 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createSequentialGroup()
+                            .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(20, 20, 20)
-                            .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(20, 20, 20)
-                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGap(15, 15, 15)
+                            .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(tblReimbursement, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
@@ -126,14 +125,12 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37)
-                        .addComponent(tblReimbursement, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30)
+                        .addComponent(tblReimbursement, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
@@ -142,7 +139,10 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
 
     private void setupReimbursementListFrame() {
         pageTitle1.setText("LIST REIMBURSEMENT");
-        btnNew.setText("+ New Reimbursement");
+        btnNew.setText("Tambah");
+        btnNew.setIcon(new PlusIcon(16));
+        btnNew.setButtonColor(components.RoundedColors.PRIMARY);
+        btnNew.setForeground(java.awt.Color.WHITE);
         searchBox1.setText("");
 
         setupButtonActions();
@@ -160,10 +160,7 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
 
 //        btnViewReport.addActionListener(e -> viewSelectedReport());
 
-        btnBack.addActionListener(e -> {
-            new Dashboard().setVisible(true);
-            dispose();
-        });
+
         
         // Edit & Delete action diatur di setupReimbursementTable()
     }
@@ -637,7 +634,6 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private components.RoundedButton btnBack;
     private components.RoundedButton btnNew;
     private components.RoundedButton btnViewReport;
     private components.PageTitle pageTitle1;

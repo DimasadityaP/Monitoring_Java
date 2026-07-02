@@ -20,7 +20,7 @@ public final class Navigation {
                 }
 
                 else if ("master.administrasi".equals(menu)) {
-                    next = new AdministrationFormFrame();
+                    next = new AdministarationList();
                 }
 
                 else if ("master.user".equals(menu)) {
@@ -52,7 +52,7 @@ public final class Navigation {
                 }
 
                 else if ("report.administration".equals(menu)) {
-                    next = new AdministrationFormFrame();
+                    next = new AdministarationList();
                 }
 
               else if ("report.reimbursement".equals(menu)) {
