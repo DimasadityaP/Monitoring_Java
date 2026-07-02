@@ -1350,8 +1350,6 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JTextField jTextField1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
