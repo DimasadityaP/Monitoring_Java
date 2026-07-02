@@ -64,14 +64,18 @@
                                       <Component id="lblKondisi" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="txtKondisi" alignment="0" min="-2" pref="420" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="lblSatuan" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cmbSatuan" alignment="0" min="-2" pref="420" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                      <Component id="lblSatuan" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cmbSatuan" alignment="0" min="-2" pref="420" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btnNew" min="-2" pref="150" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnSave" min="-2" pref="150" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnUpdate" min="-2" pref="150" max="-2" attributes="0"/>
@@ -88,7 +92,7 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                       <Component id="pageTitle1" min="-2" max="-2" attributes="0"/>
@@ -123,11 +127,10 @@
                               <Component id="lblKondisi" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="txtKondisi" min="-2" pref="42" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                               <Component id="lblSatuan" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="cmbSatuan" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -143,6 +146,7 @@
                   <Component id="btnUpdate" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                   <Component id="btnClear" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                   <Component id="btnBack" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                  <Component id="btnNew" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="165" max="32767" attributes="0"/>
           </Group>
@@ -165,6 +169,9 @@
       </Properties>
     </Component>
     <Component class="components.RoundedTextField" name="txtKode">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblJenis">
       <Properties>
@@ -255,6 +262,14 @@
       </Events>
     </Component>
     <Component class="components.AppComboBox" name="cmbSatuan">
+    </Component>
+    <Component class="components.RoundedButton" name="btnNew">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="New"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNewActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
