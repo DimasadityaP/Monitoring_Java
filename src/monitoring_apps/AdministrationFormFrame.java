@@ -161,14 +161,34 @@ public class AdministrationFormFrame extends javax.swing.JFrame {
         lblTanggalSurat.setText("Tanggal Surat");
 
         btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
         btnBack.setForeground(new java.awt.Color(0, 0, 0));
         btnBack.setText("Back");
         btnBack.setButtonColor(new java.awt.Color(217, 217, 217));
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         dateSurat.setPreferredSize(new java.awt.Dimension(420, 42));
 
@@ -548,8 +568,8 @@ public class AdministrationFormFrame extends javax.swing.JFrame {
 
         javax.swing.JPanel buttonPanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 10, 0));
         buttonPanel.setOpaque(false);
-        javax.swing.JButton btnChoose = new javax.swing.JButton("Pilih");
-        javax.swing.JButton btnCancel = new javax.swing.JButton("Batal");
+        components.RoundedButton btnChoose = new components.RoundedButton("Pilih");
+        components.RoundedButton btnCancel = new components.RoundedButton("Batal");
         styleDialogButton(btnChoose, true);
         styleDialogButton(btnCancel, false);
         buttonPanel.add(btnChoose);
@@ -638,13 +658,18 @@ public class AdministrationFormFrame extends javax.swing.JFrame {
         button.setFocusable(false);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         button.setBorder(BorderFactory.createEmptyBorder(8, 18, 8, 18));
-        if (primary) {
-            button.setBackground(new Color(70, 74, 160));
-            button.setForeground(Color.WHITE);
+        
+        Color bg = primary ? new Color(70, 74, 160) : new Color(217, 217, 217);
+        Color fg = primary ? Color.WHITE : Color.BLACK;
+        
+        if (button instanceof components.RoundedButton) {
+            components.RoundedButton rb = (components.RoundedButton) button;
+            rb.setButtonColor(bg);
+            rb.setRadius(15);
         } else {
-            button.setBackground(new Color(217, 217, 217));
-            button.setForeground(Color.BLACK);
+            button.setBackground(bg);
         }
+        button.setForeground(fg);
     }
 
     private void loadProjectPopupData(DefaultTableModel model, String keyword) {
