@@ -92,6 +92,7 @@ public class BarangFormFrame extends javax.swing.JFrame {
         btnClear = new components.RoundedButton();
         btnBack = new components.RoundedButton();
         cmbSatuan = new components.AppComboBox();
+        btnNew = new components.RoundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FORMULIR LOGISTIK");
@@ -100,6 +101,8 @@ public class BarangFormFrame extends javax.swing.JFrame {
         pageTitle1.setText(" FORMULIR LOGISTIK");
 
         lblKode.setText("Kode");
+
+        txtKode.setEnabled(false);
 
         lblJenis.setText("Jenis");
 
@@ -120,7 +123,6 @@ public class BarangFormFrame extends javax.swing.JFrame {
         lblKuantitas.setText("Kuantitas");
 
         lblSatuan.setText("Satuan");
-        cmbSatuan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"Pilih Satuan", "Unit", "Pcs", "Box", "Meter", "Set"}));
 
         btnSave.setText("Save");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -149,6 +151,13 @@ public class BarangFormFrame extends javax.swing.JFrame {
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBackActionPerformed(evt);
+            }
+        });
+
+        btnNew.setText("New");
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewActionPerformed(evt);
             }
         });
 
@@ -186,10 +195,13 @@ public class BarangFormFrame extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(lblKondisi)
                                 .addComponent(txtKondisi, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblSatuan)
-                            .addComponent(cmbSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblSatuan)
+                                .addComponent(cmbSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -233,23 +245,24 @@ public class BarangFormFrame extends javax.swing.JFrame {
                                 .addComponent(cmbJenis, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(lblJenisSub)
-                                .addGap(1, 1, 1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtJenisSub, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(32, 32, 32)
                                 .addComponent(lblKondisi)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtKondisi, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addGap(33, 33, 33)
                                 .addComponent(lblSatuan)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cmbSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(42, 42, 42))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         pack();
@@ -379,6 +392,44 @@ public class BarangFormFrame extends javax.swing.JFrame {
     private void cmbJenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbJenisActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbJenisActionPerformed
+
+    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+        p_ResetField();
+    }//GEN-LAST:event_btnNewActionPerformed
+
+    private void p_ResetField() {
+        kosong();
+        String next = getNextId();
+        txtKode.setText(next);
+        txtKode.setEditable(false);
+    }
+
+    private String getNextId() {
+        String prefix = "BR";
+        String sql = "SELECT kode FROM barang WHERE kode LIKE ? ORDER BY kode DESC LIMIT 1";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, prefix + "%");
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String last = rs.getString("kode");
+                    if (last != null && last.startsWith(prefix)) {
+                        String numPart = last.substring(prefix.length()).replaceAll("[^0-9]", "");
+                        int n = 0;
+                        try {
+                            n = Integer.parseInt(numPart);
+                        } catch (NumberFormatException ex) {
+                            n = 0;
+                        }
+                        return prefix + String.format("%04d", n + 1);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            // ignore and fallback to default
+        }
+
+        return prefix + "0001";
+    }
     public static void main(String[] args) {
                 java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -389,6 +440,7 @@ public class BarangFormFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private components.RoundedButton btnBack;
     private components.RoundedButton btnClear;
+    private components.RoundedButton btnNew;
     private components.RoundedButton btnSave;
     private components.RoundedButton btnUpdate;
     private components.RoundedComboBox cmbJenis;

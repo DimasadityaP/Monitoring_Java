@@ -96,6 +96,8 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         cmbSatuan = new components.AppComboBox();
+        jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
