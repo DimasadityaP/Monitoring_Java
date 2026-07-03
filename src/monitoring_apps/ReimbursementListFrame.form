@@ -36,7 +36,7 @@
               <EmptySpace min="38" pref="38" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="pageTitle1" min="-2" pref="850" max="-2" attributes="0"/>
+                      <Component id="pageTitle1" min="-2" max="32767" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="searchBox1" min="-2" pref="360" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
@@ -45,9 +45,9 @@
                           <Component id="btnNew" min="-2" pref="150" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Component id="tblReimbursement" alignment="1" min="-2" pref="850" max="-2" attributes="0"/>
+                  <Component id="tblReimbursement" alignment="1" min="-2" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="52" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -69,10 +69,10 @@
                           <Component id="btnNew" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                      <Component id="tblReimbursement" min="-2" pref="548" max="-2" attributes="0"/>
+                      <Component id="tblReimbursement" min="-2" max="32767" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="42" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

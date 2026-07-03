@@ -11,7 +11,11 @@ public class UserFormFrame extends javax.swing.JFrame {
      private String oldEmail = "";
 
     public UserFormFrame() {
+        setContentPane(new components.ScrollablePanel());
         initComponents();
+        getContentPane().setBackground(java.awt.Color.WHITE);
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        wrapInScrollPane();
         setLocationRelativeTo(null);
         Navigation.bind(sidebarMenu1, this);
     }
@@ -157,7 +161,7 @@ public class UserFormFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(userProfileCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(70, 70, 70)
+                .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -397,4 +401,20 @@ public class UserFormFrame extends javax.swing.JFrame {
     private components.RoundedTextField txtTelepon;
     private components.UserProfileCard userProfileCard1;
     // End of variables declaration//GEN-END:variables
+
+    private void wrapInScrollPane() {
+        components.ScrollablePanel originalPane = (components.ScrollablePanel) getContentPane();
+        originalPane.setBackground(java.awt.Color.WHITE);
+        originalPane.setBackground(java.awt.Color.WHITE);
+        setContentPane(new javax.swing.JPanel());
+        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(originalPane);
+        scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        scrollPane.getVerticalScrollBar().setBackground(java.awt.Color.WHITE);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getViewport().setBackground(java.awt.Color.WHITE);
+        scrollPane.setBackground(java.awt.Color.WHITE);
+        setContentPane(scrollPane);
+    }
+
 }

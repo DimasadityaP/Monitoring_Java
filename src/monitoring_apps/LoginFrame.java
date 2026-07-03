@@ -10,6 +10,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
     public LoginFrame() {
         initComponents();
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         getRootPane().setDefaultButton(btnLogin);
         setLocationRelativeTo(null);
     }

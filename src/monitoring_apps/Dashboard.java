@@ -4,11 +4,83 @@ import Utills.UserSession;
 
 public class Dashboard extends javax.swing.JFrame {
 
+    private components.DashboardCard cardProject;
+    private components.DashboardCard cardBarang;
+    private components.DashboardCard cardAdministrasi;
+    private components.DashboardCard cardReimbursement;
+
     public Dashboard() {
         initComponents();
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        getContentPane().setBackground(java.awt.Color.WHITE);
+        initCards();
         setLocationRelativeTo(null);
         Navigation.bind(sidebarMenu1, this);
         lblHeroTitle.setText("Hello, " + UserSession.getUserName() + "!");
+        java.util.Calendar cal = java.util.Calendar.getInstance(java.util.TimeZone.getTimeZone("Asia/Jakarta"));
+        int hour = cal.get(java.util.Calendar.HOUR_OF_DAY);
+        String greeting;
+        if (hour >= 5 && hour < 12) {
+            greeting = "Good Morning, ready to start your day?";
+        } else if (hour >= 12 && hour < 18) {
+            greeting = "Good Afternoon, hope your day is going well!";
+        } else {
+            greeting = "Good Evening, ready to wrap up your day?";
+        }
+        lblHeroSubtitle.setText(greeting);
+        loadCounts();
+    }
+
+    private void initCards() {
+        cardProject = new components.DashboardCard("Project", "0", components.RoundedColors.PRIMARY, "project");
+        cardBarang = new components.DashboardCard("Barang", "0", components.RoundedColors.GOLD, "barang");
+        cardAdministrasi = new components.DashboardCard("Administrasi", "0", new java.awt.Color(40, 167, 69), "administrasi");
+        cardReimbursement = new components.DashboardCard("Reimbursement", "0", new java.awt.Color(111, 66, 193), "reimbursement");
+        
+        cardContainer.add(cardProject);
+        cardContainer.add(cardBarang);
+        cardContainer.add(cardAdministrasi);
+        cardContainer.add(cardReimbursement);
+    }
+
+    private void loadCounts() {
+        try {
+            java.sql.Connection conn = new koneksi.KoneksiDb().connect();
+            
+            int projectCount = 0;
+            try (java.sql.PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM project");
+                 java.sql.ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) projectCount = rs.getInt(1);
+            }
+            
+            int barangCount = 0;
+            try (java.sql.PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM barang");
+                 java.sql.ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) barangCount = rs.getInt(1);
+            }
+            
+            int adminCount = 0;
+            try (java.sql.PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM administrasi");
+                 java.sql.ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) adminCount = rs.getInt(1);
+            }
+            
+            int reimburseCount = 0;
+            try (java.sql.PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM reimbursement");
+                 java.sql.ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) reimburseCount = rs.getInt(1);
+            }
+            
+            conn.close();
+            
+            cardProject.setCount(String.valueOf(projectCount));
+            cardBarang.setCount(String.valueOf(barangCount));
+            cardAdministrasi.setCount(String.valueOf(adminCount));
+            cardReimbursement.setCount(String.valueOf(reimburseCount));
+            
+        } catch (Exception e) {
+            System.err.println("Gagal memuat count dashboard: " + e.getMessage());
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -21,7 +93,7 @@ public class Dashboard extends javax.swing.JFrame {
         heroPanel = new components.RoundedPanel();
         lblHeroTitle = new javax.swing.JLabel();
         lblHeroSubtitle = new javax.swing.JLabel();
-        btnNewAdministration = new components.RoundedButton();
+        cardContainer = new javax.swing.JPanel();
         btnBack = new components.RoundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -62,7 +134,8 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap(58, Short.MAX_VALUE))
         );
 
-        btnNewAdministration.setText("+ New Administration");
+        cardContainer.setOpaque(false);
+        cardContainer.setLayout(new java.awt.GridLayout(2, 2, 20, 20));
 
         btnBack.setButtonColor(new java.awt.Color(217, 217, 217));
         btnBack.setForeground(new java.awt.Color(41, 45, 86));
@@ -77,11 +150,12 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(userProfileCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(70, 70, 70)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(heroPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pageTitle1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(heroPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cardContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(70, 70, 70))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -93,8 +167,11 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(heroPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(42, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(heroPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(cardContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(42, 42, 42))
         );
 
         pack();
@@ -110,7 +187,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private components.RoundedButton btnBack;
-    private components.RoundedButton btnNewAdministration;
+    private javax.swing.JPanel cardContainer;
     private components.RoundedPanel heroPanel;
     private javax.swing.JLabel lblHeroSubtitle;
     private javax.swing.JLabel lblHeroTitle;

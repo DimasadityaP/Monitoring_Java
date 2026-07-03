@@ -60,8 +60,7 @@ public final class Navigation {
                 }
                 
                 if (next != null) {
-                    next.setVisible(true);
-                    currentFrame.dispose();
+                    navigate(currentFrame, next);
                 }
             }
         });
@@ -69,10 +68,25 @@ public final class Navigation {
 
     public static void go(JFrame currentFrame, JFrame nextFrame) {
         if (nextFrame != null) {
-            nextFrame.setVisible(true);
+            navigate(currentFrame, nextFrame);
         }
+    }
+
+    private static void navigate(final JFrame currentFrame, final JFrame nextFrame) {
         if (currentFrame != null) {
-            currentFrame.dispose();
+            int state = currentFrame.getExtendedState();
+            nextFrame.setExtendedState(state);
+            if ((state & JFrame.MAXIMIZED_BOTH) != JFrame.MAXIMIZED_BOTH) {
+                nextFrame.setBounds(currentFrame.getBounds());
+            }
+        }
+        nextFrame.setVisible(true);
+        if (currentFrame != null) {
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    currentFrame.dispose();
+                }
+            });
         }
     }
 }

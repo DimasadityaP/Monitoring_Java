@@ -33,12 +33,13 @@
                   <Component id="userProfileCard1" min="-2" pref="360" max="-2" attributes="0"/>
                   <Component id="sidebarMenu1" min="-2" pref="300" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="pageTitle1" min="-2" pref="850" max="-2" attributes="0"/>
-                  <Component id="heroPanel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="pageTitle1" min="-2" max="32767" attributes="0"/>
+                  <Component id="heroPanel" min="-2" max="32767" attributes="0"/>
+                  <Component id="cardContainer" min="-2" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="70" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -53,9 +54,13 @@
               <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="sidebarMenu1" min="-2" pref="620" max="-2" attributes="0"/>
-                  <Component id="heroPanel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="heroPanel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                      <Component id="cardContainer" min="-2" pref="220" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace pref="42" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -128,11 +133,17 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="components.RoundedButton" name="btnNewAdministration">
+    <Container class="javax.swing.JPanel" name="cardContainer">
       <Properties>
-        <Property name="text" type="java.lang.String" value="+ New Administration"/>
+        <Property name="opaque" type="boolean" value="false"/>
       </Properties>
-    </Component>
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
+        <Property name="columns" type="int" value="2"/>
+        <Property name="horizontalGap" type="int" value="20"/>
+        <Property name="rows" type="int" value="2"/>
+        <Property name="verticalGap" type="int" value="20"/>
+      </Layout>
+    </Container>
     <Component class="components.RoundedButton" name="btnBack">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">

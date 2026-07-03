@@ -35,16 +35,24 @@ public class AdministrationFormFrame extends javax.swing.JFrame {
      SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     
     public AdministrationFormFrame() {
+        setContentPane(new components.ScrollablePanel());
         conn = new KoneksiDb().connect();
         initComponents();
+        getContentPane().setBackground(java.awt.Color.WHITE);
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        wrapInScrollPane();
         initUi();
         setLocationRelativeTo(null);
         Navigation.bind(sidebarMenu1, this);
     }
 
     public AdministrationFormFrame(int administrationId) {
+        setContentPane(new components.ScrollablePanel());
         conn = new KoneksiDb().connect();
         initComponents();
+        getContentPane().setBackground(java.awt.Color.WHITE);
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        wrapInScrollPane();
         initUi();
         setLocationRelativeTo(null);
         Navigation.bind(sidebarMenu1, this);
@@ -215,7 +223,7 @@ public class AdministrationFormFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(userProfileCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -229,7 +237,7 @@ public class AdministrationFormFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(140, 140, 140)
+                        .addGap(38, 38, 38)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,12 +265,10 @@ public class AdministrationFormFrame extends javax.swing.JFrame {
                                     .addComponent(lblKepada1))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(61, 61, 61)
-                                        .addComponent(lblKepada2)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtProjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                        .addGap(60, 60, 60)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblKepada2)
+                                            .addComponent(txtProjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -764,4 +770,20 @@ public class AdministrationFormFrame extends javax.swing.JFrame {
     private components.AppTextField txtProjectName;
     private components.UserProfileCard userProfileCard1;
     // End of variables declaration//GEN-END:variables
+
+    private void wrapInScrollPane() {
+        components.ScrollablePanel originalPane = (components.ScrollablePanel) getContentPane();
+        originalPane.setBackground(java.awt.Color.WHITE);
+        originalPane.setBackground(java.awt.Color.WHITE);
+        setContentPane(new javax.swing.JPanel());
+        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(originalPane);
+        scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        scrollPane.getVerticalScrollBar().setBackground(java.awt.Color.WHITE);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getViewport().setBackground(java.awt.Color.WHITE);
+        scrollPane.setBackground(java.awt.Color.WHITE);
+        setContentPane(scrollPane);
+    }
+
 }
