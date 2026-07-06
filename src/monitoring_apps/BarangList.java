@@ -63,8 +63,8 @@ private Connection conn = new KoneksiDb().connect() ;
             "/image/delete.png",
             new components.RoundedTablePanel.ActionClickListener() {
                 public void onActionClick(int row) {
-                    String kode = tabmode.getValueAt(row, 0).toString();
-                    String nama = tabmode.getValueAt(row, 1).toString();
+                    String kode = tabmode.getValueAt(row, 1).toString();
+                    String nama = tabmode.getValueAt(row, 2).toString();
                     int confirm = javax.swing.JOptionPane.showConfirmDialog(
                         BarangList.this,
                         "Yakin ingin menghapus barang \"" + nama + "\" (" + kode + ")?",
@@ -105,13 +105,13 @@ private Connection conn = new KoneksiDb().connect() ;
 
 
     private void openEditForm(int row) {
-        String kode    = tabmode.getValueAt(row, 0).toString();
-        String nama    = tabmode.getValueAt(row, 1).toString();
-        String spek    = tabmode.getValueAt(row, 2).toString();
-        String jenis   = tabmode.getValueAt(row, 3).toString();
-        int    qty     = Integer.parseInt(tabmode.getValueAt(row, 4).toString());
-        String satuan  = tabmode.getValueAt(row, 5).toString();
-        String kondisi = tabmode.getValueAt(row, 6).toString();
+        String kode    = tabmode.getValueAt(row, 1).toString();
+        String nama    = tabmode.getValueAt(row, 2).toString();
+        String spek    = tabmode.getValueAt(row, 3).toString();
+        String jenis   = tabmode.getValueAt(row, 4).toString();
+        int    qty     = Integer.parseInt(tabmode.getValueAt(row, 5).toString());
+        String satuan  = tabmode.getValueAt(row, 6).toString();
+        String kondisi = tabmode.getValueAt(row, 7).toString();
 
         Navigation.go(BarangList.this,
             new BarangFormFrame(kode, nama, spek, jenis, qty, satuan, kondisi)
