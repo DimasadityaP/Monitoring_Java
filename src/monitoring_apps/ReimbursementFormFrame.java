@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
@@ -904,6 +905,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Data reimbursement berhasil disimpan.");
             clearReimbursementForm();
+            navigateBackToReimbursementList();
 
         } catch (Exception e) {
             rollbackQuietly();
@@ -957,6 +959,7 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Data reimbursement berhasil diupdate.");
             clearReimbursementForm();
+            navigateBackToReimbursementList();
 
         } catch (Exception e) {
             rollbackQuietly();
@@ -1207,6 +1210,14 @@ public class ReimbursementFormFrame extends javax.swing.JFrame {
         }
 
         cmbHari.setSelectedIndex(0);
+    }
+    
+    private void navigateBackToReimbursementList() {
+        JFrame next = new ReimbursementListFrame();
+        next.pack();
+        next.setLocationRelativeTo(this);
+        next.setVisible(true);
+        dispose();
     }
 
     private String getSelectedSatuan() {
