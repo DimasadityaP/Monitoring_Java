@@ -284,7 +284,7 @@ public class RoundedTablePanel extends RoundedPanel {
         t.setGridColor(GRID_COLOR);
         t.setSelectionBackground(SEL_BG);
         t.setSelectionForeground(TEXT_COLOR);
-        t.setIntercellSpacing(new Dimension(0, 1));
+        t.setIntercellSpacing(new Dimension(1, 1));
         t.setFillsViewportHeight(true);
 
         // Header ungu

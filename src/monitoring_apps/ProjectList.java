@@ -170,7 +170,7 @@ public class ProjectList extends javax.swing.JFrame {
     }
     
     private void dataTable(){
-        Object[] columns = {"No","ID","Nama","TA","Sub Perusahaan","Jenis","Instansi","Tgl Mulai","Tgl Selesai","Nominal","Status"};
+        Object[] columns = {"#","ID","Nama","TA","Sub Perusahaan","Jenis","Instansi","Tgl Mulai","Tgl Selesai","Nominal","Status"};
         tblProjectList.setTableData(new Object[0][columns.length], columns);
         tabmode = (DefaultTableModel) tblProjectList.getModel();
 

@@ -245,6 +245,7 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
         );
 
         Object[] columns = {
+                "#",
                 "ID",
                 "No Reimbursement",
                 "Project ID",
@@ -298,7 +299,7 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
         }
 
         int[] widths = {
-           130, 210, 55, 150, 100, 170, 100, 100, 140, 90, 70
+           40, 0, 130, 210, 55, 150, 100, 170, 100, 100, 140, 90
         };
 
         for (int i = 0; i < widths.length && i < table.getColumnCount(); i++) {
@@ -382,8 +383,10 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
             }
 
             try (ResultSet rs = ps.executeQuery()) {
+                int no = 1;
                 while (rs.next()) {
                     reimbursementTableModel.addRow(new Object[]{
+                        no++,
                         rs.getInt("id"),
                         nullToEmpty(rs.getString("reimbursement_no")),
                         rs.getString("project_id"),
@@ -408,7 +411,7 @@ public class ReimbursementListFrame extends javax.swing.JFrame {
     }
 
     private Integer getSelectedReimbursementId(int row) {
-        Object idValue = reimbursementTableModel.getValueAt(row, 0);
+        Object idValue = reimbursementTableModel.getValueAt(row, 1);
 
         try {
             return Integer.parseInt(String.valueOf(idValue));

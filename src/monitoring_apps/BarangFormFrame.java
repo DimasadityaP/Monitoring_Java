@@ -16,7 +16,15 @@ public class BarangFormFrame extends javax.swing.JFrame {
     setLocationRelativeTo(null);
     Navigation.bind(sidebarMenu1, this);
 
+    cmbSatuan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Satuan", "pcs", "meter", "kg", "lembar", "btg", "unit", "lainnya" }));
+    lblJenisSub.setVisible(false);
+    txtJenisSub.setVisible(false);
+
     kosong();
+    String next = getNextId();
+    txtKode.setText(next);
+    txtKode.setEditable(false);
+
     btnSave.setEnabled(true);
     btnUpdate.setEnabled(false);
     }
@@ -36,6 +44,10 @@ public class BarangFormFrame extends javax.swing.JFrame {
         wrapInScrollPane();
         setLocationRelativeTo(null);
         Navigation.bind(sidebarMenu1, this);
+
+    cmbSatuan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Satuan", "pcs", "meter", "kg", "lembar", "btg", "unit", "lainnya" }));
+    lblJenisSub.setVisible(false);
+    txtJenisSub.setVisible(false);
 
     txtKode.setText(kode);
     txtNamaBarang.setText(nama);
@@ -284,7 +296,6 @@ public class BarangFormFrame extends javax.swing.JFrame {
         spesifikasi.isEmpty() ||
         kondisi.isEmpty() ||
         kuantitas.isEmpty() ||
-        jenissub.isEmpty() ||
         satuan.equals("Pilih Satuan") ||
         jenis.equals("Pilih") ) {
 

@@ -166,7 +166,7 @@ public class AdministarationList extends javax.swing.JFrame {
     }
     
     private void dataTable(){
-        Object[] columns = {"ID","Tipe Surat","Nama Surat","No Surat","Pengirim","Penerima","Tgl Surat","Project Id","Project Name"};
+        Object[] columns = {"#","ID","Tipe Surat","Nama Surat","No Surat","Pengirim","Penerima","Tgl Surat","Project Id","Project Name"};
         tblProjectList.setTableData(new Object[0][columns.length], columns);
         tabmode = (DefaultTableModel) tblProjectList.getModel();
 
@@ -181,6 +181,7 @@ public class AdministarationList extends javax.swing.JFrame {
             int no = 1;
             while (rs.next()) {
                 tabmode.addRow(new Object[]{
+                    no++,
                     rs.getInt("id"),
                     rs.getString("tipe"),
                     rs.getString("nama"),
@@ -217,7 +218,7 @@ public class AdministarationList extends javax.swing.JFrame {
         }
 
         int[] widths = {
-            40, 70, 160, 210, 140, 150, 150, 110, 120, 170, 70
+            40, 0, 70, 160, 210, 140, 150, 150, 110, 120, 170, 70
         };
 
         for (int i = 0; i < widths.length && i < table.getColumnCount(); i++) {

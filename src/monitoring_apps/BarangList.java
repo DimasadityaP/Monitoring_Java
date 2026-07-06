@@ -40,6 +40,7 @@ private Connection conn = new KoneksiDb().connect() ;
 
         initUi();   // setActionColumn DULU sebelum loadData
         loadData();
+        setColumnWidths();
         iniEvent();
     }
 
@@ -148,6 +149,7 @@ private Connection conn = new KoneksiDb().connect() ;
             for (int i = 1; i <= 6; i++) ps.setString(i, like);
 
             ResultSet rs = ps.executeQuery();
+            int no = 1;
             while (rs.next()) {
                 String kode    = rs.getString("kode");
                 String nama    = rs.getString("nama");
@@ -159,6 +161,7 @@ private Connection conn = new KoneksiDb().connect() ;
                 Timestamp tgl  = rs.getTimestamp("created_at");
 
                 tabmode.addRow(new Object[]{
+                    no++,
                     kode    != null ? kode    : "-",
                     nama    != null ? nama    : "-",
                     spek    != null ? spek    : "-",
@@ -178,7 +181,7 @@ private Connection conn = new KoneksiDb().connect() ;
 
 
     private void loadData() {
-        Object[] columns = {"Kode", "Nama", "Spek", "Jenis", "Qty", "Satuan", "Kondisi", "Tgl"};
+        Object[] columns = {"#", "Kode", "Nama", "Spek", "Jenis", "Qty", "Satuan", "Kondisi", "Tgl"};
         appTablePanel1.setTableData(new Object[0][columns.length], columns);
         tabmode = appTablePanel1.getModel();
 
@@ -189,6 +192,7 @@ private Connection conn = new KoneksiDb().connect() ;
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
         ) {
+            int no = 1;
             while (rs.next()) {
                 String kode    = rs.getString("kode");
                 String nama    = rs.getString("nama");
@@ -200,6 +204,7 @@ private Connection conn = new KoneksiDb().connect() ;
                 Timestamp tgl  = rs.getTimestamp("created_at");
 
                 tabmode.addRow(new Object[]{
+                    no++,
                     kode    != null ? kode    : "-",
                     nama    != null ? nama    : "-",
                     spek    != null ? spek    : "-",
@@ -213,6 +218,15 @@ private Connection conn = new KoneksiDb().connect() ;
             }
         } catch (Exception e) {
             System.out.println("Gagal memuat data barang: " + e.getMessage());
+        }
+    }
+
+    private void setColumnWidths() {
+        javax.swing.JTable table = appTablePanel1.getTable();
+        if (table.getColumnCount() > 0) {
+            table.getColumnModel().getColumn(0).setPreferredWidth(40);
+            table.getColumnModel().getColumn(0).setMinWidth(40);
+            table.getColumnModel().getColumn(0).setMaxWidth(40);
         }
     }
 

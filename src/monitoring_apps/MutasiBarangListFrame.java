@@ -74,12 +74,13 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
 
 
         loadData();
+        setColumnWidths();
         iniEvent();
     }
 
     private void loadData() {
         mutasiIds.clear();
-        Object[] columns = {"Barang", "Project/Tujuan", "Qty", "Tipe", "Keterangan", "Tanggal"};
+        Object[] columns = {"#", "Barang", "Project/Tujuan", "Qty", "Tipe", "Keterangan", "Tanggal"};
         appTablePanel1.setTableData(new Object[0][columns.length], columns);
         javax.swing.table.DefaultTableModel model = appTablePanel1.getModel();
 
@@ -94,6 +95,7 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
         ) {
+            int no = 1;
             while (rs.next()) {
                 mutasiIds.add(rs.getInt("id"));
                 String barang = rs.getString("barang_nama");
@@ -104,6 +106,7 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
                 Timestamp tgl = rs.getTimestamp("created_at");
                 
                 model.addRow(new Object[]{
+                    no++,
                     barang != null ? barang : "-",
                     project != null ? project : "-",
                     qty,
@@ -210,7 +213,7 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
         }
 
         mutasiIds.clear();
-        Object[] columns = {"Barang", "Project/Tujuan", "Qty", "Tipe", "Keterangan", "Tanggal"};
+        Object[] columns = {"#", "Barang", "Project/Tujuan", "Qty", "Tipe", "Keterangan", "Tanggal"};
         appTablePanel1.setTableData(new Object[0][columns.length], columns);
         javax.swing.table.DefaultTableModel model = appTablePanel1.getModel();
 
@@ -235,6 +238,7 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
             }
 
             try (ResultSet rs = ps.executeQuery()) {
+                int no = 1;
                 while (rs.next()) {
                     mutasiIds.add(rs.getInt("id"));
                     String barang = rs.getString("barang_nama");
@@ -245,6 +249,7 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
                     Timestamp tgl = rs.getTimestamp("created_at");
                     
                     model.addRow(new Object[]{
+                        no++,
                         barang != null ? barang : "-",
                         project != null ? project : "-",
                         qty,
@@ -256,7 +261,17 @@ public class MutasiBarangListFrame extends javax.swing.JFrame {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Gagal mencari data mutasi: " + e.getMessage());
+            javax.swing.JOptionPane.showMessageDialog(this, "Pencarian gagal: " + e.getMessage(),
+                "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void setColumnWidths() {
+        javax.swing.JTable table = appTablePanel1.getTable();
+        if (table.getColumnCount() > 0) {
+            table.getColumnModel().getColumn(0).setPreferredWidth(40);
+            table.getColumnModel().getColumn(0).setMinWidth(40);
+            table.getColumnModel().getColumn(0).setMaxWidth(40);
         }
     }
 

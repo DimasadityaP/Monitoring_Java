@@ -88,8 +88,13 @@ public class ProjectFormFrame extends javax.swing.JFrame {
         psItem.setString(1, projectId);
         ResultSet rsItem = psItem.executeQuery();
 
-        Object[] columns = {"No", "PIC"};
+        Object[] columns = {"#", "PIC"};
         tblItem.setTableData(new Object[0][2], columns);
+        if (tblItem.getTable().getColumnCount() > 0) {
+            tblItem.getTable().getColumnModel().getColumn(0).setPreferredWidth(40);
+            tblItem.getTable().getColumnModel().getColumn(0).setMinWidth(40);
+            tblItem.getTable().getColumnModel().getColumn(0).setMaxWidth(40);
+        }
         tblItem.setEditableColumns(1);
         tblItem.setColumnEditor(1, new components.AppTextFieldEditor());
 
@@ -114,6 +119,7 @@ public class ProjectFormFrame extends javax.swing.JFrame {
         txtTahunAnggaran.setText(Year.now().toString());
         txtTahunAnggaran.setEnabled(false);
         txtStatus.setText("New");
+        txtId.setText(getNextId());
         
         tblItem.setDeleteOnlyColumn("/image/delete.png", new components.RoundedTablePanel.ActionClickListener() {
             public void onActionClick(int row) {
@@ -265,20 +271,20 @@ public class ProjectFormFrame extends javax.swing.JFrame {
 
     private String getNextId() {
         String prefix = "PROJ";
-        String yymm = Year.now().toString().substring(2);
-        String nextId = String.format("%s/%s/%04d", prefix, yymm, 1);
+        String tahun = Year.now().toString();
+        String nextId = String.format("%s/%s/%04d", prefix, tahun, 1);
 
         try {
             String query = "SELECT id FROM project WHERE id LIKE ? ORDER BY id DESC LIMIT 1";
             PreparedStatement ps = conn.prepareStatement(query);
-            ps.setString(1, prefix + "/" + yymm + "/%");
+            ps.setString(1, prefix + "/" + tahun + "/%");
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 String lastId = rs.getString("id");
                 String[] parts = lastId.split("/");
                 if (parts.length == 3) {
                     int number = Integer.parseInt(parts[2]);
-                    nextId = String.format("%s/%s/%04d", prefix, yymm, number + 1);
+                    nextId = String.format("%s/%s/%04d", prefix, tahun, number + 1);
                 }
             }
         } catch (Exception e) {
@@ -647,8 +653,13 @@ public class ProjectFormFrame extends javax.swing.JFrame {
 
     private void btnAddItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddItemActionPerformed
         if (tblItem.getModel().getRowCount() == 0) {
-            Object[] columns = {"No", "PIC"};
+            Object[] columns = {"#", "PIC"};
             tblItem.setTableData(new Object[0][2], columns);
+            if (tblItem.getTable().getColumnCount() > 0) {
+                tblItem.getTable().getColumnModel().getColumn(0).setPreferredWidth(40);
+                tblItem.getTable().getColumnModel().getColumn(0).setMinWidth(40);
+                tblItem.getTable().getColumnModel().getColumn(0).setMaxWidth(40);
+            }
             tblItem.setEditableColumns(1);  // Hanya PIC yang bisa di-edit
             tblItem.setColumnEditor(1, new AppTextFieldEditor());
         }

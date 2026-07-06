@@ -68,13 +68,13 @@ public class UserListFrame1 extends javax.swing.JFrame {
             new components.RoundedTablePanel.ActionClickListener() {
                 @Override
                 public void onActionClick(int row) {
-                    String nama     = tabmode.getValueAt(row, 0).toString();
-                    String jabatan  = tabmode.getValueAt(row, 1).toString();
-                    String divisi   = tabmode.getValueAt(row, 2).toString();
-                    String email    = tabmode.getValueAt(row, 3).toString();
-                    String telepon  = tabmode.getValueAt(row, 4).toString();
-                    String alamat   = tabmode.getValueAt(row, 5).toString();
-                    String password = tabmode.getValueAt(row, 6).toString();
+                    String nama     = tabmode.getValueAt(row, 1).toString();
+                    String jabatan  = tabmode.getValueAt(row, 2).toString();
+                    String divisi   = tabmode.getValueAt(row, 3).toString();
+                    String email    = tabmode.getValueAt(row, 4).toString();
+                    String telepon  = tabmode.getValueAt(row, 5).toString();
+                    String alamat   = tabmode.getValueAt(row, 6).toString();
+                    String password = tabmode.getValueAt(row, 7).toString();
                     openEditForm(nama, jabatan, divisi, telepon, alamat, email, password);
                 }
             }
@@ -85,7 +85,7 @@ public class UserListFrame1 extends javax.swing.JFrame {
             new components.RoundedTablePanel.ActionClickListener() {
                 @Override
                 public void onActionClick(int row) {
-                    String nama = tabmode.getValueAt(row, 0).toString();
+                    String nama = tabmode.getValueAt(row, 1).toString();
                     int confirm = javax.swing.JOptionPane.showConfirmDialog(
                         UserListFrame1.this,
                         "Yakin ingin menghapus user \"" + nama + "\"?",
@@ -136,7 +136,7 @@ public class UserListFrame1 extends javax.swing.JFrame {
         }
 
         int[] widths = {
-            210, 130, 150, 100, 170, 100, 100, 70
+            40, 210, 130, 150, 100, 170, 100, 100, 70
         };
 
         for (int i = 0; i < widths.length && i < table.getColumnCount(); i++) {
@@ -235,8 +235,10 @@ public class UserListFrame1 extends javax.swing.JFrame {
 
             ResultSet rs = ps.executeQuery();
 
+            int no = 1;
             while (rs.next()) {
                 tabmode.addRow(new Object[]{
+                    no++,
         rs.getString("nama"),
         rs.getString("jabatan"),
         rs.getString("divisi"),
@@ -261,6 +263,7 @@ public class UserListFrame1 extends javax.swing.JFrame {
     
     private void loadData() {
             Object[] columns = {
+            "#",
             "Nama Pengguna",
             "Jabatan",
             "Divisi",
@@ -280,8 +283,10 @@ public class UserListFrame1 extends javax.swing.JFrame {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
+            int no = 1;
             while (rs.next()) {
                 tabmode.addRow(new Object[]{
+                    no++,
                     rs.getString("nama"),
                     rs.getString("jabatan"),
                     rs.getString("divisi"),
@@ -383,13 +388,13 @@ public class UserListFrame1 extends javax.swing.JFrame {
         int row = roundedTablePanel1.getTable().getSelectedRow();
 
     if (row != -1) {
-        selectedNama    = roundedTablePanel1.getTable().getValueAt(row, 0).toString();
-        selectedJabatan = roundedTablePanel1.getTable().getValueAt(row, 1).toString();
-        selectedDivisi  = roundedTablePanel1.getTable().getValueAt(row, 2).toString();
-        selectedEmail   = roundedTablePanel1.getTable().getValueAt(row, 3).toString();
-        selectedTelepon = roundedTablePanel1.getTable().getValueAt(row, 4).toString();
-        selectedAlamat  = roundedTablePanel1.getTable().getValueAt(row, 5).toString();
-        selectedPassword  = roundedTablePanel1.getTable().getValueAt(row, 6).toString();
+        selectedNama    = roundedTablePanel1.getTable().getValueAt(row, 1).toString();
+        selectedJabatan = roundedTablePanel1.getTable().getValueAt(row, 2).toString();
+        selectedDivisi  = roundedTablePanel1.getTable().getValueAt(row, 3).toString();
+        selectedEmail   = roundedTablePanel1.getTable().getValueAt(row, 4).toString();
+        selectedTelepon = roundedTablePanel1.getTable().getValueAt(row, 5).toString();
+        selectedAlamat  = roundedTablePanel1.getTable().getValueAt(row, 6).toString();
+        selectedPassword  = roundedTablePanel1.getTable().getValueAt(row, 7).toString();
     }
     }//GEN-LAST:event_roundedTablePanel1MouseClicked
 
