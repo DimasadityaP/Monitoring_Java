@@ -30,7 +30,7 @@ Built by the calling application by grouping/summing the report data by project.
 		<band height="230" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="200" height="90" uuid="1c1315fa-dac8-426c-9df5-9b7406e03d9b"/>
-				<imageExpression><![CDATA["C:\\Users\\Dimas Aditya P\\OneDrive\\Documents\\NetBeansProjects\\Monitoring_Apps\\src\\image\\Meuhuse.png"]]></imageExpression>
+				<imageExpression><![CDATA[Thread.currentThread().getContextClassLoader().getResourceAsStream("image/Meuhuse.png")]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="508" y="0" width="352" height="45" forecolor="#0000CC" uuid="1b4b817a-a68d-4a21-a8e1-d0c382ebc025"/>

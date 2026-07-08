@@ -24,7 +24,7 @@
 		<band height="150" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="200" height="90" uuid="1c1315fa-dac8-426c-9df5-9b7406e03d9b"/>
-				<imageExpression><![CDATA["C:\\Users\\Dimas Aditya P\\OneDrive\\Documents\\NetBeansProjects\\Monitoring_Apps\\src\\image\\Meuhuse.png"]]></imageExpression>
+				<imageExpression><![CDATA[Thread.currentThread().getContextClassLoader().getResourceAsStream("image/Meuhuse.png")]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="520" y="20" width="340" height="45" forecolor="#0000CC" uuid="c68b5eff-7ef0-4532-a102-3ae19e66cbec"/>
