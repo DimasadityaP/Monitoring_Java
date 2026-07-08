@@ -240,7 +240,8 @@ public class RoundedTablePanel extends RoundedPanel {
     private void init() {
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
-        setPreferredSize(new Dimension(780, 300));
+        setPreferredSize(new Dimension(0, 0));
+        setMinimumSize(new Dimension(0, 0));
 
         model = buildModel(new Object[0][0], new Object[0]);
         table = buildTable();
@@ -294,6 +295,8 @@ public class RoundedTablePanel extends RoundedPanel {
         header.setBackground(HEADER_BG);
         header.setReorderingAllowed(false);
         header.setDefaultRenderer(new HeaderRenderer());
+
+        t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
         // Mouse listener untuk kolom aksi
         t.addMouseListener(new MouseAdapter() {

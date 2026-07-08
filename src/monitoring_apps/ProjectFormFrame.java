@@ -1,5 +1,7 @@
 package monitoring_apps;
 
+import static Utills.UserSession.getUserId;
+import static Utills.UserSession.getUserName;
 import components.AppTextFieldEditor;
 import components.RoundedTablePanel;
 import java.math.BigDecimal;
@@ -41,6 +43,7 @@ public class ProjectFormFrame extends javax.swing.JFrame {
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         wrapInScrollPane();
         initUi();
+        btnApprove.setVisible(false);
         setLocationRelativeTo(null);
         Navigation.bind(sidebarMenu1, this);
     }
@@ -53,6 +56,7 @@ public class ProjectFormFrame extends javax.swing.JFrame {
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         wrapInScrollPane();
         initUi();
+        btnApprove.setVisible(true);
         setLocationRelativeTo(null);
         Navigation.bind(sidebarMenu1, this);
         loadProjectData(projectId);
@@ -225,6 +229,7 @@ public class ProjectFormFrame extends javax.swing.JFrame {
     
     private ProjectData p_UiToData(){
         ProjectData dat = new ProjectData();
+        int userId = getUserId();
         dat.id = txtId.getText().trim();
         dat.nama = txtNamaPekerjaan.getText().trim();
         dat.ta = txtTahunAnggaran.getText().trim();
@@ -235,6 +240,9 @@ public class ProjectFormFrame extends javax.swing.JFrame {
         dat.tglSelesai = txtTglSelesai.getText().trim();
         dat.nominal = new BigDecimal(txtNilaiPekerjaan.getText().trim().replaceAll("[^0-9.]", ""));
         dat.status = txtStatus.getText().trim();
+        if (dat.status.equalsIgnoreCase("Selesai")) {
+            dat.approverId = Integer.toString(userId);
+        }
 
         if (tblItem.isEditing()) {
             tblItem.getTable().getCellEditor().stopCellEditing();
@@ -403,9 +411,9 @@ public class ProjectFormFrame extends javax.swing.JFrame {
         btnAddItem = new components.RoundedButton();
         lblPerusahaan1 = new javax.swing.JLabel();
         txtId = new components.RoundedTextField();
-        btnNew = new components.RoundedButton();
         dtCStart = new com.toedter.calendar.JDateChooser();
         dtCEnd = new com.toedter.calendar.JDateChooser();
+        btnApprove = new components.RoundedButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FORMULIR PROJECT");
@@ -450,6 +458,11 @@ public class ProjectFormFrame extends javax.swing.JFrame {
         });
 
         btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
         btnDelete.setText("Delete");
         btnDelete.setButtonColor(new java.awt.Color(154, 61, 120));
@@ -474,13 +487,6 @@ public class ProjectFormFrame extends javax.swing.JFrame {
 
         txtId.setEnabled(false);
 
-        btnNew.setText("New");
-        btnNew.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNewActionPerformed(evt);
-            }
-        });
-
         dtCStart.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 dtCStartPropertyChange(evt);
@@ -493,6 +499,13 @@ public class ProjectFormFrame extends javax.swing.JFrame {
             }
         });
 
+        btnApprove.setText("Approve");
+        btnApprove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApproveActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -502,26 +515,11 @@ public class ProjectFormFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(userProfileCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(38, 38, 38)
-                        .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(btnDraft, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(btnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblNamaPekerjaan)
                             .addComponent(txtNamaPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAddItem, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -565,7 +563,20 @@ public class ProjectFormFrame extends javax.swing.JFrame {
                                                     .addComponent(lblTglSelesai)
                                                     .addComponent(txtTglSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(dtCEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))))))))
+                                                .addComponent(dtCEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(btnApprove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDraft, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(btnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(67, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -577,9 +588,7 @@ public class ProjectFormFrame extends javax.swing.JFrame {
                     .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(423, Short.MAX_VALUE))
+                    .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -644,8 +653,8 @@ public class ProjectFormFrame extends javax.swing.JFrame {
                             .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(24, 24, 24))))
+                            .addComponent(btnApprove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(383, Short.MAX_VALUE))
         );
 
         pack();
@@ -737,12 +746,6 @@ public class ProjectFormFrame extends javax.swing.JFrame {
         return result.get();
     }
 
-    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
-        p_ResetField();
-        txtId.setText(getNextId());
-
-    }//GEN-LAST:event_btnNewActionPerformed
-
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
         navigateBackToProjectList();
@@ -764,13 +767,30 @@ public class ProjectFormFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_dtCEndPropertyChange
 
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        // TODO add your handling code here:
+        p_ResetField();
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnApproveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApproveActionPerformed
+        // TODO add your handling code here:
+        try {
+            txtStatus.setText("Selesai");
+            p_SaveData();
+            JOptionPane.showMessageDialog(this, "Project berhasil disubmit.", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+            navigateBackToProjectList();
+        } catch (Exception e) {
+            showError(e.getMessage());
+        }
+    }//GEN-LAST:event_btnApproveActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private components.RoundedButton btnAddItem;
+    private components.RoundedButton btnApprove;
     private components.RoundedButton btnBack;
     private components.RoundedButton btnClear;
     private components.RoundedButton btnDelete;
     private components.RoundedButton btnDraft;
-    private components.RoundedButton btnNew;
     private components.RoundedButton btnSubmit;
     private components.RoundedComboBox cmbJenisPekerjaan;
     private com.toedter.calendar.JDateChooser dtCEnd;

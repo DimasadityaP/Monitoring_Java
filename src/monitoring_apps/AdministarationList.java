@@ -206,7 +206,7 @@ public class AdministarationList extends javax.swing.JFrame {
     
     private void setColumnWidths() {
         JTable table = tblProjectList.getTable();
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
         for (Component comp : tblProjectList.getComponents()) {
             if (comp instanceof JScrollPane) {
@@ -223,8 +223,6 @@ public class AdministarationList extends javax.swing.JFrame {
 
         for (int i = 0; i < widths.length && i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setPreferredWidth(widths[i]);
-            table.getColumnModel().getColumn(i).setMinWidth(widths[i]);
-            table.getColumnModel().getColumn(i).setMaxWidth(widths[i]);
         }
 
         DefaultTableCellRenderer center = new DefaultTableCellRenderer();

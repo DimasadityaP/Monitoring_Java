@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AdministrationReport" language="groovy" pageWidth="900" pageHeight="595" orientation="Landscape" columnWidth="860" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="42abd0a3-c8ee-4db0-85ee-39dcb17b8498">
+	<property name="ireport.zoom" value="1.7715610000000013"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="tanggalCetak" class="java.lang.String"/>
+	<parameter name="pencetak" class="java.lang.String"/>
+	<parameter name="periode" class="java.lang.String"/>
+	<parameter name="summary1" class="java.lang.String"/>
+	<parameter name="summary2" class="java.lang.String"/>
+	<field name="no" class="java.lang.String"/>
+	<field name="tipe_surat" class="java.lang.String"/>
+	<field name="nama_surat" class="java.lang.String"/>
+	<field name="no_surat" class="java.lang.String"/>
+	<field name="pengirim" class="java.lang.String"/>
+	<field name="penerima" class="java.lang.String"/>
+	<field name="tgl_surat" class="java.lang.String"/>
+	<field name="project_id" class="java.lang.String"/>
+	<field name="project_name" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="150" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="200" height="90" uuid="1c1315fa-dac8-426c-9df5-9b7406e03d9b"/>
+				<imageExpression><![CDATA["C:\\Users\\Dimas Aditya P\\OneDrive\\Documents\\NetBeansProjects\\Monitoring_Apps\\src\\image\\Meuhuse.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="502" y="0" width="358" height="45" forecolor="#0000CC" uuid="b5ae44b3-af95-4a9d-a001-c5ab3334c050"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="26" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORT ADMINISTRATION]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="100" width="860" height="1" uuid="25ab0ebd-1c17-4da1-8c87-0a712abb9463"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="108" width="330" height="18" uuid="e382ccf1-116b-4d49-b773-411297b3831f"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Tanggal Cetak : " + $P{tanggalCetak}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="128" width="330" height="18" uuid="dc175261-be10-4229-9ffd-9dcf45019ee7"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pencetak : " + $P{pencetak}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="24">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="40" height="24" backcolor="#D9EAF7" uuid="72e980bc-ac95-4f1e-93f4-4863af3016a4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[#]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="40" y="0" width="85" height="24" backcolor="#D9EAF7" uuid="674670b4-d087-4066-bf2c-735e888e7180"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipe Surat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="125" y="0" width="125" height="24" backcolor="#D9EAF7" uuid="c73ae925-38bf-47c4-aeec-4ea6d638bdf7"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama Surat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="250" y="0" width="103" height="24" backcolor="#D9EAF7" uuid="8661cf30-009d-4eee-9ea1-730a0061169c"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Surat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="353" y="0" width="98" height="24" backcolor="#D9EAF7" uuid="6df48d18-168e-41e7-80e7-0ee8590259a4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pengirim]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="451" y="0" width="98" height="24" backcolor="#D9EAF7" uuid="e55dbb7d-d521-428d-ad2d-dc33f745f3ff"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Penerima]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="549" y="0" width="89" height="24" backcolor="#D9EAF7" uuid="dc48710d-39ba-4609-baa7-787014189d70"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tgl Surat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="638" y="0" width="76" height="24" backcolor="#D9EAF7" uuid="ebdc3f91-2526-4077-aba4-ee14983cd53c"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Project ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="714" y="0" width="146" height="24" backcolor="#D9EAF7" uuid="29d646e0-e2a1-413e-bf53-b9a5f8b1cedf"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Project Name]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="40" height="22" uuid="c3fa3311-ed77-4f6d-9eec-4498da1cd904"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="40" y="0" width="85" height="22" uuid="5324f4d0-f65e-43c6-a94a-43513abb1891"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipe_surat}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="125" y="0" width="125" height="22" uuid="15d2851c-07a7-45bc-a404-547b1bf5b112"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nama_surat}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="250" y="0" width="103" height="22" uuid="166ae364-2da0-4632-8c7d-3198a133a99d"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_surat}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="353" y="0" width="98" height="22" uuid="674ef910-e25c-4a53-8cd5-cc3227a730f5"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pengirim}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="451" y="0" width="98" height="22" uuid="7fb66df9-c5d6-4df9-8c25-b9a2989bc702"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{penerima}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="549" y="0" width="89" height="22" uuid="a38e92c0-c5c9-4225-93b5-4f2a91a5197a"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_surat}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="638" y="0" width="76" height="22" uuid="6030f890-4856-4cff-966b-cfdcd27eba1c"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{project_id}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="714" y="0" width="146" height="22" uuid="8e547211-4fd1-48ce-abdc-a4321b29ff6d"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{project_name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="24">
+			<textField>
+				<reportElement x="760" y="4" width="100" height="16" uuid="7b712393-5ae0-43b5-a753-c6238695ce43"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

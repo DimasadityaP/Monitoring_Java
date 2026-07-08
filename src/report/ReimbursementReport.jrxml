@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReimbursementReport" language="groovy" pageWidth="900" pageHeight="595" orientation="Landscape" columnWidth="860" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="acf204b3-b165-4f67-b699-3dacb20ef5b2">
+	<property name="ireport.zoom" value="1.771561000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="tanggalCetak" class="java.lang.String"/>
+	<parameter name="pencetak" class="java.lang.String"/>
+	<parameter name="periode" class="java.lang.String"/>
+	<parameter name="summary1" class="java.lang.String"/>
+	<parameter name="summary2" class="java.lang.String"/>
+	<parameter name="projectSummary" class="java.lang.String">
+		<parameterDescription><![CDATA[Pre-formatted multi-line string listing each project and its total,
+e.g. "- Renovasi Rumah          = 250.000\n- Pengadaan ATK           = 300.000".
+Built by the calling application by grouping/summing the report data by project.]]></parameterDescription>
+	</parameter>
+	<field name="no" class="java.lang.String"/>
+	<field name="id" class="java.lang.String"/>
+	<field name="reimbursement_no" class="java.lang.String"/>
+	<field name="project" class="java.lang.String"/>
+	<field name="hari" class="java.lang.String"/>
+	<field name="perihal" class="java.lang.String"/>
+	<field name="pj" class="java.lang.String"/>
+	<field name="jumlah_item" class="java.lang.String"/>
+	<field name="uraian_preview" class="java.lang.String"/>
+	<field name="total" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="230" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="200" height="90" uuid="1c1315fa-dac8-426c-9df5-9b7406e03d9b"/>
+				<imageExpression><![CDATA["C:\\Users\\Dimas Aditya P\\OneDrive\\Documents\\NetBeansProjects\\Monitoring_Apps\\src\\image\\Meuhuse.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="508" y="0" width="352" height="45" forecolor="#0000CC" uuid="1b4b817a-a68d-4a21-a8e1-d0c382ebc025"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="26" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORT REIMBURSEMENT]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="100" width="860" height="1" uuid="65edc2d6-a4df-4012-a7bc-b562b50f9fee"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="108" width="330" height="18" uuid="a8707d54-d43f-4f5c-9dd4-0ca6549b56a4"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Tanggal Cetak : " + $P{tanggalCetak}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="128" width="330" height="18" uuid="d0c8640b-e6f5-49a5-9def-cb4042fe0441"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pencetak : " + $P{pencetak}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="520" y="108" width="340" height="18" uuid="6eb6391c-352b-450e-bb8c-4e3eb4f3b899"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{summary1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="520" y="128" width="340" height="18" uuid="9eba0cfc-3bcf-434d-88a7-15c34a7ce5e0"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{summary2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="150" width="150" height="18" uuid="4d5e6f7a-8b9c-4d0e-9f1a-2b3c4d5e6f7a"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Project]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="168" width="500" height="18" uuid="5e6f7a8b-9c0d-4e1f-af2b-3c4d5e6f7a8b">
+					<printWhenExpression><![CDATA[$P{projectSummary} != null && $P{projectSummary}.length() > 0]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{projectSummary}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="188" width="860" height="1" uuid="a4444444-4444-4444-4444-444444444444"/>
+			</line>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="24">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="30" height="24" backcolor="#D9EAF7" uuid="18e98f95-5a19-4dc9-86b6-4f5425677f1f"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[#]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="30" y="0" width="46" height="24" backcolor="#D9EAF7" uuid="35f8bae3-4800-4dab-b0fa-6ede5f704c81"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="76" y="0" width="106" height="24" backcolor="#D9EAF7" uuid="bd13b079-6b10-4d80-95f2-8ca992a7595a"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No. Reimbursement]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="182" y="0" width="102" height="24" backcolor="#D9EAF7" uuid="58854147-144a-44f4-b487-a464557b0c40"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Project]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="284" y="0" width="55" height="24" backcolor="#D9EAF7" uuid="1638fdd1-55e7-4b83-8442-6018f20cdae1"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hari]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="339" y="0" width="97" height="24" backcolor="#D9EAF7" uuid="c99ec0b2-eeed-4631-a7b1-7970c65ebd5d"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Perihal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="436" y="0" width="72" height="24" backcolor="#D9EAF7" uuid="4a9c07fc-521d-4c61-87cb-df06bf92bcd9"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PJ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="508" y="0" width="59" height="24" backcolor="#D9EAF7" uuid="5569bd3f-bf6b-4964-9052-6aa5e6ad3311"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jumlah Item]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="567" y="0" width="212" height="24" backcolor="#D9EAF7" uuid="e86fb17f-1440-4015-a9f8-c482c4adc727"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Preview Uraian]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="779" y="0" width="81" height="24" backcolor="#D9EAF7" uuid="13352bcd-adf2-4715-8ad8-449de21675a3"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="30" height="22" uuid="8c7d7ad7-8cab-4639-adbc-49a24c52e4d6"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="30" y="0" width="46" height="22" uuid="13135be1-d33d-42ec-9f62-85ee9cd3160b"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="76" y="0" width="106" height="22" uuid="0d91b7b6-ee01-4cbb-a639-d9b84d06a094"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reimbursement_no}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="182" y="0" width="102" height="22" uuid="02ab6a47-8c30-4a84-9ed5-782a45dc6432"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{project}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="284" y="0" width="55" height="22" uuid="827b7926-75b0-4b01-900c-c3a5a5f554c0"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hari}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="339" y="0" width="97" height="22" uuid="7e9aaea9-ef00-4892-9fb5-91af8cbb9c76"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{perihal}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="436" y="0" width="72" height="22" uuid="d03ea573-b806-4aa6-a60e-41dce7d80b2c"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pj}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="508" y="0" width="59" height="22" uuid="12a663d8-966c-4ba1-b071-ef476373261c"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jumlah_item}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="567" y="0" width="212" height="22" uuid="9616360e-f0f7-4db8-a2fd-f5094a2a287c"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{uraian_preview}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="779" y="0" width="81" height="22" uuid="4266e063-95fa-4670-89bf-a98b05661d50"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="24">
+			<textField>
+				<reportElement x="760" y="4" width="100" height="16" uuid="494712da-b5ce-4a83-b60f-e749c855536c"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
