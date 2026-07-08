@@ -93,17 +93,17 @@ public class ProjectFormFrame extends javax.swing.JFrame {
         ResultSet rsItem = psItem.executeQuery();
 
         Object[] columns = {"#", "PIC"};
-        tblItem.setTableData(new Object[0][2], columns);
-        if (tblItem.getTable().getColumnCount() > 0) {
-            tblItem.getTable().getColumnModel().getColumn(0).setPreferredWidth(40);
-            tblItem.getTable().getColumnModel().getColumn(0).setMinWidth(40);
-            tblItem.getTable().getColumnModel().getColumn(0).setMaxWidth(40);
+        tblItemNew.setTableData(new Object[0][2], columns);
+        if (tblItemNew.getTable().getColumnCount() > 0) {
+            tblItemNew.getTable().getColumnModel().getColumn(0).setPreferredWidth(40);
+            tblItemNew.getTable().getColumnModel().getColumn(0).setMinWidth(40);
+            tblItemNew.getTable().getColumnModel().getColumn(0).setMaxWidth(40);
         }
-        tblItem.setEditableColumns(1);
-        tblItem.setColumnEditor(1, new components.AppTextFieldEditor());
+        tblItemNew.setEditableColumns(1);
+        tblItemNew.setColumnEditor(1, new components.AppTextFieldEditor());
 
         while (rsItem.next()) {
-            DefaultTableModel model = (DefaultTableModel) tblItem.getModel();
+            DefaultTableModel model = (DefaultTableModel) tblItemNew.getModel();
             model.addRow(new Object[]{
                 rsItem.getInt("item_id"),
                 rsItem.getString("nama_pic"),
@@ -125,7 +125,7 @@ public class ProjectFormFrame extends javax.swing.JFrame {
         txtStatus.setText("New");
         txtId.setText(getNextId());
         
-        tblItem.setDeleteOnlyColumn("/image/delete.png", new components.RoundedTablePanel.ActionClickListener() {
+        tblItemNew.setDeleteOnlyColumn("/image/delete.png", new components.RoundedTablePanel.ActionClickListener() {
             public void onActionClick(int row) {
                 int confirm = JOptionPane.showConfirmDialog(
                     ProjectFormFrame.this,
@@ -135,12 +135,12 @@ public class ProjectFormFrame extends javax.swing.JFrame {
                     JOptionPane.WARNING_MESSAGE
                 );
                 if (confirm == JOptionPane.YES_OPTION) {
-                    DefaultTableModel m = (DefaultTableModel) tblItem.getModel();
+                    DefaultTableModel m = (DefaultTableModel) tblItemNew.getModel();
                     m.removeRow(row);
                 }
             }
         });
-        tblItem.setEditableColumns(1);
+        tblItemNew.setEditableColumns(1);
         
         txtTglMulai.addMouseListener(new MouseAdapter() {
             @Override
@@ -181,8 +181,8 @@ public class ProjectFormFrame extends javax.swing.JFrame {
         txtTglSelesai.setText("");
         txtNilaiPekerjaan.setText("");
         txtStatus.setText("New");
-        tblItem.clearTable();
-        tblItem.setEditableColumns(1);
+        tblItemNew.clearTable();
+        tblItemNew.setEditableColumns(1);
     }
     
     private void p_ValidateData()
@@ -244,10 +244,10 @@ public class ProjectFormFrame extends javax.swing.JFrame {
             dat.approverId = Integer.toString(userId);
         }
 
-        if (tblItem.isEditing()) {
-            tblItem.getTable().getCellEditor().stopCellEditing();
+        if (tblItemNew.isEditing()) {
+            tblItemNew.getTable().getCellEditor().stopCellEditing();
         }
-        DefaultTableModel model = (DefaultTableModel) tblItem.getModel();
+        DefaultTableModel model = (DefaultTableModel) tblItemNew.getModel();
         for (int i = 0; i < model.getRowCount(); i++) {
             Object picValue = model.getValueAt(i, 1);
             if (picValue != null && !picValue.toString().trim().isEmpty()) {
@@ -414,6 +414,7 @@ public class ProjectFormFrame extends javax.swing.JFrame {
         dtCStart = new com.toedter.calendar.JDateChooser();
         dtCEnd = new com.toedter.calendar.JDateChooser();
         btnApprove = new components.RoundedButton();
+        tblItemNew = new components.RoundedTablePanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FORMULIR PROJECT");
@@ -515,57 +516,16 @@ public class ProjectFormFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(userProfileCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNamaPekerjaan)
+                    .addComponent(txtNamaPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAddItem, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblNamaPekerjaan)
-                            .addComponent(txtNamaPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAddItem, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tblItem, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lblPerusahaan)
-                                        .addComponent(txtPerusahaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addComponent(lblNilaiPekerjaan)
-                                            .addGap(315, 315, 315))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addComponent(lblTglMulai)
-                                            .addGap(355, 355, 355))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addComponent(txtTglMulai, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(12, 12, 12)
-                                            .addComponent(dtCStart, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(1, 1, 1))
-                                        .addComponent(txtNilaiPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(lblPerusahaan1)
-                                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(60, 60, 60)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblTahunAnggaran)
-                                            .addComponent(txtTahunAnggaran, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lblPerusahaanInfo)
-                                            .addComponent(txtInstansi, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lblJenisPekerjaan)
-                                            .addComponent(cmbJenisPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblStatus)
-                                            .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(lblTglSelesai)
-                                                    .addComponent(txtTglSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(dtCEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
+                        .addGap(169, 169, 169)
+                        .addComponent(tblItem, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
                         .addComponent(btnApprove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDraft, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -576,8 +536,50 @@ public class ProjectFormFrame extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
-                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(67, Short.MAX_VALUE))
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(tblItemNew, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblPerusahaan)
+                                    .addComponent(txtPerusahaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(lblNilaiPekerjaan)
+                                        .addGap(315, 315, 315))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(lblTglMulai)
+                                        .addGap(355, 355, 355))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(txtTglMulai, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(12, 12, 12)
+                                        .addComponent(dtCStart, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(1, 1, 1))
+                                    .addComponent(txtNilaiPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblPerusahaan1)
+                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(60, 60, 60)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lblTahunAnggaran)
+                                        .addComponent(txtTahunAnggaran, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblPerusahaanInfo)
+                                        .addComponent(txtInstansi, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblJenisPekerjaan)
+                                        .addComponent(cmbJenisPekerjaan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lblStatus)
+                                        .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(lblTglSelesai)
+                                                .addComponent(txtTglSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(dtCEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -644,35 +646,37 @@ public class ProjectFormFrame extends javax.swing.JFrame {
                                 .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addComponent(btnAddItem, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
-                        .addComponent(tblItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnDraft, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnApprove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(383, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(tblItemNew, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tblItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDraft, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnApprove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(191, 191, 191))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddItemActionPerformed
-        if (tblItem.getModel().getRowCount() == 0) {
+        if (tblItemNew.getModel().getRowCount() == 0) {
             Object[] columns = {"#", "PIC"};
-            tblItem.setTableData(new Object[0][2], columns);
-            if (tblItem.getTable().getColumnCount() > 0) {
-                tblItem.getTable().getColumnModel().getColumn(0).setPreferredWidth(40);
-                tblItem.getTable().getColumnModel().getColumn(0).setMinWidth(40);
-                tblItem.getTable().getColumnModel().getColumn(0).setMaxWidth(40);
+            tblItemNew.setTableData(new Object[0][2], columns);
+            if (tblItemNew.getTable().getColumnCount() > 0) {
+                tblItemNew.getTable().getColumnModel().getColumn(0).setPreferredWidth(40);
+                tblItemNew.getTable().getColumnModel().getColumn(0).setMinWidth(40);
+                tblItemNew.getTable().getColumnModel().getColumn(0).setMaxWidth(40);
             }
-            tblItem.setEditableColumns(1);  // Hanya PIC yang bisa di-edit
-            tblItem.setColumnEditor(1, new AppTextFieldEditor());
+            tblItemNew.setEditableColumns(1);  // Hanya PIC yang bisa di-edit
+            tblItemNew.setColumnEditor(1, new AppTextFieldEditor());
         }
-        tblItem.addRow();
+        tblItemNew.addRow();
     }//GEN-LAST:event_btnAddItemActionPerformed
 
     private void btnDraftActionPerformed(java.awt.event.ActionEvent evt) {                                         
@@ -808,6 +812,7 @@ public class ProjectFormFrame extends javax.swing.JFrame {
     private components.PageTitle pageTitle1;
     private components.SidebarMenu sidebarMenu1;
     private components.RoundedTablePanel tblItem;
+    private components.RoundedTablePanel tblItemNew;
     private components.RoundedTextField txtId;
     private components.RoundedTextArea txtInstansi;
     private components.RoundedTextArea txtNamaPekerjaan;
