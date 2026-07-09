@@ -7,7 +7,7 @@
 	<parameter name="pencetak" class="java.lang.String"/>
 	<parameter name="periode" class="java.lang.String"/>
 	<parameter name="summary1" class="java.lang.String"/>
-	<parameter name="summary2" class="java.lang.String"/>
+	<parameter name="summary2" class="java.math.BigDecimal"/>
 	<parameter name="projectSummary" class="java.lang.String">
 		<parameterDescription><![CDATA[Pre-formatted multi-line string listing each project and its total,
 e.g. "- Renovasi Rumah          = 250.000\n- Pengadaan ATK           = 300.000".
@@ -22,7 +22,7 @@ Built by the calling application by grouping/summing the report data by project.
 	<field name="pj" class="java.lang.String"/>
 	<field name="jumlah_item" class="java.lang.String"/>
 	<field name="uraian_preview" class="java.lang.String"/>
-	<field name="total" class="java.lang.String"/>
+	<field name="total" class="java.lang.Double"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -68,7 +68,10 @@ Built by the calling application by grouping/summing the report data by project.
 				<textElement textAlignment="Right">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{summary2}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Total Nominal : Rp. " + new java.text.DecimalFormat(
+    "#,##0",
+    new java.text.DecimalFormatSymbols(new java.util.Locale("id","ID"))
+).format($P{summary2})]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="150" width="150" height="18" uuid="4d5e6f7a-8b9c-4d0e-9f1a-2b3c4d5e6f7a"/>
@@ -295,7 +298,7 @@ Built by the calling application by grouping/summing the report data by project.
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#,##0", new java.text.DecimalFormatSymbols(new java.util.Locale("in","ID"))).format($F{total})]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

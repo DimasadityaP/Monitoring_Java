@@ -44,19 +44,19 @@ public final class Navigation {
                 }
 
                 else if ("report.project".equals(menu)) {
-                    next = new ProjectList();
+                    next = new ProjectReport();
                 }
 
                 else if ("report.logistic".equals(menu)) {
-                    next = new BarangList();
+                    next = new LogisticReport();
                 }
 
                 else if ("report.administration".equals(menu)) {
-                    next = new AdministarationList();
+                    next = new AdministrationReport();
                 }
 
               else if ("report.reimbursement".equals(menu)) {
-                    next = new ReimbursementListFrame();
+                    next = new ReimbursementReport();
                 }
                 
                 if (next != null) {

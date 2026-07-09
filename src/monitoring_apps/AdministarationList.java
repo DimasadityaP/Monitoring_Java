@@ -252,6 +252,11 @@ public class AdministarationList extends javax.swing.JFrame {
         pageTitle1.setText("ADMINISTRATION LIST");
 
         btnViewReport.setText("View Report");
+        btnViewReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewReportActionPerformed(evt);
+            }
+        });
 
         btnNewAdministration.setText("+ New Administration");
         btnNewAdministration.addActionListener(new java.awt.event.ActionListener() {
@@ -271,14 +276,14 @@ public class AdministarationList extends javax.swing.JFrame {
                     .addComponent(sidebarMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pageTitle1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(15, 15, 15)
                         .addComponent(btnNewAdministration, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(tblProjectList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(tblProjectList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(52, 52, 52))
         );
         layout.setVerticalGroup(
@@ -297,7 +302,7 @@ public class AdministarationList extends javax.swing.JFrame {
                             .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnNewAdministration, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(30, 30, 30)
-                        .addComponent(tblProjectList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(tblProjectList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(42, 42, 42))
         );
 
@@ -311,6 +316,15 @@ public class AdministarationList extends javax.swing.JFrame {
         next.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnNewAdministrationActionPerformed
+
+    private void btnViewReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewReportActionPerformed
+        // TODO add your handling code here:
+        JFrame next = new AdministrationReport();
+        next.pack();
+        next.setLocationRelativeTo(this);
+        next.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnViewReportActionPerformed
 
     public static void main(String args[]) {
         try {

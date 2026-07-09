@@ -18,8 +18,8 @@
 	</parameter>
 	<parameter name="countSelesai" class="java.lang.String"/>
 	<parameter name="countProgress" class="java.lang.String"/>
-	<parameter name="nominalSelesai" class="java.lang.String"/>
-	<parameter name="nominalProgress" class="java.lang.String"/>
+	<parameter name="nominalSelesai" class="java.math.BigDecimal"/>
+	<parameter name="nominalProgress" class="java.math.BigDecimal"/>
 	<field name="id" class="java.lang.String"/>
 	<field name="nama" class="java.lang.String"/>
 	<field name="ta" class="java.lang.String"/>
@@ -104,7 +104,7 @@
 				<textElement>
 					<font fontName="SansSerif" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA["=" + new java.text.DecimalFormat(
+				<textFieldExpression><![CDATA["= Rp. " + new java.text.DecimalFormat(
     "#,##0",
     new java.text.DecimalFormatSymbols(new java.util.Locale("id","ID"))
 ).format($P{nominalSelesai})]]></textFieldExpression>
@@ -135,7 +135,7 @@
 				<textElement>
 					<font fontName="SansSerif" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA["=" + new java.text.DecimalFormat(
+				<textFieldExpression><![CDATA["= Rp. " + new java.text.DecimalFormat(
     "#,##0",
     new java.text.DecimalFormatSymbols(new java.util.Locale("id","ID"))
 ).format($P{nominalProgress})]]></textFieldExpression>

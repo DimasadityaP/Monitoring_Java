@@ -295,7 +295,7 @@ public class ReimbursementReport extends javax.swing.JFrame {
                 totalNominal = totalNominal.add(toBigDecimal(tabmode.getValueAt(r, 9)));
             }
             parameters.put("summary1", "Total Reimbursement : " + tabmode.getRowCount());
-            parameters.put("summary2", "Total Nominal : " + totalNominal.toPlainString());
+            parameters.put("summary2", totalNominal);
 
             java.util.LinkedHashMap<String, BigDecimal> projectTotals = new java.util.LinkedHashMap<>();
             for (int r = 0; r < tabmode.getRowCount(); r++) {
@@ -316,10 +316,10 @@ public class ReimbursementReport extends javax.swing.JFrame {
                 }
                 projectSummary.append("- ")
                     .append(entry.getKey())
-                    .append(" = ")
+                    .append(" = Rp. ")
                     .append(rupiahFormat.format(entry.getValue()));
             }
-            parameters.put("projectSummary", projectSummary.toString());
+            parameters.put("projectSummary", projectSummary);
 
             List<Map<String, Object>> dataList = new ArrayList<>();
             for (int r = 0; r < tabmode.getRowCount(); r++) {
@@ -333,7 +333,7 @@ public class ReimbursementReport extends javax.swing.JFrame {
                 row.put("pj", safe(tabmode.getValueAt(r, 6)));
                 row.put("jumlah_item", safe(tabmode.getValueAt(r, 7)));
                 row.put("uraian_preview", safe(tabmode.getValueAt(r, 8)));
-                row.put("total", safe(tabmode.getValueAt(r, 9)));
+                row.put("total", toBigDecimal(tabmode.getValueAt(r, 9)).doubleValue());
                 dataList.add(row);
             }
 
