@@ -403,7 +403,6 @@ public class ProjectFormFrame extends javax.swing.JFrame {
         btnDraft = new components.RoundedButton();
         btnSubmit = new components.RoundedButton();
         btnClear = new components.RoundedButton();
-        btnDelete = new components.RoundedButton();
         btnBack = new components.RoundedButton();
         txtStatus = new components.RoundedTextField();
         txtTahunAnggaran = new components.RoundedTextField();
@@ -465,9 +464,6 @@ public class ProjectFormFrame extends javax.swing.JFrame {
             }
         });
 
-        btnDelete.setText("Delete");
-        btnDelete.setButtonColor(new java.awt.Color(154, 61, 120));
-
         btnBack.setForeground(new java.awt.Color(0, 0, 0));
         btnBack.setText("Back");
         btnBack.setButtonColor(new java.awt.Color(217, 217, 217));
@@ -526,6 +522,7 @@ public class ProjectFormFrame extends javax.swing.JFrame {
                         .addGap(169, 169, 169)
                         .addComponent(tblItem, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(141, 141, 141)
                         .addComponent(btnApprove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDraft, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -533,9 +530,7 @@ public class ProjectFormFrame extends javax.swing.JFrame {
                         .addComponent(btnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
                         .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(tblItemNew, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -655,7 +650,6 @@ public class ProjectFormFrame extends javax.swing.JFrame {
                     .addComponent(btnDraft, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnApprove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(191, 191, 191))
@@ -793,7 +787,6 @@ public class ProjectFormFrame extends javax.swing.JFrame {
     private components.RoundedButton btnApprove;
     private components.RoundedButton btnBack;
     private components.RoundedButton btnClear;
-    private components.RoundedButton btnDelete;
     private components.RoundedButton btnDraft;
     private components.RoundedButton btnSubmit;
     private components.RoundedComboBox cmbJenisPekerjaan;

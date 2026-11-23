@@ -90,7 +90,7 @@ Built by the calling application by grouping/summing the report data by project.
 				<textFieldExpression><![CDATA[$P{projectSummary}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="0" y="188" width="860" height="1" uuid="a4444444-4444-4444-4444-444444444444"/>
+				<reportElement positionType="Float" x="0" y="188" width="860" height="1" uuid="a4444444-4444-4444-4444-444444444444"/>
 			</line>
 		</band>
 	</title>

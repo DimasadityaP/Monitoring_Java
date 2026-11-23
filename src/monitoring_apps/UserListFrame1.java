@@ -315,7 +315,6 @@ public class UserListFrame1 extends javax.swing.JFrame {
         sidebarMenu1 = new components.SidebarMenu();
         pageTitle1 = new components.PageTitle();
         searchBox1 = new components.SearchBox();
-        btnViewReport = new components.RoundedButton();
         btnNew = new components.RoundedButton();
         roundedTablePanel1 = new components.RoundedTablePanel();
 
@@ -325,11 +324,7 @@ public class UserListFrame1 extends javax.swing.JFrame {
 
         pageTitle1.setText("USER");
 
-        btnViewReport.setText("View Report");
-
         btnNew.setText("+ New Administration");
-
-
 
         roundedTablePanel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -352,8 +347,6 @@ public class UserListFrame1 extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15)
                         .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(roundedTablePanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(52, 52, 52))
@@ -371,10 +364,9 @@ public class UserListFrame1 extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(searchBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnViewReport, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(31, 31, 31)
-                        .addComponent(roundedTablePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(roundedTablePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(42, 42, 42))
         );
 
@@ -406,7 +398,6 @@ public class UserListFrame1 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private components.RoundedButton btnNew;
-    private components.RoundedButton btnViewReport;
     private components.PageTitle pageTitle1;
     private components.RoundedTablePanel roundedTablePanel1;
     private components.SearchBox searchBox1;

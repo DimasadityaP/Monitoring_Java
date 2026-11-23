@@ -44,6 +44,7 @@
                       <Component id="tblItem" min="-2" pref="900" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="141" max="-2" attributes="0"/>
                       <Component id="btnApprove" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnDraft" min="-2" pref="130" max="-2" attributes="0"/>
@@ -51,9 +52,7 @@
                       <Component id="btnSubmit" min="-2" pref="130" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                       <Component id="btnClear" min="-2" pref="130" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                      <Component id="btnDelete" min="-2" pref="130" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnBack" min="-2" pref="110" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
@@ -206,7 +205,6 @@
                   <Component id="btnDraft" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                   <Component id="btnSubmit" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                   <Component id="btnClear" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
-                  <Component id="btnDelete" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                   <Component id="btnBack" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                   <Component id="btnApprove" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -313,14 +311,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClearActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="components.RoundedButton" name="btnDelete">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Delete"/>
-        <Property name="buttonColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="78" green="3d" red="9a" type="rgb"/>
-        </Property>
-      </Properties>
     </Component>
     <Component class="components.RoundedButton" name="btnBack">
       <Properties>

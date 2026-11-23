@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import koneksi.KoneksiDb;
 import java.sql.Connection;
+import javax.swing.JFrame;
 
 
 public class UserFormFrame extends javax.swing.JFrame {
@@ -301,6 +302,11 @@ public class UserFormFrame extends javax.swing.JFrame {
 
         kosong();
         txtNama.requestFocus();
+        JFrame next = new UserListFrame1();
+        next.pack();
+        next.setLocationRelativeTo(this);
+        next.setVisible(true);
+        dispose();
 
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(this, e.getMessage());
@@ -372,7 +378,11 @@ public class UserFormFrame extends javax.swing.JFrame {
     }else{
         JOptionPane.showMessageDialog(this,
                 "Data berhasil disimpan");
-                
+                JFrame next = new UserListFrame1();
+                next.pack();
+                next.setLocationRelativeTo(this);
+                next.setVisible(true);
+                dispose();
         // Tambahkan query INSERT database di sini
     }
     
